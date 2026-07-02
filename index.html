@@ -117,15 +117,7 @@
             letter-spacing: 0.03em;
         }
         #legend .legend-row { display: flex; align-items: center; gap: 8px; }
-        #legend .legend-line {
-            flex: none;
-            width: 18px;
-            height: 0;
-            border-top: 3px solid;
-            box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.35);
-        }
-        #legend .legend-line.kreis { border-top-color: #5aa0c4; }
-        #legend .legend-line.landes { border-top: 3px dashed #d267a6; }
+        #legend .legend-line { flex: none; display: block; }
         #transparency-group .transparency-row { display: flex; align-items: center; gap: 8px; }
         #transparency-group.hidden { display: none; }
         #opacity-slider {
@@ -315,8 +307,8 @@
             <button id="fit-btn" class="map-btn" title="Auf das Kartengebiet einpassen"><svg viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9V5a1 1 0 0 1 1-1h4"/><path d="M20 9V5a1 1 0 0 0-1-1h-4"/><path d="M4 15v4a1 1 0 0 0 1 1h4"/><path d="M20 15v4a1 1 0 0 1-1 1h-4"/></svg></button>
         </div>
         <div id="legend">
-            <div class="legend-row"><span class="legend-line kreis"></span>Kreisgrenze</div>
-            <div class="legend-row"><span class="legend-line landes"></span>Landesgrenze ab 1920</div>
+            <div class="legend-row"><svg class="legend-line" width="24" height="10" viewBox="0 0 24 10"><line x1="0" y1="5" x2="24" y2="5" stroke="#5aa0c4" stroke-width="2.2"/></svg>Kreisgrenze</div>
+            <div class="legend-row"><svg class="legend-line" width="24" height="10" viewBox="0 0 24 10"><line x1="0" y1="5" x2="24" y2="5" stroke="#d267a6" stroke-width="2.4" stroke-dasharray="8 4 2 4"/></svg>Landesgrenze ab 1920</div>
         </div>
     </div>
     <div id="footer">
@@ -490,7 +482,8 @@
                 new ol.style.Style({
                     stroke: new ol.style.Stroke({
                         color: '#5aa0c4',
-                        width: 2.2
+                        width: 2.2,
+                        lineCap: 'butt'
                     })
                 })
             ]
@@ -516,8 +509,8 @@
                     stroke: new ol.style.Stroke({
                         color: '#d267a6',
                         width: 2.4,
-                        lineDash: [10, 5, 1, 5],
-                        lineCap: 'round'
+                        lineDash: [8, 4, 2, 4],
+                        lineCap: 'butt'
                     })
                 })
             ]
