@@ -268,6 +268,7 @@
     </style>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@main/dist/en/v7.0.0/legacy/ol.css" type="text/css">
     <script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@main/dist/en/v7.0.0/legacy/ol.js"></script>
+    <script defer src="https://cloud.umami.is/script.js" data-website-id="415a0796-16e9-4ddb-97b6-030d0bcc88ed" data-domains="goerlitz.github.io" data-exclude-hash="true"></script>
 </head>
 <body>
     <div id="header">
@@ -393,6 +394,11 @@
             topo25Layer.setOpacity(opacity);
             census1910Layer.setOpacity(opacity);
             if (topoOutlineLayer) topoOutlineLayer.setOpacity(opacity);
+        }
+
+        // Umami custom event helper (no-ops if the tracker is absent / blocked).
+        function track(name, data) {
+            if (window.umami) window.umami.track(name, data);
         }
 
         // --- URL permalink: reflect base/overlay/center/zoom in the location hash ---
@@ -550,10 +556,12 @@
                     osmLayer.setVisible(this.value === 'osm');
                     esriLayer.setVisible(this.value === 'esri');
                     updateTransparencyControl();
+                    track('basemap-select', { base: this.value });
                 } else if (this.name === 'overlay') {
                     topo25Layer.setVisible(this.value === 'topo25');
                     census1910Layer.setVisible(this.value === 'census1910');
                     updateActiveSource();
+                    track('overlay-select', { overlay: this.value });
                 }
                 updateHash();
             });
@@ -573,7 +581,10 @@
                 o.getElement().style.display = show ? '' : 'none';
             });
         }
-        citiesCheckbox.addEventListener('change', applyCityVisibility);
+        citiesCheckbox.addEventListener('change', function() {
+            applyCityVisibility();
+            track('cities-toggle', { visible: citiesCheckbox.checked });
+        });
 
         // Fade labels out between zoom 13 and 14 — close enough to read the map itself
         function applyCityZoomFade() {
@@ -646,6 +657,7 @@
             e.stopPropagation();
             var open = sourcesPanel.classList.toggle('open');
             sourcesToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+            if (open) track('sources-open');
         });
         document.addEventListener('click', function(e) {
             if (!sourcesPanel.contains(e.target) && !sourcesToggle.contains(e.target)) {
@@ -677,6 +689,7 @@
             if (extent) {
                 map.getView().fit(extent, { padding: [20, 20, 20, 20], duration: 400 });
             }
+            track('map-fit');
         });
 
         // Apply base/overlay/center/zoom from a parsed hash state to the map + UI.
