@@ -162,6 +162,26 @@
         .btn-group .map-btn:first-child { border-radius: 8px 8px 0 0; }
         .btn-group .map-btn:last-child { border-radius: 0 0 8px 8px; margin-top: -1px; }
         .btn-group .map-btn:hover { position: relative; z-index: 1; }
+        #copy-toast {
+            position: absolute;
+            bottom: 16px;
+            left: 50%;
+            z-index: 1300;
+            background: rgba(22, 33, 62, 0.95);
+            backdrop-filter: blur(8px);
+            border: 1px solid #2e5f8f;
+            border-radius: 8px;
+            padding: 8px 14px;
+            color: #eaf6fc;
+            font-size: 12px;
+            letter-spacing: 0.03em;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transform: translateX(-50%) translateY(8px);
+            transition: opacity 0.2s, transform 0.2s;
+        }
+        #copy-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
         @media (max-width: 768px) {
             #header { height: 72px; }
@@ -312,7 +332,9 @@
                 <button id="zoom-out" class="map-btn" title="Verkleinern">&#8722;</button>
             </div>
             <button id="fit-btn" class="map-btn" title="Auf das Kartengebiet einpassen"><svg viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9V5a1 1 0 0 1 1-1h4"/><path d="M20 9V5a1 1 0 0 0-1-1h-4"/><path d="M4 15v4a1 1 0 0 0 1 1h4"/><path d="M20 15v4a1 1 0 0 1-1 1h-4"/></svg></button>
+            <button id="share-btn" class="map-btn" title="Ansicht teilen (Link kopieren)"><svg viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg></button>
         </div>
+        <div id="copy-toast"></div>
         <div id="legend">
             <div class="legend-row"><svg class="legend-line" width="24" height="10" viewBox="0 0 24 10"><line x1="0" y1="5" x2="24" y2="5" stroke="#5aa0c4" stroke-width="2.2"/></svg>Kreisgrenze</div>
             <div class="legend-row"><svg class="legend-line" width="24" height="10" viewBox="0 0 24 10"><line x1="0" y1="5" x2="24" y2="5" stroke="#d267a6" stroke-width="2.4" stroke-dasharray="8 4 2 4"/></svg>Landesgrenze ab 1920</div>
@@ -690,6 +712,40 @@
                 map.getView().fit(extent, { padding: [20, 20, 20, 20], duration: 400 });
             }
             track('map-fit');
+        });
+
+        // Share the current view: copy the permalink to the clipboard, with feedback.
+        var copyToastTimer;
+        function showCopyToast(msg) {
+            var t = document.getElementById('copy-toast');
+            t.textContent = msg;
+            t.classList.add('show');
+            clearTimeout(copyToastTimer);
+            copyToastTimer = setTimeout(function() { t.classList.remove('show'); }, 1600);
+        }
+        function copyText(text) {
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                return navigator.clipboard.writeText(text);
+            }
+            return new Promise(function(resolve, reject) {
+                var ta = document.createElement('textarea');
+                ta.value = text;
+                ta.style.position = 'fixed';
+                ta.style.opacity = '0';
+                document.body.appendChild(ta);
+                ta.select();
+                var ok = false;
+                try { ok = document.execCommand('copy'); } catch (e) { ok = false; }
+                document.body.removeChild(ta);
+                ok ? resolve() : reject();
+            });
+        }
+        document.getElementById('share-btn').addEventListener('click', function() {
+            updateHash(); // make sure location.href reflects the current view
+            track('share');
+            copyText(location.href)
+                .then(function() { showCopyToast('Link kopiert'); })
+                .catch(function() { showCopyToast('Kopieren nicht möglich'); });
         });
 
         // Apply base/overlay/center/zoom from a parsed hash state to the map + UI.

@@ -26,8 +26,9 @@ Kein Build-Schritt, kein Backend.
 
 - **Ebenen-Menü** (Button oben rechts): Overlay, Basiskarte, Orte, Transparenz.
   Auswahl schließt das Menü nicht; Klick außerhalb schließt es.
-- **Zoom / Einpassen** (Buttons oben links): Zoom +/− und „Einpassen" (auf das
-  Gebiet des aktiven Overlays zentrieren).
+- **Zoom / Einpassen / Teilen** (Buttons oben links): Zoom +/−, „Einpassen" (auf
+  das Gebiet des aktiven Overlays zentrieren) und „Teilen" (kopiert den Permalink
+  zur aktuellen Ansicht in die Zwischenablage, mit „Link kopiert"-Feedback).
 - **Quellen** (Footer rechts): ausklappbares Panel mit allen Quellenangaben; die
   Angabe zum aktiven Overlay wird hervorgehoben.
 
@@ -95,6 +96,7 @@ Initial-Load oder das Wiederherstellen aus der URL.
 | Städte getoggelt    | `cities-toggle`  | `{ visible: true \| false }`            |
 | Quellen geöffnet    | `sources-open`   | –                                   |
 | Karte eingepasst    | `map-fit`        | –                                   |
+| Ansicht geteilt     | `share`          | –                                   |
 
 Auswertung im Umami-Dashboard unter **Events** (Zählung pro Event, Drilldown
 über die Properties).
