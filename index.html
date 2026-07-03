@@ -254,8 +254,8 @@
             display: flex;
             align-items: center;
             padding: 4px 13px;
-            background: rgba(22, 33, 62, 0.72);
-            backdrop-filter: blur(8px);
+            background: #264e72;
+            border: 1px solid rgba(79, 195, 247, 0.9);
             border-radius: 999px;
             color: #f0f3f6;
             font-size: 11px;
@@ -266,13 +266,9 @@
             user-select: none;
             transform: translateY(-6px);
             transition: opacity 0.15s linear;
-            /* one continuous outline around the whole silhouette (pill + tail) */
-            filter:
-                drop-shadow(1px 0 0 rgba(79, 195, 247, 0.55))
-                drop-shadow(-1px 0 0 rgba(79, 195, 247, 0.55))
-                drop-shadow(0 1px 0 rgba(79, 195, 247, 0.55))
-                drop-shadow(0 -1px 0 rgba(79, 195, 247, 0.55));
         }
+        /* outer triangle = outline colour, inner (smaller, top-aligned) = fill */
+        .city-label::before,
         .city-label::after {
             content: '';
             position: absolute;
@@ -280,10 +276,18 @@
             top: 100%;
             width: 0;
             height: 0;
-            transform: translate(-50%, -0.5px);
+        }
+        .city-label::before {
+            transform: translate(-50%, 1px);
             border-left: 5px solid transparent;
             border-right: 5px solid transparent;
-            border-top: 6px solid rgba(22, 33, 62, 0.72);
+            border-top: 6px solid rgba(79, 195, 247, 0.9);
+        }
+        .city-label::after {
+            transform: translate(-50%, 0);
+            border-left: 4px solid transparent;
+            border-right: 4px solid transparent;
+            border-top: 5px solid #264e72;
         }
     </style>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@main/dist/en/v7.0.0/legacy/ol.css" type="text/css">
