@@ -422,9 +422,13 @@
             if (topoOutlineLayer) topoOutlineLayer.setOpacity(opacity);
         }
 
-        // Umami custom event helper (no-ops if the tracker is absent / blocked).
+        // Umami custom event helpers (no-op if the tracker is absent / blocked).
         function track(name, data) {
             if (window.umami) window.umami.track(name, data);
+        }
+        // Selection-type events share one stringified `value` property for uniform reporting.
+        function trackSelect(action, value) {
+            track(action, { value: String(value) });
         }
 
         // --- URL permalink: reflect base/overlay/center/zoom in the location hash ---
@@ -582,12 +586,12 @@
                     osmLayer.setVisible(this.value === 'osm');
                     esriLayer.setVisible(this.value === 'esri');
                     updateTransparencyControl();
-                    track('basemap-select', { base: this.value });
+                    trackSelect('basemap-select', this.value);
                 } else if (this.name === 'overlay') {
                     topo25Layer.setVisible(this.value === 'topo25');
                     census1910Layer.setVisible(this.value === 'census1910');
                     updateActiveSource();
-                    track('overlay-select', { overlay: this.value });
+                    trackSelect('overlay-select', this.value);
                 }
                 updateHash();
             });
@@ -609,7 +613,7 @@
         }
         citiesCheckbox.addEventListener('change', function() {
             applyCityVisibility();
-            track('cities-toggle', { visible: citiesCheckbox.checked });
+            trackSelect('cities-toggle', citiesCheckbox.checked);
         });
 
         // Fade labels out between zoom 13 and 14 — close enough to read the map itself
@@ -696,6 +700,15 @@
             lastOpacity = parseInt(this.value);
             setMapOpacity(lastOpacity / 100);
             opacityValue.textContent = lastOpacity + '%';
+        });
+        // Track transparency in 10%-steps, and only when the step actually changes.
+        var lastTransparencyBucket = null;
+        slider.addEventListener('change', function() {
+            var bucket = Math.round(parseInt(this.value, 10) / 10) * 10;
+            if (bucket !== lastTransparencyBucket) {
+                lastTransparencyBucket = bucket;
+                trackSelect('transparency-select', bucket);
+            }
         });
 
         // Custom zoom buttons.

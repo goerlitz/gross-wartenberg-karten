@@ -89,17 +89,23 @@ Kartenbewegung). Custom Events werden
 geblockt ist). Es werden nur echte Nutzer-Aktionen erfasst — nicht der
 Initial-Load oder das Wiederherstellen aus der URL.
 
-| Aktion              | Event            | Properties                          |
-| ------------------- | ---------------- | ----------------------------------- |
-| Overlay gewählt     | `overlay-select` | `{ overlay: 'topo25' \| 'census1910' }` |
-| Basiskarte gewählt  | `basemap-select` | `{ base: 'osm' \| 'esri' \| 'off' }`    |
-| Städte getoggelt    | `cities-toggle`  | `{ visible: true \| false }`            |
-| Quellen geöffnet    | `sources-open`   | –                                   |
-| Karte eingepasst    | `map-fit`        | –                                   |
-| Ansicht geteilt     | `share`          | –                                   |
+Auswahl-Events laufen über `trackSelect(action, value)` und teilen sich einen
+einzigen, als String normalisierten `value`-Property — so lässt sich im
+Umami-Dashboard jedes Event einheitlich nach `value` auswerten/filtern. Reine
+Aktions-Events (ohne Wert) nutzen `track(name)`.
+
+| Aktion              | Event                 | Properties                          |
+| ------------------- | --------------------- | ----------------------------------- |
+| Overlay gewählt     | `overlay-select`      | `{ value: 'topo25' \| 'census1910' }` |
+| Basiskarte gewählt  | `basemap-select`      | `{ value: 'osm' \| 'esri' \| 'off' }` |
+| Städte getoggelt    | `cities-toggle`       | `{ value: 'true' \| 'false' }`        |
+| Transparenz gewählt | `transparency-select` | `{ value: '0','10',…,'100' }` (auf Zehner gerundet, nur bei Stufenwechsel) |
+| Quellen geöffnet    | `sources-open`        | –                                   |
+| Karte eingepasst    | `map-fit`             | –                                   |
+| Ansicht geteilt     | `share`               | –                                   |
 
 Auswertung im Umami-Dashboard unter **Events** (Zählung pro Event, Drilldown
-über die Properties).
+über die `value`-Property).
 
 ## Lokal ausführen
 
