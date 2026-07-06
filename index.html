@@ -237,6 +237,8 @@
         }
         #layer-list label:hover { color: #cfd8df; }
         #layer-list label:has(input:checked) { color: #eaf6fc; font-weight: 600; }
+        #layer-list label:has(input:disabled) { opacity: 0.4; cursor: default; }
+        #layer-list label:has(input:disabled):hover { color: #8fa3b3; }
         #layer-list .layer-name { display: flex; flex-direction: column; line-height: 1.3; }
         #layer-list .layer-name small {
             font-size: 10px;
@@ -306,6 +308,7 @@
                 <div class="layer-group">
                     <div class="layer-group-title">Topografisch</div>
                     <label><input type="radio" name="overlay" value="topo25" checked> <span class="layer-name">Meßtischblätter<small>1937–1940 · 1:25.000</small></span></label>
+                    <label><input type="radio" name="overlay" value="reymann200"> <span class="layer-name">Reymanns Special-Karte<small>ca. 1860 · 1:200.000</small></span></label>
                 </div>
                 <div class="layer-group">
                     <div class="layer-group-title">Demografisch</div>
@@ -352,6 +355,10 @@
                 <div class="source-label">Topografisch</div>
                 <div class="source-text">Meßtischblätter 1937&ndash;1940, 1:25&thinsp;000 &mdash; Kartensammlung Herder-Institut (<a href="https://www.herder-institut.de/" target="_blank">herder-institut.de</a>) &amp; Staatsarchiv Posen</div>
             </div>
+            <div class="source-item" id="src-reymann200">
+                <div class="source-label">Topografisch</div>
+                <div class="source-text">Reymanns Special-Karte, ca. 1860, 1:200&thinsp;000 &mdash; Herder-Institut / Bibliothek</div>
+            </div>
             <div class="source-item" id="src-census1910">
                 <div class="source-label">Demografisch</div>
                 <div class="source-text">Nationalitätenkarte, Volkszählung 1910, 1:500&thinsp;000 &mdash; Wikipedia / Universitätsbibliothek in Wrocław</div>
@@ -372,6 +379,18 @@
                 minZoom: 8,
                 maxZoom: 16,
                 url: './tiles_topo25/{z}/{x}/{y}.webp',
+                tileSize: [256, 256]
+            })
+        });
+        var reymann200Layer = new ol.layer.Tile({
+            title: 'Reymanns Special-Karte, 1860, 1:200.000',
+            visible: false,
+            opacity: 1.0,
+            source: new ol.source.XYZ({
+                attributions: '',
+                minZoom: 8,
+                maxZoom: 14,
+                url: './tiles_reymann200/{z}/{x}/{y}.webp',
                 tileSize: [256, 256]
             })
         });
@@ -404,7 +423,7 @@
         var map = new ol.Map({
             controls: ol.control.defaults.defaults({ zoom: false }),
             target: 'map',
-            layers: [osmLayer, esriLayer, census1910Layer, topo25Layer],
+            layers: [osmLayer, esriLayer, census1910Layer, reymann200Layer, topo25Layer],
             view: new ol.View({
                 center: [1939316.7540431642, 6682934.4834087156],
                 zoom: 12,
@@ -413,12 +432,15 @@
         });
 
         function getActiveMapLayer() {
-            return census1910Layer.getVisible() ? census1910Layer : topo25Layer;
+            if (census1910Layer.getVisible()) return census1910Layer;
+            if (reymann200Layer.getVisible()) return reymann200Layer;
+            return topo25Layer;
         }
 
         function setMapOpacity(opacity) {
             topo25Layer.setOpacity(opacity);
             census1910Layer.setOpacity(opacity);
+            reymann200Layer.setOpacity(opacity);
             if (topoOutlineLayer) topoOutlineLayer.setOpacity(opacity);
         }
 
@@ -445,7 +467,7 @@
             var base = params.get('base');
             if (base === 'osm' || base === 'esri' || base === 'off') out.base = base;
             var overlay = params.get('overlay');
-            if (overlay === 'topo25' || overlay === 'census1910') out.overlay = overlay;
+            if (overlay === 'topo25' || overlay === 'census1910' || overlay === 'reymann200') out.overlay = overlay;
             return out;
         }
 
@@ -472,8 +494,10 @@
             .then(function(meta) {
                 topo25Layer.setExtent(meta.extent);
                 census1910Layer.setExtent(meta.extent);
+                reymann200Layer.setExtent(meta.extent);
                 topo25Layer.getSource().setProperties({ minZoom: meta.minZoom, maxZoom: meta.maxZoom });
                 census1910Layer.getSource().setProperties({ minZoom: meta.minZoom, maxZoom: meta.maxZoom });
+                reymann200Layer.getSource().setProperties({ minZoom: 8, maxZoom: 14 });
                 if (!restoredFromUrl) {
                     map.getView().fit(meta.extent, { padding: [20, 20, 20, 20] });
                 }
@@ -504,6 +528,32 @@
         map.addLayer(topoOutlineLayer);
         topo25Layer.on('change:visible', function() {
             topoOutlineLayer.setVisible(topo25Layer.getVisible());
+        });
+
+        // Outline + soft shadow around the Reymann sheet for better contrast with the
+        // background / base map (footprint from extend_reymann200.geojson, EPSG:3857).
+        // Only shown while the Reymann overlay is the active one.
+        var reymannOutlineLayer = new ol.layer.Vector({
+            source: new ol.source.Vector({
+                url: './extend_reymann200.geojson',
+                format: new ol.format.GeoJSON({
+                    dataProjection: 'EPSG:3857',
+                    featureProjection: 'EPSG:3857'
+                })
+            }),
+            visible: reymann200Layer.getVisible(),
+            style: [
+                new ol.style.Style({
+                    stroke: new ol.style.Stroke({ color: 'rgba(0, 0, 0, 0.35)', width: 7 })
+                }),
+                new ol.style.Style({
+                    stroke: new ol.style.Stroke({ color: 'rgba(255, 255, 255, 0.5)', width: 1.5 })
+                })
+            ]
+        });
+        map.addLayer(reymannOutlineLayer);
+        reymann200Layer.on('change:visible', function() {
+            reymannOutlineLayer.setVisible(reymann200Layer.getVisible());
         });
 
         var kreisLayer = new ol.layer.Vector({
@@ -589,6 +639,7 @@
                     trackSelect('basemap-select', this.value);
                 } else if (this.name === 'overlay') {
                     topo25Layer.setVisible(this.value === 'topo25');
+                    reymann200Layer.setVisible(this.value === 'reymann200');
                     census1910Layer.setVisible(this.value === 'census1910');
                     updateActiveSource();
                     trackSelect('overlay-select', this.value);
@@ -777,6 +828,7 @@
                 var overlayInput = document.querySelector('#layer-panel input[name="overlay"][value="' + s.overlay + '"]');
                 if (overlayInput) overlayInput.checked = true;
                 topo25Layer.setVisible(s.overlay === 'topo25');
+                reymann200Layer.setVisible(s.overlay === 'reymann200');
                 census1910Layer.setVisible(s.overlay === 'census1910');
             }
             if (s.z != null && s.lat != null && s.lon != null) {
