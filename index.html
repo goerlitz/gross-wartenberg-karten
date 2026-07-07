@@ -207,24 +207,70 @@
             backdrop-filter: blur(8px);
             border: 1px solid #0f3460;
             border-radius: 8px;
-            padding: 14px 16px;
-            min-width: 172px;
+            padding: 6px;
+            min-width: 216px;
+            max-width: 280px;
+            max-height: min(72vh, calc(100vh - 96px));
+            overflow-y: auto;
             color: #8fa3b3;
             font-size: 13px;
+            scrollbar-width: thin;
+            scrollbar-color: #2e5f8f transparent;
         }
         #layer-list.open { display: block; }
-        .layer-group + .layer-group {
-            margin-top: 18px;
-            padding-top: 16px;
-            border-top: 1px solid #0f3460;
+        #layer-list::-webkit-scrollbar { width: 8px; }
+        #layer-list::-webkit-scrollbar-thumb { background: #2e5f8f; border-radius: 4px; }
+        #layer-list::-webkit-scrollbar-track { background: transparent; }
+        .layer-group + .layer-group { margin-top: 2px; }
+        /* Collapsible section header (pull-down) */
+        .layer-group-head {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            list-style: none;
+            padding: 8px;
+            border-radius: 6px;
+            user-select: none;
         }
-        .layer-group-title {
+        .layer-group-head::-webkit-details-marker { display: none; }
+        .layer-group-head:hover { background: rgba(79, 195, 247, 0.07); }
+        .head-title {
+            flex: none;
             font-size: 11px;
             text-transform: uppercase;
             letter-spacing: 0.1em;
             color: #4fc3f7;
             font-weight: 600;
-            margin-bottom: 9px;
+        }
+        .head-value {
+            margin-left: auto;
+            min-width: 0;
+            font-size: 12px;
+            color: #90a0b0;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            text-align: right;
+        }
+        .layer-group-head .chev {
+            flex: none;
+            margin-left: 8px;
+            display: flex;
+            color: #4fc3f7;
+            transition: transform 0.2s;
+        }
+        .layer-group-head .chev svg { display: block; }
+        .layer-group[open] .layer-group-head .chev { transform: rotate(180deg); }
+        .layer-group-body { padding: 0 8px 8px 8px; }
+        .sub-group + .sub-group { margin-top: 14px; }
+        .sub-title {
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: #6e8090;
+            font-weight: 600;
+            margin-bottom: 4px;
         }
         #layer-list label {
             display: flex;
@@ -305,40 +351,58 @@
         <div id="layer-panel">
             <button id="layer-toggle" class="map-btn" title="Ebenen"><svg viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg></button>
             <div id="layer-list">
-                <div class="layer-group">
-                    <div class="layer-group-title">Topografisch</div>
-                    <label><input type="radio" name="overlay" value="uraufnahme1829" disabled> <span class="layer-name">Preußische Uraufnahme<small>1829 · 1:25.000</small></span></label>
-                    <label><input type="radio" name="overlay" value="topo25" checked> <span class="layer-name">Meßtischblätter<small>1937–1940 · 1:25.000</small></span></label>
-                    <label><input type="radio" name="overlay" value="haase1920" disabled> <span class="layer-name">Kreiskarte von Lehrer Haase<small>1920 · 1:37.500</small></span></label>
-                    <label><input type="radio" name="overlay" value="reich1904" disabled> <span class="layer-name">Karte des Deutschen Reiches<small>1904 · 1:100.000</small></span></label>
-                    <label><input type="radio" name="overlay" value="flemming1910" disabled> <span class="layer-name">Kreiskarte – Verlag Flemming<small>1910 · 1:150.000</small></span></label>
-                    <label><input type="radio" name="overlay" value="reymann200"> <span class="layer-name">Reymanns Special-Karte<small>ca. 1860 · 1:200.000</small></span></label>
-                    <label><input type="radio" name="overlay" value="franzkowski300" disabled> <span class="layer-name">Kreiskarte von J. Franzkowski<small>1912 · 1:300.000</small></span></label>
-                </div>
-
-                <div class="layer-group">
-                    <div class="layer-group-title">Demografisch</div>
-                    <label><input type="radio" name="overlay" value="verbreitung1919" disabled> <span class="layer-name">Verbreitung Deutsche/Polen<small>1919 · 1:100.000</small></span></label>
-                    <label><input type="radio" name="overlay" value="census1910"> <span class="layer-name">Nationalitätenkarte<small>Volkszählung 1910 · 1:500.000</small></span></label>
-                </div>
-                <div class="layer-group">
-                    <div class="layer-group-title">Orte</div>
-                    <label><input type="checkbox" name="labels" value="cities" checked> Städte</label>
-                    <label><input type="checkbox" id="borders-toggle" checked> Grenzen</label>
-                </div>
-                <div class="layer-group">
-                    <div class="layer-group-title">Basiskarte</div>
-                    <label><input type="radio" name="base" value="osm"> OpenStreetMap</label>
-                    <label><input type="radio" name="base" value="esri"> Esri World Imagery</label>
-                    <label><input type="radio" name="base" value="off" checked> Aus</label>
-                </div>
-                <div class="layer-group hidden" id="transparency-group">
-                    <div class="layer-group-title">Transparenz</div>
-                    <div class="transparency-row">
-                        <input id="opacity-slider" type="range" min="0" max="100" value="100">
-                        <span id="opacity-value">100%</span>
+                <details class="layer-group" id="sec-maps" open>
+                    <summary class="layer-group-head"><span class="head-title">Karten</span><span class="head-value"></span><span class="chev"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span></summary>
+                    <div class="layer-group-body">
+                        <div class="sub-group">
+                            <div class="sub-title">Topografisch</div>
+                            <label><input type="radio" name="overlay" value="uraufnahme1829" disabled> <span class="layer-name">Preußische Uraufnahme<small>1829 · 1:25.000</small></span></label>
+                            <label><input type="radio" name="overlay" value="topo25" checked> <span class="layer-name">Meßtischblätter<small>1937–1940 · 1:25.000</small></span></label>
+                            <label><input type="radio" name="overlay" value="haase1920" disabled> <span class="layer-name">Kreiskarte von Lehrer Haase<small>1920 · 1:37.500</small></span></label>
+                            <label><input type="radio" name="overlay" value="reich1904" disabled> <span class="layer-name">Karte des Deutschen Reiches<small>1904 · 1:100.000</small></span></label>
+                            <label><input type="radio" name="overlay" value="flemming1910" disabled> <span class="layer-name">Kreiskarte – Verlag Flemming<small>1910 · 1:150.000</small></span></label>
+                            <label><input type="radio" name="overlay" value="reymann200"> <span class="layer-name">Reymanns Special-Karte<small>ca. 1860 · 1:200.000</small></span></label>
+                            <label><input type="radio" name="overlay" value="franzkowski300" disabled> <span class="layer-name">Kreiskarte von J. Franzkowski<small>1912 · 1:300.000</small></span></label>
+                        </div>
+                        <div class="sub-group">
+                            <div class="sub-title">Andere</div>
+                            <label><input type="radio" name="overlay" value="verbreitung1919" disabled> <span class="layer-name">Verbreitung Deutsche/Polen<small>1919 · 1:100.000</small></span></label>
+                            <label><input type="radio" name="overlay" value="census1910"> <span class="layer-name">Nationalitätenkarte<small>Volkszählung 1910 · 1:500.000</small></span></label>
+                        </div>
                     </div>
-                </div>
+                </details>
+                <details class="layer-group" id="sec-orte">
+                    <summary class="layer-group-head"><span class="head-title">Markierungen</span><span class="head-value"></span><span class="chev"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span></summary>
+                    <div class="layer-group-body">
+                        <div class="sub-group">
+                            <div class="sub-title">Orte</div>
+                            <label><input type="checkbox" name="labels" value="cities" checked> Städte</label>
+                            <label><input type="checkbox" id="churches-toggle" disabled> Kirchen</label>
+                            <label><input type="checkbox" id="registry-toggle" disabled> Standesämter</label>
+                        </div>
+                        <div class="sub-group">
+                            <div class="sub-title">Grenzen</div>
+                            <label><input type="checkbox" id="borders-toggle" checked> Verwaltungsgrenzen</label>
+                        </div>
+                    </div>
+                </details>
+                <details class="layer-group" id="sec-base">
+                    <summary class="layer-group-head"><span class="head-title">Basiskarte</span><span class="head-value"></span><span class="chev"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span></summary>
+                    <div class="layer-group-body">
+                        <label><input type="radio" name="base" value="osm"> OpenStreetMap</label>
+                        <label><input type="radio" name="base" value="esri"> Esri World Imagery</label>
+                        <label><input type="radio" name="base" value="off" checked> Aus</label>
+                    </div>
+                </details>
+                <details class="layer-group hidden" id="transparency-group">
+                    <summary class="layer-group-head"><span class="head-title">Transparenz</span><span class="head-value"></span><span class="chev"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span></summary>
+                    <div class="layer-group-body">
+                        <div class="transparency-row">
+                            <input id="opacity-slider" type="range" min="0" max="100" value="100">
+                            <span id="opacity-value">100%</span>
+                        </div>
+                    </div>
+                </details>
             </div>
         </div>
         <div id="map-controls">
@@ -628,9 +692,46 @@
                     updateActiveSource();
                     trackSelect('overlay-select', this.value);
                 }
+                updateGroupHeads();
                 updateHash();
             });
         });
+
+        // --- Collapsible sections (accordion) + current-selection headers ---
+        function radioLabelName(input) {
+            var label = input.closest('label');
+            if (!label) return '';
+            var ln = label.querySelector('.layer-name');
+            return (ln ? ln.firstChild.textContent : label.textContent).trim();
+        }
+        function updateGroupHeads() {
+            var overlay = document.querySelector('#layer-list input[name="overlay"]:checked');
+            document.querySelector('#sec-maps .head-value').textContent = overlay ? radioLabelName(overlay) : '';
+            var base = document.querySelector('#layer-list input[name="base"]:checked');
+            document.querySelector('#sec-base .head-value').textContent = base ? radioLabelName(base) : '—';
+            var activeMarkers = document.querySelectorAll('#sec-orte input[type="checkbox"]:checked').length;
+            document.querySelector('#sec-orte .head-value').textContent = activeMarkers + ' aktiv';
+            document.querySelector('#transparency-group .head-value').textContent =
+                document.getElementById('opacity-slider').value + '%';
+        }
+
+        // Accordion: opening one section closes the others; scroll the active item into view.
+        var layerSections = document.querySelectorAll('#layer-list details.layer-group');
+        layerSections.forEach(function(sec) {
+            sec.addEventListener('toggle', function() {
+                if (!sec.open) return;
+                layerSections.forEach(function(o) { if (o !== sec) o.open = false; });
+                var checked = sec.querySelector('input:checked');
+                if (checked) checked.scrollIntoView({ block: 'nearest' });
+            });
+        });
+
+        function openOverlaySection() {
+            var overlay = document.querySelector('#layer-list input[name="overlay"]:checked');
+            var target = overlay ? overlay.closest('details.layer-group') : null;
+            if (!target) return;
+            layerSections.forEach(function(o) { o.open = (o === target); });
+        }
 
         // City labels (German/historical names) as modern pill overlays
         // Per-city pixel nudges [x, y] where a label would otherwise sit on a line.
@@ -648,6 +749,7 @@
         }
         citiesCheckbox.addEventListener('change', function() {
             applyCityVisibility();
+            updateGroupHeads();
             trackSelect('cities-toggle', citiesCheckbox.checked);
         });
 
@@ -658,6 +760,7 @@
             kreisLayer.setVisible(show);
             landesLayer.setVisible(show);
             document.getElementById('legend').style.display = show ? '' : 'none';
+            updateGroupHeads();
             trackSelect('borders-toggle', show);
         });
 
@@ -745,6 +848,7 @@
             lastOpacity = parseInt(this.value);
             setMapOpacity(lastOpacity / 100);
             opacityValue.textContent = lastOpacity + '%';
+            updateGroupHeads();
         });
         // Track transparency in 10%-steps, and only when the step actually changes.
         var lastTransparencyBucket = null;
@@ -832,6 +936,8 @@
             }
             updateTransparencyControl();
             updateActiveSource();
+            updateGroupHeads();
+            openOverlaySection();
         }
 
         // Initial restore from the URL hash (if present).

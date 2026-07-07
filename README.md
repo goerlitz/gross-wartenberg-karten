@@ -14,8 +14,8 @@ no backend.
 
 ## Features
 
-- **Historical overlays** (exactly one active at a time), grouped as
-  *Topografisch* and *Demografisch*. Ready maps include the *Meßtischblätter*
+- **Historical overlays** (exactly one active at a time) under the *Karten* section,
+  sub-grouped into *Topografisch* and *Andere*. Ready maps include the *Meßtischblätter*
   (1937–1940, 1:25 000), *Reymanns Special-Karte* and the *Nationalitätenkarte*
   (Volkszählung 1910); further sheets appear disabled until their tiles are ready.
 - **Base map** (switchable or off): OpenStreetMap, Esri World Imagery, or *Aus*.
@@ -28,7 +28,8 @@ no backend.
 
 ## Controls
 
-- **Layer menu** (button top-right): overlay, base map, *Orte*, *Grenzen*, transparency.
+- **Layer menu** (button top-right): *Karten* (overlay), *Basiskarte*, *Markierungen*
+  (Orte: Städte/Kirchen/Standesämter, Grenzen: Verwaltungsgrenzen), *Transparenz*.
   Selecting an option does not close the menu; clicking outside does.
 - **Zoom / Einpassen / Teilen** (buttons top-left): zoom +/−, *Einpassen* (fit to the
   active overlay's extent) and *Teilen* (copies the permalink of the current view to
@@ -65,9 +66,10 @@ Map projection is Web Mercator (**EPSG:3857**); tile zoom up to 16.
 - **Sheet outline** (`topoOutlineLayer` etc., from `extend_*.geojson`): visible only
   while its overlay is active (bound to the layer's `change:visible`).
 - **Borders**: `kreisLayer` + `landesLayer` (GeoJSON), toggled together with the
-  legend via the *Grenzen* checkbox.
-- **Places** (*Orte*): from `cities.json` as `ol.Overlay` pills; toggled via the
-  *Städte* checkbox, plus a zoom fade between zoom 13 and 14 (`applyCityZoomFade`).
+  legend via the *Verwaltungsgrenzen* checkbox.
+- **Places**: from `cities.json` as `ol.Overlay` pills; toggled via the *Städte*
+  checkbox (in the *Markierungen* section), plus a zoom fade between zoom 13 and 14
+  (`applyCityZoomFade`).
 
 ## Permalink (URL hash)
 
