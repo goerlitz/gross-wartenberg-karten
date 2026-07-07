@@ -324,6 +324,7 @@
                 <div class="layer-group">
                     <div class="layer-group-title">Orte</div>
                     <label><input type="checkbox" name="labels" value="cities" checked> Städte</label>
+                    <label><input type="checkbox" id="grenzen-toggle" checked> Grenzen</label>
                 </div>
                 <div class="layer-group">
                     <div class="layer-group-title">Basiskarte</div>
@@ -648,6 +649,16 @@
         citiesCheckbox.addEventListener('change', function() {
             applyCityVisibility();
             trackSelect('cities-toggle', citiesCheckbox.checked);
+        });
+
+        // Grenzen toggle: show/hide the Kreis- and Landesgrenze GeoJSON layers and the legend.
+        var grenzenToggle = document.getElementById('grenzen-toggle');
+        grenzenToggle.addEventListener('change', function() {
+            var show = grenzenToggle.checked;
+            kreisLayer.setVisible(show);
+            landesLayer.setVisible(show);
+            document.getElementById('legend').style.display = show ? '' : 'none';
+            trackSelect('grenzen-toggle', show);
         });
 
         // Fade labels out between zoom 13 and 14 — close enough to read the map itself

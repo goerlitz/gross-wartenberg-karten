@@ -99,6 +99,7 @@ Aktions-Events (ohne Wert) nutzen `track(name)`.
 | Overlay gewählt     | `overlay-select`      | `{ value: 'topo25' \| 'census1910' }` |
 | Basiskarte gewählt  | `basemap-select`      | `{ value: 'osm' \| 'esri' \| 'off' }` |
 | Städte getoggelt    | `cities-toggle`       | `{ value: 'true' \| 'false' }`        |
+| Grenzen getoggelt   | `grenzen-toggle`      | `{ value: 'true' \| 'false' }`        |
 | Transparenz gewählt | `transparency-select` | `{ value: '0','10',…,'100' }` (auf Zehner gerundet, nur bei Stufenwechsel) |
 | Quellen geöffnet    | `sources-open`        | –                                   |
 | Karte eingepasst    | `map-fit`             | –                                   |
