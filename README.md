@@ -1,140 +1,143 @@
 # Meßtischblätter – Kreis Groß Wartenberg
 
-Interaktiver Kartenviewer für historische Karten des Kreises Groß Wartenberg
-(heute Powiat Oleśnicki / Syców, Polen). Die App zeigt georeferenzierte
-historische Kartenwerke als Kachel-Overlays über modernen Basiskarten, mit
-Kreis-/Landesgrenzen, Ortsbeschriftungen und teilbaren Ansichten.
+Interactive map viewer for historical maps of the district (Kreis) Groß Wartenberg
+(today Powiat Oleśnicki / Syców, Poland). The app shows georeferenced historical
+map sheets as tiled overlays on top of modern base maps, with district/state
+borders, place labels and shareable views.
 
-Es ist eine **statische Single-Page-App**: eine einzige `index.html` mit
-Inline-CSS/JS auf Basis von [OpenLayers](https://openlayers.org/) (v7, per CDN).
-Kein Build-Schritt, kein Backend.
+It is a **static single-page app**: a single `index.html` with inline CSS/JS,
+built on [OpenLayers](https://openlayers.org/) (v7, via CDN). No build step,
+no backend.
+
+> UI labels are in German (the app is German-facing); code, comments and this
+> document are in English.
 
 ## Features
 
-- **Historische Overlays** (jeweils genau eines aktiv):
-  - *Meßtischblätter* 1937–1940, 1:25 000 (Topografisch)
-  - *Nationalitätenkarte*, Volkszählung 1910, 1:500 000 (Demografisch)
-- **Basiskarte** (umschaltbar oder aus): OpenStreetMap, Esri World Imagery, Aus
-- **Transparenz-Regler** für das Overlay (nur sinnvoll/aktiv über einer Basiskarte)
-- **Umriss + Schatten** um das Topo25-Blatt für Kontrast zum Hintergrund
-- **Kreis- und Landesgrenze** (GeoJSON) mit Legende
-- **Ortslabels** (historische deutsche Namen) als Pills, die bei hohem Zoom ausblenden
-- **Teilbare URL** (Permalink): Basiskarte, Overlay, Position und Zoom stehen im Hash
-- **Nutzungs-Tracking** via [Umami](https://umami.is/) (Pageviews + Custom Events)
+- **Historical overlays** (exactly one active at a time), grouped as
+  *Topografisch* and *Demografisch*. Ready maps include the *Meßtischblätter*
+  (1937–1940, 1:25 000), *Reymanns Special-Karte* and the *Nationalitätenkarte*
+  (Volkszählung 1910); further sheets appear disabled until their tiles are ready.
+- **Base map** (switchable or off): OpenStreetMap, Esri World Imagery, or *Aus*.
+- **Transparency slider** for the overlay (only shown/active over a base map).
+- **Outline + shadow** around a tile sheet's footprint for contrast with the background.
+- **Kreis- and Landesgrenze** (GeoJSON) with a legend, toggled together via *Grenzen*.
+- **Place labels** (historical German names) as pills that fade out at high zoom.
+- **Shareable URL** (permalink): base map, overlay, position and zoom live in the hash.
+- **Usage tracking** via [Umami](https://umami.is/) (pageviews + custom events).
 
-## Bedienung
+## Controls
 
-- **Ebenen-Menü** (Button oben rechts): Overlay, Basiskarte, Orte, Transparenz.
-  Auswahl schließt das Menü nicht; Klick außerhalb schließt es.
-- **Zoom / Einpassen / Teilen** (Buttons oben links): Zoom +/−, „Einpassen" (auf
-  das Gebiet des aktiven Overlays zentrieren) und „Teilen" (kopiert den Permalink
-  zur aktuellen Ansicht in die Zwischenablage, mit „Link kopiert"-Feedback).
-- **Quellen** (Footer rechts): ausklappbares Panel mit allen Quellenangaben; die
-  Angabe zum aktiven Overlay wird hervorgehoben.
+- **Layer menu** (button top-right): overlay, base map, *Orte*, *Grenzen*, transparency.
+  Selecting an option does not close the menu; clicking outside does.
+- **Zoom / Einpassen / Teilen** (buttons top-left): zoom +/−, *Einpassen* (fit to the
+  active overlay's extent) and *Teilen* (copies the permalink of the current view to
+  the clipboard, with a "Link kopiert" toast).
+- **Quellen** (footer, right): an expandable panel with all source attributions;
+  the entry for the active overlay is highlighted.
 
-## Projektstruktur
+## Project structure
 
 ```
-index.html               # komplette App (HTML + CSS + JS)
-cities.json              # Ortsliste: historical_name, modern_name, country_today, lat, lon
-kreisgrenze.geojson      # Kreisgrenze (EPSG:3857)
-landesgrenze.geojson     # Landesgrenze ab 1920 (EPSG:3857)
-extend_topo25.geojson    # Footprint/Umriss des Topo25-Mosaiks (EPSG:3857)
-tiles-extent.json        # Extent + min/maxZoom der Overlay-Kacheln
-tiles_topo25/{z}/{x}/{y}.webp      # Kacheln Meßtischblätter (XYZ)
-tiles_census1910/{z}/{x}/{y}.webp  # Kacheln Nationalitätenkarte (XYZ)
-update-extent.py         # erzeugt/aktualisiert tiles-extent.json
+index.html               # complete app (HTML + CSS + JS)
+cities.json              # place list: historical_name, modern_name, country_today, lat, lon
+kreisgrenze.geojson      # district border (EPSG:3857)
+landesgrenze.geojson     # state border, "ab 1920" (EPSG:3857)
+extend_topo25.geojson    # footprint/outline of the Topo25 mosaic (EPSG:3857)
+tiles-extent.json        # extent + min/maxZoom of the overlay tiles
+tiles_topo25/{z}/{x}/{y}.webp      # Meßtischblätter tiles (XYZ)
+tiles_census1910/{z}/{x}/{y}.webp  # Nationalitätenkarte tiles (XYZ)
+tiles_reymann200/{z}/{x}/{y}.webp  # Reymanns Special-Karte tiles (XYZ)
+update-extent.py         # generates/updates tiles-extent.json
 ```
 
-Die Karten-Projektion ist Web Mercator (**EPSG:3857**); Kachel-Zoom bis 16.
+Map projection is Web Mercator (**EPSG:3857**); tile zoom up to 16.
 
-## Ebenen-Logik (in `index.html`)
+## Layer logic (in `index.html`)
 
-- **Overlays** `topo25Layer` / `census1910Layer`: genau eines ist sichtbar
-  (Radiogruppe `name="overlay"`). Beide werden auf `tiles-extent.json` geclippt.
-- **Basiskarten** `osmLayer` / `esriLayer`: Radiogruppe `name="base"` mit Wert
-  `off`. Standard: **Aus** (dann zeigt der Hintergrund ein dezentes Rautenmuster).
-- **Transparenz** (`updateTransparencyControl`): Slider ist nur sichtbar, wenn eine
-  Basiskarte aktiv ist; bei „Aus" wird das Overlay auf 100 % gesetzt, der letzte
-  Wert wird gemerkt. Wirkt auf Overlay **und** Topo-Umriss (`setMapOpacity`).
-- **Topo-Umriss** `topoOutlineLayer` (aus `extend_topo25.geojson`): nur sichtbar,
-  solange Topo25 aktiv ist (an `topo25Layer` `change:visible` gekoppelt).
-- **Orte**: aus `cities.json`, als `ol.Overlay`-Pills; Sichtbarkeit über die
-  Checkbox, plus Zoom-Fade zwischen Zoom 13 und 14 (`applyCityZoomFade`).
+- **Overlays** (`topo25Layer` / `reymann200Layer` / `census1910Layer`): exactly one
+  is visible (radio group `name="overlay"`), each clipped to its extent.
+- **Base maps** (`osmLayer` / `esriLayer`): radio group `name="base"` with an `off`
+  value. Default is **Aus** (the background then shows a subtle diagonal pattern).
+- **Transparency** (`updateTransparencyControl`): the slider is only visible while a
+  base map is active; with *Aus* the overlay is forced to 100 % and the last value is
+  remembered. Applies to the overlay **and** the tile-sheet outline (`setMapOpacity`).
+- **Sheet outline** (`topoOutlineLayer` etc., from `extend_*.geojson`): visible only
+  while its overlay is active (bound to the layer's `change:visible`).
+- **Borders**: `kreisLayer` + `landesLayer` (GeoJSON), toggled together with the
+  legend via the *Grenzen* checkbox.
+- **Places** (*Orte*): from `cities.json` as `ol.Overlay` pills; toggled via the
+  *Städte* checkbox, plus a zoom fade between zoom 13 and 14 (`applyCityZoomFade`).
 
-## Permalink (URL-Hash)
+## Permalink (URL hash)
 
-Kartenzustand wird als Hash gespeichert (via `history.replaceState`, ohne
-History-Einträge) und beim Laden wiederhergestellt:
+Map state is stored in the hash (via `history.replaceState`, so it doesn't spam
+browser history) and restored on load:
 
 ```
 #z=15.00&lat=51.30700&lon=17.71980&base=osm&overlay=topo25
 ```
 
-- `z` Zoom (2 Nachkommastellen), `lat`/`lon` Zentrum in EPSG:4326 (5 Stellen)
-- `base` = `osm` | `esri` | `off`, `overlay` = `topo25` | `census1910`
-- `updateHash()` schreibt bei `moveend` und bei Overlay-/Basiskarten-Wechsel.
-- `applyState()` stellt den Zustand her — beim Laden und bei `hashchange`
-  (manuelles Editieren/Einfügen der URL). Ein per URL vorgegebener Ausschnitt
-  überschreibt das automatische Einpassen (`restoredFromUrl`).
+- `z` zoom (2 decimals), `lat`/`lon` center in EPSG:4326 (5 decimals)
+- `base` = `osm` | `esri` | `off`, `overlay` = `topo25` | `reymann200` | `census1910`
+- `updateHash()` writes on `moveend` and on overlay/base-map changes.
+- `applyState()` restores state — on load and on `hashchange` (manual URL edit/paste).
+  A URL-provided view overrides the automatic fit (`restoredFromUrl`).
 
 ## Tracking (Umami)
 
-Das Umami-Script ist im `<head>` eingebunden (Pageviews). Es ist per
-`data-domains="goerlitz.github.io"` auf die Produktionsdomain beschränkt und per
-`data-exclude-hash="true"` so konfiguriert, dass Hash-Änderungen **keine**
-zusätzlichen Pageviews erzeugen (der Permalink aktualisiert den Hash bei jeder
-Kartenbewegung). Custom Events werden
-über den Helper `track(name, data)` gesendet (No-Op, falls der Tracker fehlt/
-geblockt ist). Es werden nur echte Nutzer-Aktionen erfasst — nicht der
-Initial-Load oder das Wiederherstellen aus der URL.
+The Umami script is in `<head>` (pageviews). It is limited to the production domain
+via `data-domains="goerlitz.github.io"` and set to **not** count hash changes as extra
+pageviews via `data-exclude-hash="true"` (the permalink updates the hash on every map
+move). Custom events go through the helper `track(name, data)` (a no-op if the tracker
+is missing/blocked). Only genuine user actions are recorded — not the initial load or
+restoring from the URL.
 
-Auswahl-Events laufen über `trackSelect(action, value)` und teilen sich einen
-einzigen, als String normalisierten `value`-Property — so lässt sich im
-Umami-Dashboard jedes Event einheitlich nach `value` auswerten/filtern. Reine
-Aktions-Events (ohne Wert) nutzen `track(name)`.
+Selection-type events go through `trackSelect(action, value)` and share a single,
+stringified `value` property, so every event can be reported/filtered uniformly by
+`value` in the Umami dashboard. Value-less action events use `track(name)`.
 
-| Aktion              | Event                 | Properties                          |
+| Action              | Event                 | Properties                          |
 | ------------------- | --------------------- | ----------------------------------- |
-| Overlay gewählt     | `overlay-select`      | `{ value: 'topo25' \| 'census1910' }` |
-| Basiskarte gewählt  | `basemap-select`      | `{ value: 'osm' \| 'esri' \| 'off' }` |
-| Städte getoggelt    | `cities-toggle`       | `{ value: 'true' \| 'false' }`        |
-| Grenzen getoggelt   | `grenzen-toggle`      | `{ value: 'true' \| 'false' }`        |
-| Transparenz gewählt | `transparency-select` | `{ value: '0','10',…,'100' }` (auf Zehner gerundet, nur bei Stufenwechsel) |
-| Quellen geöffnet    | `sources-open`        | –                                   |
-| Karte eingepasst    | `map-fit`             | –                                   |
-| Ansicht geteilt     | `share`               | –                                   |
+| Overlay selected    | `overlay-select`      | `{ value: 'topo25' \| 'reymann200' \| 'census1910' }` |
+| Base map selected   | `basemap-select`      | `{ value: 'osm' \| 'esri' \| 'off' }` |
+| Cities toggled      | `cities-toggle`       | `{ value: 'true' \| 'false' }`        |
+| Borders toggled     | `borders-toggle`      | `{ value: 'true' \| 'false' }`        |
+| Transparency set    | `transparency-select` | `{ value: '0','10',…,'100' }` (rounded to tens, only on step change) |
+| Sources opened      | `sources-open`        | –                                   |
+| Map fitted          | `map-fit`             | –                                   |
+| View shared         | `share`               | –                                   |
 
-Auswertung im Umami-Dashboard unter **Events** (Zählung pro Event, Drilldown
-über die `value`-Property).
+Evaluate in the Umami dashboard under **Events** (count per event, drill down via
+the `value` property).
 
-## Lokal ausführen
+## Run locally
 
-Statische Dateien über einen lokalen Server ausliefern (nicht per `file://`, da
-`fetch()` auf die JSON/GeoJSON/Kacheln zugreift):
+Serve the static files via a local server (not `file://`, since `fetch()` reads the
+JSON/GeoJSON/tiles):
 
 ```bash
 python3 -m http.server 8000
-# dann http://localhost:8000/ öffnen
+# then open http://localhost:8000/
 ```
 
-## Kacheln / Extent aktualisieren
+## Update tiles / extent
 
-Nach Änderungen an den Kacheln den Extent neu erzeugen:
+After changing the tiles, regenerate the extent:
 
 ```bash
-python3 update-extent.py   # schreibt tiles-extent.json (extent + min/maxZoom)
+python3 update-extent.py   # writes tiles-extent.json (extent + min/maxZoom)
 ```
 
-Neue Orte lassen sich in `cities.json` ergänzen (`historical_name`, `lat`, `lon`);
-für Labels, die auf einer Linie liegen, gibt es in `index.html` optionale
-Pixel-Verschiebungen (`LABEL_OFFSETS`).
+New places can be added to `cities.json` (`historical_name`, `lat`, `lon`); for
+labels that would sit on a line there are optional pixel nudges in `index.html`
+(`LABEL_OFFSETS`).
 
-## Quellen
+## Sources
 
 - **Meßtischblätter** 1937–1940, 1:25 000 — Kartensammlung Herder-Institut
   ([herder-institut.de](https://www.herder-institut.de/)) & Staatsarchiv Posen
 - **Nationalitätenkarte**, Volkszählung 1910, 1:500 000 — Wikipedia /
   Universitätsbibliothek in Wrocław
-- **Basiskarten** — © OpenStreetMap-Mitwirkende · Esri World Imagery
+- **Base maps** — © OpenStreetMap contributors · Esri World Imagery
   (Esri, Maxar, Earthstar Geographics)
