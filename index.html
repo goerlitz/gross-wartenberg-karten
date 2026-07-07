@@ -307,11 +307,18 @@
             <div id="layer-list">
                 <div class="layer-group">
                     <div class="layer-group-title">Topografisch</div>
+                    <label><input type="radio" name="overlay" value="uraufnahme1829" disabled> <span class="layer-name">Preußische Uraufnahme<small>1829 · 1:25.000</small></span></label>
                     <label><input type="radio" name="overlay" value="topo25" checked> <span class="layer-name">Meßtischblätter<small>1937–1940 · 1:25.000</small></span></label>
+                    <label><input type="radio" name="overlay" value="haase1920" disabled> <span class="layer-name">Kreiskarte von Lehrer Haase<small>1920 · 1:37.500</small></span></label>
+                    <label><input type="radio" name="overlay" value="reich1904" disabled> <span class="layer-name">Karte des Deutschen Reiches<small>1904 · 1:100.000</small></span></label>
+                    <label><input type="radio" name="overlay" value="flemming1910" disabled> <span class="layer-name">Kreiskarte – Verlag Flemming<small>1910 · 1:150.000</small></span></label>
                     <label><input type="radio" name="overlay" value="reymann200"> <span class="layer-name">Reymanns Special-Karte<small>ca. 1860 · 1:200.000</small></span></label>
+                    <label><input type="radio" name="overlay" value="franzkowski300" disabled> <span class="layer-name">Kreiskarte von J. Franzkowski<small>1912 · 1:300.000</small></span></label>
                 </div>
+
                 <div class="layer-group">
                     <div class="layer-group-title">Demografisch</div>
+                    <label><input type="radio" name="overlay" value="verbreitung1919" disabled> <span class="layer-name">Verbreitung Deutsche/Polen<small>1919 · 1:100.000</small></span></label>
                     <label><input type="radio" name="overlay" value="census1910"> <span class="layer-name">Nationalitätenkarte<small>Volkszählung 1910 · 1:500.000</small></span></label>
                 </div>
                 <div class="layer-group">
@@ -504,57 +511,33 @@
                 OVERLAY_EXTENT = meta.extent;
             });
 
-        // Outline + soft shadow around the topo25 sheet for better contrast with the
-        // background / base map (footprint from extend_topo25.geojson, EPSG:3857).
-        // Only shown while the topo25 overlay is the active one.
-        var topoOutlineLayer = new ol.layer.Vector({
-            source: new ol.source.Vector({
-                url: './extend_topo25.geojson',
-                format: new ol.format.GeoJSON({
-                    dataProjection: 'EPSG:3857',
-                    featureProjection: 'EPSG:3857'
-                })
-            }),
-            visible: topo25Layer.getVisible(),
-            style: [
-                new ol.style.Style({
-                    stroke: new ol.style.Stroke({ color: 'rgba(0, 0, 0, 0.35)', width: 7 })
+        // Shared outline style: soft shadow + bright edge around any tile sheet footprint.
+        function makeOutlineLayer(url, tileLayer) {
+            var layer = new ol.layer.Vector({
+                source: new ol.source.Vector({
+                    url: url,
+                    format: new ol.format.GeoJSON({
+                        dataProjection: 'EPSG:3857',
+                        featureProjection: 'EPSG:3857'
+                    })
                 }),
-                new ol.style.Style({
-                    stroke: new ol.style.Stroke({ color: 'rgba(255, 255, 255, 0.5)', width: 1.5 })
-                })
-            ]
-        });
-        map.addLayer(topoOutlineLayer);
-        topo25Layer.on('change:visible', function() {
-            topoOutlineLayer.setVisible(topo25Layer.getVisible());
-        });
+                visible: tileLayer.getVisible(),
+                style: [
+                    new ol.style.Style({
+                        stroke: new ol.style.Stroke({ color: 'rgba(0, 0, 0, 0.35)', width: 7 })
+                    }),
+                    new ol.style.Style({
+                        stroke: new ol.style.Stroke({ color: 'rgba(255, 255, 255, 0.5)', width: 1.5 })
+                    })
+                ]
+            });
+            map.addLayer(layer);
+            tileLayer.on('change:visible', function() { layer.setVisible(tileLayer.getVisible()); });
+            return layer;
+        }
 
-        // Outline + soft shadow around the Reymann sheet for better contrast with the
-        // background / base map (footprint from extend_reymann200.geojson, EPSG:3857).
-        // Only shown while the Reymann overlay is the active one.
-        var reymannOutlineLayer = new ol.layer.Vector({
-            source: new ol.source.Vector({
-                url: './extend_reymann200.geojson',
-                format: new ol.format.GeoJSON({
-                    dataProjection: 'EPSG:3857',
-                    featureProjection: 'EPSG:3857'
-                })
-            }),
-            visible: reymann200Layer.getVisible(),
-            style: [
-                new ol.style.Style({
-                    stroke: new ol.style.Stroke({ color: 'rgba(0, 0, 0, 0.35)', width: 7 })
-                }),
-                new ol.style.Style({
-                    stroke: new ol.style.Stroke({ color: 'rgba(255, 255, 255, 0.5)', width: 1.5 })
-                })
-            ]
-        });
-        map.addLayer(reymannOutlineLayer);
-        reymann200Layer.on('change:visible', function() {
-            reymannOutlineLayer.setVisible(reymann200Layer.getVisible());
-        });
+        var topoOutlineLayer    = makeOutlineLayer('./extend_topo25.geojson',    topo25Layer);
+        var reymannOutlineLayer = makeOutlineLayer('./extend_reymann200.geojson', reymann200Layer);
 
         var kreisLayer = new ol.layer.Vector({
             source: new ol.source.Vector({
