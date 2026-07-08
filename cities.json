@@ -2,14 +2,14 @@
   {
     "historical_name": "Festenberg",
     "modern_name": "Twardogóra",
-    "lat": 51.3645,
-    "lon": 17.4688
+    "lat": 51.3647,
+    "lon": 17.4697
   },
   {
     "historical_name": "Groß Wartenberg",
     "modern_name": "Syców",
-    "lat": 51.3079,
-    "lon": 17.7202
+    "lat": 51.307866197860534,
+    "lon": 17.72022448602902
   },
   {
     "historical_name": "Neumittelwalde",
@@ -20,55 +20,61 @@
   {
     "historical_name": "Oels",
     "modern_name": "Oleśnica",
-    "lat": 51.2134,
-    "lon": 17.3899
+    "lat": 51.20966915470565,
+    "lon": 17.379473742053854
   },
   {
     "historical_name": "Bernstadt",
     "modern_name": "Bierutów",
-    "lat": 51.1253,
-    "lon": 17.5400
+    "lat": 51.1250,
+    "lon": 17.5417
   },
   {
     "historical_name": "Militsch",
     "modern_name": "Milicz",
-    "lat": 51.5277,
-    "lon": 17.2714
+    "lat": 51.53213935417283,
+    "lon": 17.275163388111576
   },
   {
     "historical_name": "Reichthal",
     "modern_name": "Rychtal",
-    "lat": 51.1500,
-    "lon": 17.8500
+    "lat": 51.14503900799498,
+    "lon": 17.84845514567338
   },
   {
     "historical_name": "Namslau",
     "modern_name": "Namysłów",
-    "lat": 51.0759,
-    "lon": 17.7224
+    "lat": 51.07668712867454,
+    "lon": 17.717311057393424
   },
   {
     "historical_name": "Kempen",
     "modern_name": "Kępno",
-    "lat": 51.2781,
-    "lon": 17.9891
+    "lat": 51.27921659588342,
+    "lon": 17.98687005541501
   },
   {
     "historical_name": "Schildberg",
     "modern_name": "Ostrzeszów",
-    "lat": 51.4258,
-    "lon": 17.9338
+    "lat": 51.425823623084554,
+    "lon": 17.933760985059376
   },
   {
     "historical_name": "Adelnau",
     "modern_name": "Odolanów",
-    "lat": 51.5747,
-    "lon": 17.6744
+    "lat": 51.57429890183301,
+    "lon": 17.673537920661133
   },
   {
     "historical_name": "Ostrowo",
     "modern_name": "Ostrów Wielkopolski",
-    "lat": 51.6550,
-    "lon": 17.8061
+    "lat": 51.6494,
+    "lon": 17.8164
+  },
+  {
+    "historical_name": "Mixstadt",
+    "modern_name": "Mikstat",
+    "lat": 51.531576142482905,
+    "lon": 17.971291742700604
   }
 ]
