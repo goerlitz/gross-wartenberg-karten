@@ -123,10 +123,41 @@
         #opacity-slider {
             flex: 1;
             min-width: 0;
-            accent-color: #4fc3f7;
+            -webkit-appearance: none;
+            appearance: none;
+            height: 14px;
+            background: transparent;
             cursor: pointer;
         }
-        #opacity-value { min-width: 34px; text-align: right; color: #4fc3f7; font-weight: 600; font-size: 12px; }
+        #opacity-slider::-webkit-slider-runnable-track {
+            height: 4px;
+            border-radius: 2px;
+            background: #34465f;
+        }
+        #opacity-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 14px;
+            height: 14px;
+            margin-top: -5px;
+            border-radius: 50%;
+            background: #4fc3f7;
+            cursor: pointer;
+        }
+        #opacity-slider::-moz-range-track {
+            height: 4px;
+            border-radius: 2px;
+            background: #34465f;
+        }
+        #opacity-slider::-moz-range-thumb {
+            width: 14px;
+            height: 14px;
+            border: none;
+            border-radius: 50%;
+            background: #4fc3f7;
+            cursor: pointer;
+        }
+        #opacity-value { min-width: 34px; text-align: right; color: #90a0b0; font-weight: 600; font-size: 12px; }
         /* Unified map control buttons (zoom, fit, layers) */
         .map-btn {
             display: flex;
@@ -262,7 +293,7 @@
         }
         .layer-group-head .chev svg { display: block; }
         .layer-group[open] .layer-group-head .chev { transform: rotate(180deg); }
-        .layer-group-body { padding: 0 8px 8px 8px; }
+        .layer-group-body { padding: 6px 8px 8px 8px; }
         .sub-group + .sub-group { margin-top: 14px; }
         .sub-title {
             font-size: 10px;
@@ -272,6 +303,134 @@
             font-weight: 600;
             margin-bottom: 4px;
         }
+        /* Featured maps (panel) + "show all" */
+        #featured-maps { display: flex; flex-direction: column; }
+        .featured-map {
+            display: block;
+            width: 100%;
+            text-align: left;
+            background: none;
+            border: none;
+            padding: 5px 0;
+            font: inherit;
+            letter-spacing: 0.03em;
+            color: #8fa3b3;
+            cursor: pointer;
+            transition: color 0.15s;
+        }
+        .featured-map:hover { color: #cfd8df; }
+        .featured-map.active { color: #eaf6fc; font-weight: 600; }
+        #show-all-maps {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            width: fit-content;
+            margin: 8px 0 0 auto;
+            padding: 5px 9px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid #24344d;
+            border-radius: 6px;
+            font: inherit;
+            font-size: 11px;
+            letter-spacing: 0.03em;
+            color: #8fa3b3;
+            cursor: pointer;
+            transition: background 0.15s, color 0.15s, border-color 0.15s;
+        }
+        #show-all-maps:hover { background: rgba(79, 195, 247, 0.08); border-color: #2e5f8f; color: #cfd8df; }
+        #show-all-maps svg { display: block; }
+        /* Full map overview modal */
+        #maps-modal { position: fixed; inset: 0; z-index: 2000; display: none; }
+        #maps-modal.open { display: block; }
+        #maps-modal .modal-backdrop {
+            position: absolute;
+            inset: 0;
+            background: rgba(10, 15, 28, 0.6);
+            backdrop-filter: blur(2px);
+        }
+        #maps-modal .modal-dialog {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: min(420px, calc(100vw - 32px));
+            max-height: min(80vh, calc(100vh - 64px));
+            display: flex;
+            flex-direction: column;
+            background: rgba(22, 33, 62, 0.98);
+            backdrop-filter: blur(8px);
+            border: 1px solid #0f3460;
+            border-radius: 10px;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+            color: #8fa3b3;
+            font-size: 13px;
+            overflow: hidden;
+        }
+        #maps-modal .modal-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 13px 16px;
+            border-bottom: 1px solid #0f3460;
+        }
+        #maps-modal .modal-title {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.14em;
+            color: #4fc3f7;
+            font-weight: 600;
+        }
+        #maps-modal .modal-close {
+            background: none;
+            border: none;
+            color: #8fa3b3;
+            font-size: 22px;
+            line-height: 1;
+            cursor: pointer;
+            padding: 0 4px;
+        }
+        #maps-modal .modal-close:hover { color: #4fc3f7; }
+        #maps-modal .modal-body {
+            padding: 14px 16px;
+            overflow-y: auto;
+            scrollbar-width: thin;
+            scrollbar-color: #2e5f8f transparent;
+        }
+        #maps-modal .modal-body::-webkit-scrollbar { width: 8px; }
+        #maps-modal .modal-body::-webkit-scrollbar-thumb { background: #2e5f8f; border-radius: 4px; }
+        #maps-modal label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 0;
+            cursor: pointer;
+            letter-spacing: 0.03em;
+            transition: color 0.15s;
+        }
+        #maps-modal label:hover { color: #cfd8df; }
+        #maps-modal label:has(input:checked) { color: #eaf6fc; font-weight: 600; }
+        #maps-modal label:has(input:disabled) { opacity: 0.4; cursor: default; }
+        #maps-modal label:has(input:disabled):hover { color: #8fa3b3; }
+        #maps-modal .layer-name { display: flex; flex-direction: column; line-height: 1.3; }
+        #maps-modal .layer-name small { font-size: 10px; font-weight: 400; color: #6e8090; letter-spacing: 0.02em; }
+        #maps-modal label:has(input:checked) .layer-name small { color: #8bb4c6; }
+        #maps-modal input[type="radio"] { accent-color: #4fc3f7; cursor: pointer; }
+        #maps-modal .map-row { display: flex; align-items: center; gap: 8px; }
+        #maps-modal .map-row label { flex: 1; min-width: 0; }
+        #maps-modal .fav-toggle {
+            flex: none;
+            background: none;
+            border: none;
+            color: #3a4a63;
+            font-size: 16px;
+            line-height: 1;
+            cursor: pointer;
+            padding: 2px 4px;
+            transition: color 0.15s, transform 0.1s;
+        }
+        #maps-modal .fav-toggle:hover { color: #6e8aa8; }
+        #maps-modal .fav-toggle:active { transform: scale(0.85); }
+        #maps-modal .fav-toggle.active { color: #4fc3f7; }
         #layer-list label {
             display: flex;
             align-items: center;
@@ -354,21 +513,8 @@
                 <details class="layer-group" id="sec-maps" open>
                     <summary class="layer-group-head"><span class="head-title">Karten</span><span class="head-value"></span><span class="chev"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span></summary>
                     <div class="layer-group-body">
-                        <div class="sub-group">
-                            <div class="sub-title">Topografisch</div>
-                            <label><input type="radio" name="overlay" value="uraufnahme1829" disabled> <span class="layer-name">Preußische Uraufnahme<small>1829 · 1:25.000</small></span></label>
-                            <label><input type="radio" name="overlay" value="topo25" checked> <span class="layer-name">Meßtischblätter<small>1937–1940 · 1:25.000</small></span></label>
-                            <label><input type="radio" name="overlay" value="haase1920" disabled> <span class="layer-name">Kreiskarte von Lehrer Haase<small>1920 · 1:37.500</small></span></label>
-                            <label><input type="radio" name="overlay" value="reich1904" disabled> <span class="layer-name">Karte des Deutschen Reiches<small>1904 · 1:100.000</small></span></label>
-                            <label><input type="radio" name="overlay" value="flemming1910" disabled> <span class="layer-name">Kreiskarte – Verlag Flemming<small>1910 · 1:150.000</small></span></label>
-                            <label><input type="radio" name="overlay" value="reymann200"> <span class="layer-name">Reymanns Special-Karte<small>ca. 1860 · 1:200.000</small></span></label>
-                            <label><input type="radio" name="overlay" value="franzkowski300" disabled> <span class="layer-name">Kreiskarte von J. Franzkowski<small>1912 · 1:300.000</small></span></label>
-                        </div>
-                        <div class="sub-group">
-                            <div class="sub-title">Andere</div>
-                            <label><input type="radio" name="overlay" value="verbreitung1919" disabled> <span class="layer-name">Verbreitung Deutsche/Polen<small>1919 · 1:100.000</small></span></label>
-                            <label><input type="radio" name="overlay" value="census1910"> <span class="layer-name">Nationalitätenkarte<small>Volkszählung 1910 · 1:500.000</small></span></label>
-                        </div>
+                        <div id="featured-maps"></div>
+                        <button type="button" id="show-all-maps">Kartenübersicht<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></button>
                     </div>
                 </details>
                 <details class="layer-group" id="sec-orte">
@@ -438,6 +584,32 @@
             <div class="source-item">
                 <div class="source-label">Basiskarten</div>
                 <div class="source-text">&copy; OpenStreetMap-Mitwirkende · Esri World Imagery (Esri, Maxar, Earthstar Geographics)</div>
+            </div>
+        </div>
+    </div>
+    <div id="maps-modal" aria-hidden="true">
+        <div class="modal-backdrop"></div>
+        <div class="modal-dialog" role="dialog" aria-modal="true" aria-label="Karten">
+            <div class="modal-head">
+                <span class="modal-title">Karten</span>
+                <button type="button" class="modal-close" id="maps-modal-close" title="Schließen" aria-label="Schließen">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="sub-group">
+                    <div class="sub-title">Topografische Karten</div>
+                    <label><input type="radio" name="overlay" value="uraufnahme1829" disabled> <span class="layer-name">Preußische Uraufnahme<small>1829 · 1:25.000</small></span></label>
+                    <label><input type="radio" name="overlay" value="topo25" checked> <span class="layer-name">Meßtischblätter<small>1937–1940 · 1:25.000</small></span></label>
+                    <label><input type="radio" name="overlay" value="haase1920" disabled> <span class="layer-name">Kreiskarte von Lehrer Haase<small>1920 · 1:37.500</small></span></label>
+                    <label><input type="radio" name="overlay" value="reich1904" disabled> <span class="layer-name">Karte des Deutschen Reiches<small>1904 · 1:100.000</small></span></label>
+                    <label><input type="radio" name="overlay" value="flemming1910" disabled> <span class="layer-name">Kreiskarte – Verlag Flemming<small>1910 · 1:150.000</small></span></label>
+                    <label><input type="radio" name="overlay" value="reymann200"> <span class="layer-name">Reymanns Special-Karte<small>ca. 1860 · 1:200.000</small></span></label>
+                    <label><input type="radio" name="overlay" value="franzkowski300" disabled> <span class="layer-name">Kreiskarte von J. Franzkowski<small>1912 · 1:300.000</small></span></label>
+                </div>
+                <div class="sub-group">
+                    <div class="sub-title">Thematische Karten</div>
+                    <label><input type="radio" name="overlay" value="verbreitung1919" disabled> <span class="layer-name">Verbreitung Deutsche/Polen<small>1919 · 1:100.000</small></span></label>
+                    <label><input type="radio" name="overlay" value="census1910"> <span class="layer-name">Nationalitätenkarte<small>Volkszählung 1910 · 1:500.000</small></span></label>
+                </div>
             </div>
         </div>
     </div>
@@ -550,7 +722,7 @@
             if (!center || zoom == null) return;
             var lonLat = ol.proj.toLonLat(center);
             var base = document.querySelector('#layer-panel input[name="base"]:checked');
-            var overlay = document.querySelector('#layer-panel input[name="overlay"]:checked');
+            var overlay = document.querySelector('#maps-modal input[name="overlay"]:checked');
             var params = new URLSearchParams();
             params.set('z', zoom.toFixed(2));
             params.set('lat', lonLat[1].toFixed(5));
@@ -678,23 +850,139 @@
                 document.getElementById('layer-list').classList.remove('open');
             }
         });
-        document.querySelectorAll('#layer-panel input[type="radio"]').forEach(function(input) {
+        // Base map radios (in the panel).
+        document.querySelectorAll('#layer-panel input[name="base"]').forEach(function(input) {
             input.addEventListener('change', function() {
-                if (this.name === 'base') {
-                    osmLayer.setVisible(this.value === 'osm');
-                    esriLayer.setVisible(this.value === 'esri');
-                    updateTransparencyControl();
-                    trackSelect('basemap-select', this.value);
-                } else if (this.name === 'overlay') {
-                    topo25Layer.setVisible(this.value === 'topo25');
-                    reymann200Layer.setVisible(this.value === 'reymann200');
-                    census1910Layer.setVisible(this.value === 'census1910');
-                    updateActiveSource();
-                    trackSelect('overlay-select', this.value);
-                }
+                osmLayer.setVisible(this.value === 'osm');
+                esriLayer.setVisible(this.value === 'esri');
+                updateTransparencyControl();
+                trackSelect('basemap-select', this.value);
                 updateGroupHeads();
                 updateHash();
             });
+        });
+
+        // --- Overlay (map) selection: canonical radios live in the modal ---
+        function applyOverlay(value) {
+            var radio = document.querySelector('#maps-modal input[name="overlay"][value="' + value + '"]');
+            if (radio) radio.checked = true;
+            topo25Layer.setVisible(value === 'topo25');
+            reymann200Layer.setVisible(value === 'reymann200');
+            census1910Layer.setVisible(value === 'census1910');
+            updateActiveSource();
+            refreshOverlayUI();
+        }
+        function setOverlay(value) {
+            applyOverlay(value);
+            trackSelect('overlay-select', value);
+            updateHash();
+            closeMapsModal();
+        }
+        function refreshOverlayUI() {
+            var checked = document.querySelector('#maps-modal input[name="overlay"]:checked');
+            var value = checked ? checked.value : null;
+            document.querySelectorAll('#featured-maps input[name="overlay-panel"]').forEach(function(r) {
+                r.checked = (r.value === value);
+            });
+            updateGroupHeads();
+        }
+        // --- Favorites: user-chosen maps (max 5), persisted; only these show in the panel.
+        var FAV_KEY = 'mtb-favorite-maps';
+        var MAX_FAV = 5;
+        var DEFAULT_FAV = ['topo25', 'reymann200', 'census1910'];
+        function loadFavorites() {
+            try {
+                var arr = JSON.parse(localStorage.getItem(FAV_KEY));
+                if (Array.isArray(arr) && arr.length) return arr.slice(0, MAX_FAV);
+            } catch (e) {}
+            return DEFAULT_FAV.slice();
+        }
+        var favorites = loadFavorites();
+        function saveFavorites() {
+            try { localStorage.setItem(FAV_KEY, JSON.stringify(favorites)); } catch (e) {}
+        }
+        function toggleFavorite(value) {
+            var i = favorites.indexOf(value);
+            if (i !== -1) {
+                favorites.splice(i, 1);
+            } else {
+                if (favorites.length >= MAX_FAV) { showCopyToast('Maximal ' + MAX_FAV + ' Favoriten'); return; }
+                favorites.push(value);
+            }
+            saveFavorites();
+            buildFeaturedMaps();
+            updateFavStars();
+        }
+        function updateFavStars() {
+            document.querySelectorAll('#maps-modal .fav-toggle').forEach(function(star) {
+                star.classList.toggle('active', favorites.indexOf(star.dataset.value) !== -1);
+            });
+        }
+        // Wrap each modal map in a row and add a favorite star (available maps only).
+        function buildFavStars() {
+            document.querySelectorAll('#maps-modal .sub-group > label').forEach(function(label) {
+                var input = label.querySelector('input[name="overlay"]');
+                var row = document.createElement('div');
+                row.className = 'map-row';
+                label.parentNode.insertBefore(row, label);
+                row.appendChild(label);
+                if (input && !input.disabled) {
+                    var star = document.createElement('button');
+                    star.type = 'button';
+                    star.className = 'fav-toggle';
+                    star.dataset.value = input.value;
+                    star.title = 'Favorit';
+                    star.setAttribute('aria-label', 'Favorit');
+                    star.textContent = '★';
+                    star.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        toggleFavorite(input.value);
+                    });
+                    row.appendChild(star);
+                }
+            });
+        }
+        // Panel shortlist = the favorites (available ones), rendered in favorite order.
+        // Panel shortlist = the favorites, as radios (like the base maps), rendered in the
+        // same order as the full overview (iterate the modal radios in DOM order).
+        function buildFeaturedMaps() {
+            var container = document.getElementById('featured-maps');
+            container.innerHTML = '';
+            document.querySelectorAll('#maps-modal input[name="overlay"]').forEach(function(input) {
+                if (input.disabled || favorites.indexOf(input.value) === -1) return;
+                var label = document.createElement('label');
+                var radio = document.createElement('input');
+                radio.type = 'radio';
+                radio.name = 'overlay-panel';
+                radio.value = input.value;
+                radio.addEventListener('change', function() { setOverlay(input.value); });
+                label.appendChild(radio);
+                label.appendChild(document.createTextNode(' ' + radioLabelName(input)));
+                container.appendChild(label);
+            });
+            refreshOverlayUI();
+        }
+        document.querySelectorAll('#maps-modal input[name="overlay"]').forEach(function(input) {
+            input.addEventListener('change', function() { setOverlay(this.value); });
+        });
+
+        // Full map overview modal open/close.
+        var mapsModal = document.getElementById('maps-modal');
+        function openMapsModal() {
+            mapsModal.classList.add('open');
+            mapsModal.setAttribute('aria-hidden', 'false');
+            track('maps-open');
+        }
+        function closeMapsModal() {
+            mapsModal.classList.remove('open');
+            mapsModal.setAttribute('aria-hidden', 'true');
+        }
+        document.getElementById('show-all-maps').addEventListener('click', openMapsModal);
+        document.getElementById('maps-modal-close').addEventListener('click', closeMapsModal);
+        mapsModal.querySelector('.modal-backdrop').addEventListener('click', closeMapsModal);
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && mapsModal.classList.contains('open')) closeMapsModal();
         });
 
         // --- Collapsible sections (accordion) + current-selection headers ---
@@ -705,7 +993,7 @@
             return (ln ? ln.firstChild.textContent : label.textContent).trim();
         }
         function updateGroupHeads() {
-            var overlay = document.querySelector('#layer-list input[name="overlay"]:checked');
+            var overlay = document.querySelector('#maps-modal input[name="overlay"]:checked');
             document.querySelector('#sec-maps .head-value').textContent = overlay ? radioLabelName(overlay) : '';
             var base = document.querySelector('#layer-list input[name="base"]:checked');
             document.querySelector('#sec-base .head-value').textContent = base ? radioLabelName(base) : '—';
@@ -725,13 +1013,6 @@
                 if (checked) checked.scrollIntoView({ block: 'nearest' });
             });
         });
-
-        function openOverlaySection() {
-            var overlay = document.querySelector('#layer-list input[name="overlay"]:checked');
-            var target = overlay ? overlay.closest('details.layer-group') : null;
-            if (!target) return;
-            layerSections.forEach(function(o) { o.open = (o === target); });
-        }
 
         // City labels (German/historical names) as modern pill overlays
         // Per-city pixel nudges [x, y] where a label would otherwise sit on a line.
@@ -818,7 +1099,7 @@
 
         // Highlight the active overlay's entry in the expandable Sources panel.
         function updateActiveSource() {
-            var overlay = document.querySelector('#layer-panel input[name="overlay"]:checked');
+            var overlay = document.querySelector('#maps-modal input[name="overlay"]:checked');
             document.querySelectorAll('#sources-panel .source-item').forEach(function(item) {
                 item.classList.remove('active');
             });
@@ -923,7 +1204,7 @@
                 esriLayer.setVisible(s.base === 'esri');
             }
             if (s.overlay) {
-                var overlayInput = document.querySelector('#layer-panel input[name="overlay"][value="' + s.overlay + '"]');
+                var overlayInput = document.querySelector('#maps-modal input[name="overlay"][value="' + s.overlay + '"]');
                 if (overlayInput) overlayInput.checked = true;
                 topo25Layer.setVisible(s.overlay === 'topo25');
                 reymann200Layer.setVisible(s.overlay === 'reymann200');
@@ -936,11 +1217,13 @@
             }
             updateTransparencyControl();
             updateActiveSource();
-            updateGroupHeads();
-            openOverlaySection();
+            refreshOverlayUI();
         }
 
-        // Initial restore from the URL hash (if present).
+        // Set up favorites (stars in the modal + panel shortlist), then restore from the URL hash.
+        buildFavStars();
+        updateFavStars();
+        buildFeaturedMaps();
         var initState = readHash();
         if (initState.z != null && initState.lat != null && initState.lon != null) {
             restoredFromUrl = true;

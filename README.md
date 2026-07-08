@@ -14,8 +14,12 @@ no backend.
 
 ## Features
 
-- **Historical overlays** (exactly one active at a time) under the *Karten* section,
-  sub-grouped into *Topografisch* and *Andere*. Ready maps include the *Meßtischblätter*
+- **Historical overlays** (exactly one active at a time): the *Karten* panel section
+  lists only your **favorite maps** (max 5) plus **"Alle Karten anzeigen"**, which opens
+  a modal with the full grouped overview (*Topografisch* / *Andere*, incl. in-progress
+  maps). In the modal, the ★ toggles a map as favorite; favorites are stored in
+  `localStorage` (default: Meßtischblätter, Reymanns Special-Karte, Nationalitätenkarte).
+  Ready maps include the *Meßtischblätter*
   (1937–1940, 1:25 000), *Reymanns Special-Karte* and the *Nationalitätenkarte*
   (Volkszählung 1910); further sheets appear disabled until their tiles are ready.
 - **Base map** (switchable or off): OpenStreetMap, Esri World Imagery, or *Aus*.
@@ -107,6 +111,7 @@ stringified `value` property, so every event can be reported/filtered uniformly 
 | Borders toggled     | `borders-toggle`      | `{ value: 'true' \| 'false' }`        |
 | Transparency set    | `transparency-select` | `{ value: '0','10',…,'100' }` (rounded to tens, only on step change) |
 | Sources opened      | `sources-open`        | –                                   |
+| Map overview opened | `maps-open`           | –                                   |
 | Map fitted          | `map-fit`             | –                                   |
 | View shared         | `share`               | –                                   |
 
