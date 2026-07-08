@@ -243,6 +243,7 @@
             max-width: 280px;
             max-height: min(72vh, calc(100vh - 96px));
             overflow-y: auto;
+            scrollbar-gutter: stable;
             color: #8fa3b3;
             font-size: 13px;
             scrollbar-width: thin;
@@ -293,7 +294,7 @@
         }
         .layer-group-head .chev svg { display: block; }
         .layer-group[open] .layer-group-head .chev { transform: rotate(180deg); }
-        .layer-group-body { padding: 6px 8px 8px 8px; }
+        .layer-group-body { padding: 6px 8px 8px 8px; overflow: hidden; }
         .sub-group + .sub-group { margin-top: 14px; }
         .sub-title {
             font-size: 10px;
@@ -1003,14 +1004,45 @@
                 document.getElementById('opacity-slider').value + '%';
         }
 
-        // Accordion: opening one section closes the others; scroll the active item into view.
+        // Accordion with a soft open/close animation (take over the native toggle).
         var layerSections = document.querySelectorAll('#layer-list details.layer-group');
-        layerSections.forEach(function(sec) {
-            sec.addEventListener('toggle', function() {
-                if (!sec.open) return;
-                layerSections.forEach(function(o) { if (o !== sec) o.open = false; });
-                var checked = sec.querySelector('input:checked');
+        var DUR = 220;
+        var EASE_IN = 'cubic-bezier(0.4, 0, 1, 1)';   // accelerate — for collapsing
+        var EASE_OUT = 'cubic-bezier(0, 0, 0.2, 1)';  // decelerate — for expanding
+        function collapseSection(sec) {
+            if (!sec.open) return;
+            var body = sec.querySelector('.layer-group-body');
+            if (sec._anim) sec._anim.cancel();
+            var anim = body.animate(
+                [{ height: body.scrollHeight + 'px', opacity: 1 }, { height: '0px', opacity: 0 }],
+                { duration: DUR, easing: EASE_IN, fill: 'forwards' });
+            sec._anim = anim;
+            anim.onfinish = function() { sec.open = false; anim.cancel(); sec._anim = null; };
+        }
+        function expandSection(sec) {
+            if (sec.open) return;
+            sec.open = true;
+            var body = sec.querySelector('.layer-group-body');
+            if (sec._anim) sec._anim.cancel();
+            var checked = sec.querySelector('input:checked');
+            var anim = body.animate(
+                [{ height: '0px', opacity: 0 }, { height: body.scrollHeight + 'px', opacity: 1 }],
+                { duration: DUR, easing: EASE_OUT });
+            sec._anim = anim;
+            anim.onfinish = function() {
+                sec._anim = null;
                 if (checked) checked.scrollIntoView({ block: 'nearest' });
+            };
+        }
+        layerSections.forEach(function(sec) {
+            sec.querySelector('summary').addEventListener('click', function(e) {
+                e.preventDefault();
+                if (sec.open) {
+                    collapseSection(sec);
+                } else {
+                    layerSections.forEach(function(o) { if (o !== sec) collapseSection(o); });
+                    expandSection(sec);
+                }
             });
         });
 
