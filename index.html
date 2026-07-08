@@ -1072,10 +1072,6 @@
         });
 
         // City labels (German/historical names) as modern pill overlays
-        // Per-city pixel nudges [x, y] where a label would otherwise sit on a line.
-        var LABEL_OFFSETS = {
-            'Groß Wartenberg': [0, -14]
-        };
         var cityOverlays = [];
         var citiesCheckbox = document.querySelector('#layer-panel input[name="labels"]');
 
@@ -1123,7 +1119,6 @@
                         element: el,
                         position: ol.proj.fromLonLat([city.lon, city.lat]),
                         positioning: 'bottom-center',
-                        offset: LABEL_OFFSETS[city.historical_name] || [0, 0],
                         stopEvent: false
                     });
                     map.addOverlay(overlay);
