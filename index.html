@@ -24,7 +24,7 @@
             --border: #2f4356; --border-strong: #3d5568;
             --text: #dfe3e0; --text-muted: #8ca0a2; --text-bright: #f2eee2; --text-disabled: #5f7185;
             --primary: #5FA8A8; --primary-rgb: 95, 168, 168;
-            --accent: #C7A35B; --accent-icon: #C7A35B; --fav: #e8b84b; --title: #E6DEC9;
+            --accent: #C7A35B; --accent-icon: #C7A35B; --fav: #e8b84b; --title: #EDE6D2;
             --on-primary: #12222e;
             --map-backdrop: #161d29; --map-grid: rgba(255, 255, 255, 0.035);
             --shadow: rgba(0, 0, 0, 0.5);
@@ -51,11 +51,11 @@
         }
         html { transition: background-color 0.25s ease; }
         html, body { overflow: hidden; padding: 0; margin: 0; height: 100%; width: 100%; font-family: 'Inter', 'Segoe UI', system-ui, sans-serif; background: var(--bg); }
-        #header { position: relative; height: 64px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 5px; padding: 0 20px; background: var(--surface); border-bottom: 1px solid var(--border); }
+        #header { position: relative; height: 64px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 9px; padding: 0 20px; background-color: var(--surface); background-image: linear-gradient(180deg, rgba(255, 255, 255, 0.04) 0%, rgba(0, 0, 0, 0) 42%, rgba(0, 0, 0, 0.05) 100%); border-bottom: 1px solid var(--border); }
         #theme-toggle {
             position: absolute;
             top: 50%;
-            right: 16px;
+            right: 10px;
             transform: translateY(-50%);
             display: flex;
             align-items: center;
@@ -83,14 +83,14 @@
             font-size: 12px;
             line-height: 1;
             font-weight: 600;
-            letter-spacing: 0.26em;
-            text-indent: 0.26em;
+            letter-spacing: 0.19em;
+            text-indent: 0.19em;
             text-transform: uppercase;
             color: var(--accent-icon);
         }
         #header .subtitle::before, #header .subtitle::after {
             content: '';
-            width: 24px;
+            width: 30px;
             height: 1px;
             background: currentColor;
             opacity: 0.55;
@@ -616,7 +616,7 @@
             position: relative;
             display: flex;
             align-items: center;
-            padding: 4px 13px;
+            padding: 3px 10px;
             background: var(--surface);
             border: 1px solid rgba(var(--primary-rgb), 0.55);
             border-radius: 999px;
@@ -1058,7 +1058,8 @@
         // --- Favorites: user-chosen maps (max 5), persisted; only these show in the panel.
         // --- Theme switcher: cycle the 3 palettes, persisted (mirrors the favorites pattern). ---
         var THEME_KEY = 'mtb-theme';
-        var THEMES = ['dark', 'light', 'warm-dark'];
+        // 'warm-dark' is kept defined (CSS tokens + THEME_META below) but excluded from the toggle cycle.
+        var THEMES = ['dark', 'light'];
         var THEME_META = {
             'dark':      { label: 'Gedeckt (dunkel)', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>' },
             'light':     { label: 'Hell',             icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>' },
