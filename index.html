@@ -560,6 +560,7 @@
                     <summary class="layer-group-head"><span class="head-title">Basiskarte</span><span class="head-value"></span><span class="chev"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span></summary>
                     <div class="layer-group-body">
                         <label><input type="radio" name="base" value="osm"> OpenStreetMap</label>
+                        <label><input type="radio" name="base" value="cartodb"> CartoDB Positron</label>
                         <label><input type="radio" name="base" value="esri"> Esri World Imagery</label>
                         <label><input type="radio" name="base" value="off" checked> Aus</label>
                     </div>
@@ -680,6 +681,15 @@
             visible: false,
             source: new ol.source.OSM()
         });
+        var cartodbLayer = new ol.layer.Tile({
+            title: 'CartoDB Positron',
+            visible: false,
+            source: new ol.source.XYZ({
+                attributions: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors © <a href="https://carto.com/attributions">CARTO</a>',
+                maxZoom: 19,
+                url: 'https://{a-d}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png'
+            })
+        });
         var esriLayer = new ol.layer.Tile({
             title: 'Esri World Imagery',
             visible: false,
@@ -692,7 +702,7 @@
         var map = new ol.Map({
             controls: ol.control.defaults.defaults({ zoom: false }),
             target: 'map',
-            layers: [osmLayer, esriLayer, census1910Layer, reymann200Layer, topo25Layer],
+            layers: [osmLayer, cartodbLayer, esriLayer, census1910Layer, reymann200Layer, topo25Layer],
             view: new ol.View({
                 center: [1939316.7540431642, 6682934.4834087156],
                 zoom: 12,
@@ -734,7 +744,7 @@
             if (isFinite(z)) out.z = z;
             if (isFinite(lat) && isFinite(lon)) { out.lat = lat; out.lon = lon; }
             var base = params.get('base');
-            if (base === 'osm' || base === 'esri' || base === 'off') out.base = base;
+            if (base === 'osm' || base === 'cartodb' || base === 'esri' || base === 'off') out.base = base;
             var overlay = params.get('overlay');
             if (overlay === 'topo25' || overlay === 'census1910' || overlay === 'reymann200') out.overlay = overlay;
             return out;
@@ -879,6 +889,7 @@
         document.querySelectorAll('#layer-panel input[name="base"]').forEach(function(input) {
             input.addEventListener('change', function() {
                 osmLayer.setVisible(this.value === 'osm');
+                cartodbLayer.setVisible(this.value === 'cartodb');
                 esriLayer.setVisible(this.value === 'esri');
                 updateTransparencyControl();
                 trackSelect('basemap-select', this.value);
@@ -1138,7 +1149,7 @@
         // hide the slider and show the overlay fully opaque; restore the last value
         // when the base map comes back.
         function updateTransparencyControl() {
-            if (osmLayer.getVisible() || esriLayer.getVisible()) {
+            if (osmLayer.getVisible() || cartodbLayer.getVisible() || esriLayer.getVisible()) {
                 transparencyGroup.classList.remove('hidden');
                 slider.value = lastOpacity;
                 opacityValue.textContent = lastOpacity + '%';
@@ -1253,6 +1264,7 @@
                 var baseInput = document.querySelector('#layer-panel input[name="base"][value="' + s.base + '"]');
                 if (baseInput) baseInput.checked = true;
                 osmLayer.setVisible(s.base === 'osm');
+                cartodbLayer.setVisible(s.base === 'cartodb');
                 esriLayer.setVisible(s.base === 'esri');
             }
             if (s.overlay) {
