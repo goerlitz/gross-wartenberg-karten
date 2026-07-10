@@ -53,10 +53,9 @@
         html { transition: background-color 0.25s ease; }
         html, body { overflow: hidden; padding: 0; margin: 0; height: 100%; width: 100%; font-family: 'Inter', 'Segoe UI', system-ui, sans-serif; background: var(--bg); }
         #header { position: relative; height: 64px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 9px; padding: 0 20px; background-color: var(--surface); background-image: linear-gradient(180deg, rgba(255, 255, 255, 0.04) 0%, rgba(0, 0, 0, 0) 42%, rgba(0, 0, 0, 0.05) 100%); border-bottom: 1px solid var(--border); }
-        #theme-toggle {
+        #theme-toggle, #info-toggle {
             position: absolute;
             top: 50%;
-            right: 10px;
             transform: translateY(-50%);
             display: flex;
             align-items: center;
@@ -71,7 +70,12 @@
             cursor: pointer;
             transition: background-color 0.2s, border-color 0.2s, color 0.2s;
         }
-        @media (hover: hover) { #theme-toggle:hover { border-color: var(--primary); color: var(--primary); background: rgba(var(--primary-rgb), 0.12); } }
+        #theme-toggle { right: 10px; }
+        #info-toggle { left: 10px; }
+        @media (hover: hover) {
+            #theme-toggle:hover, #info-toggle:hover { border-color: var(--primary); color: var(--primary); background: rgba(var(--primary-rgb), 0.12); }
+        }
+        #info-toggle svg { display: block; width: 18px; height: 18px; }
         #theme-toggle svg { display: block; width: 18px; height: 18px; }
         #header h1 { margin: 0; font-family: ui-serif, 'Iowan Old Style', 'Palatino Linotype', 'Book Antiqua', Palatino, Georgia, 'Times New Roman', serif; font-size: 23px; line-height: 1.05; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--title); text-align: center; }
         #header h1 span { font-weight: 600; }
@@ -409,16 +413,16 @@
         }
         @media (hover: hover) { #show-all-maps:hover { background: rgba(var(--primary-rgb), 0.08); border-color: var(--border-strong); color: var(--text-bright); } }
         #show-all-maps svg { display: block; }
-        /* Full map overview modal */
-        #maps-modal { position: fixed; inset: 0; z-index: 2000; display: none; }
-        #maps-modal.open { display: block; }
-        #maps-modal .modal-backdrop {
+        /* Shared modal chrome (maps overview + welcome) */
+        .modal { position: fixed; inset: 0; z-index: 2000; display: none; }
+        .modal.open { display: block; }
+        .modal .modal-backdrop {
             position: absolute;
             inset: 0;
             background: rgba(6, 10, 20, 0.74);
             backdrop-filter: blur(2px);
         }
-        #maps-modal .modal-dialog {
+        .modal .modal-dialog {
             position: absolute;
             top: 50%;
             left: 50%;
@@ -436,21 +440,21 @@
             font-size: 13px;
             overflow: hidden;
         }
-        #maps-modal .modal-head {
+        .modal .modal-head {
             display: flex;
             align-items: center;
             justify-content: space-between;
             padding: 13px 16px;
             border-bottom: 1px solid var(--border);
         }
-        #maps-modal .modal-title {
+        .modal .modal-title {
             font-size: 12px;
             text-transform: uppercase;
             letter-spacing: 0.14em;
             color: var(--primary);
             font-weight: 600;
         }
-        #maps-modal .modal-close {
+        .modal .modal-close {
             background: none;
             border: none;
             color: var(--text);
@@ -459,8 +463,8 @@
             cursor: pointer;
             padding: 0 4px;
         }
-        #maps-modal .modal-close:hover { color: var(--primary); }
-        #maps-modal .modal-body {
+        .modal .modal-close:hover { color: var(--primary); }
+        .modal .modal-body {
             flex: 1 1 auto;
             min-height: 0;
             padding: 14px 16px;
@@ -468,7 +472,7 @@
             scrollbar-width: thin;
             scrollbar-color: var(--border-strong) transparent;
         }
-        #maps-modal .modal-foot {
+        .modal .modal-foot {
             flex: none;
             padding: 11px 16px;
             border-top: 1px solid var(--border);
@@ -488,8 +492,31 @@
             letter-spacing: 0.08em;
             margin-bottom: 8px;
         }
-        #maps-modal .modal-body::-webkit-scrollbar { width: 8px; }
-        #maps-modal .modal-body::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 4px; }
+        .modal .modal-body::-webkit-scrollbar { width: 8px; }
+        .modal .modal-body::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 4px; }
+        /* Welcome modal: readable running text + a primary action button */
+        #welcome-modal .modal-dialog { width: min(460px, calc(100vw - 32px)); }
+        #welcome-modal .modal-body { font-size: 13.5px; line-height: 1.55; color: var(--text); letter-spacing: 0.01em; }
+        #welcome-modal .modal-body p { margin: 0 0 11px 0; }
+        #welcome-modal .modal-body p:last-child { margin-bottom: 0; }
+        #welcome-modal .modal-body ul { margin: 0 0 11px 0; padding-left: 20px; }
+        #welcome-modal .modal-body li { margin: 3px 0; }
+        #welcome-modal .modal-body strong { color: var(--text-bright); font-weight: 600; }
+        #welcome-modal .modal-foot { display: flex; justify-content: flex-end; }
+        #welcome-cta {
+            font: inherit;
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 0.03em;
+            padding: 8px 18px;
+            border-radius: 7px;
+            border: 1px solid var(--primary);
+            background: rgba(var(--primary-rgb), 0.14);
+            color: var(--primary);
+            cursor: pointer;
+            transition: background-color 0.15s, color 0.15s;
+        }
+        @media (hover: hover) { #welcome-cta:hover { background: rgba(var(--primary-rgb), 0.24); color: var(--text-bright); } }
         #maps-modal label {
             display: flex;
             align-items: center;
@@ -647,6 +674,7 @@
     <div id="header">
         <h1><span>Kreis Gross Wartenberg</span></h1>
         <p class="subtitle">Historische Karten</p>
+        <button type="button" id="info-toggle" title="Über diese Website" aria-label="Über diese Website"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></button>
         <button type="button" id="theme-toggle" title="Design wechseln" aria-label="Design wechseln"></button>
     </div>
     <div id="map" class="map">
@@ -731,7 +759,7 @@
             </div>
         </div>
     </div>
-    <div id="maps-modal" aria-hidden="true">
+    <div id="maps-modal" class="modal" aria-hidden="true">
         <div class="modal-backdrop"></div>
         <div class="modal-dialog" role="dialog" aria-modal="true" aria-label="Karten auswählen">
             <div class="modal-head">
@@ -756,6 +784,27 @@
                 </div>
             </div>
             <div class="modal-foot">Mit <span class="hint-star">★</span> markierte Karten erscheinen im Schnellmenü.</div>
+        </div>
+    </div>
+    <div id="welcome-modal" class="modal" aria-hidden="true">
+        <div class="modal-backdrop"></div>
+        <div class="modal-dialog" role="dialog" aria-modal="true" aria-label="Willkommen">
+            <div class="modal-head">
+                <span class="modal-title">Willkommen</span>
+                <button type="button" class="modal-close" id="welcome-close" title="Schließen" aria-label="Schließen">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>Diese Website richtet sich an Familienforscher, Heimatforscher und alle, die sich für die Geschichte des Kreises Groß Wartenberg interessieren.</p>
+                <p>Hier können Sie:</p>
+                <ul>
+                    <li>historische Karten verschiedener Jahre betrachten,</li>
+                    <li>heutige Basiskarten zur Orientierung einblenden,</li>
+                    <li>historische Kreis- und Landesgrenzen sowie Ortslagen anzeigen,</li>
+                    <li>die Karten frei verschieben und vergrößern.</li>
+                </ul>
+                <p><strong>Hinweis:</strong> Historische Karten können je nach Quelle, Alter und Qualität von heutigen Karten abweichen.</p>
+            </div>
+            <div class="modal-foot"><button type="button" id="welcome-cta">Schließen</button></div>
         </div>
     </div>
     <script type="text/javascript">
@@ -852,6 +901,10 @@
 
         // --- URL permalink: reflect base/overlay/center/zoom in the location hash ---
         var restoredFromUrl = false;
+        // Don't write the hash until the user actually interacts (a plain visit stays fragment-free
+        // until the first pan/zoom, layer/map choice, or share). Enabled immediately for shared links.
+        var hashEnabled = false;
+        function enableHash() { hashEnabled = true; }
 
         function readHash() {
             var out = { z: null, lat: null, lon: null, base: null, overlay: null };
@@ -869,6 +922,7 @@
         }
 
         function updateHash() {
+            if (!hashEnabled) return;
             var view = map.getView();
             var center = view.getCenter();
             var zoom = view.getZoom();
@@ -1032,6 +1086,7 @@
                 updateShadow();
                 trackSelect('basemap-select', this.value);
                 updateGroupHeads();
+                enableHash();
                 updateHash();
             });
         });
@@ -1050,6 +1105,7 @@
         function setOverlay(value) {
             applyOverlay(value);
             trackSelect('overlay-select', value);
+            enableHash();
             updateHash();
             closeMapsModal();
         }
@@ -1190,8 +1246,28 @@
         document.getElementById('show-all-maps').addEventListener('click', openMapsModal);
         document.getElementById('maps-modal-close').addEventListener('click', closeMapsModal);
         mapsModal.querySelector('.modal-backdrop').addEventListener('click', closeMapsModal);
+
+        // --- Welcome modal: shown once per device on a fragment-free visit; ?-button reopens it. ---
+        var WELCOME_KEY = 'mtb-welcome-seen';
+        var welcomeModal = document.getElementById('welcome-modal');
+        function openWelcome() {
+            welcomeModal.classList.add('open');
+            welcomeModal.setAttribute('aria-hidden', 'false');
+        }
+        function closeWelcome() {
+            welcomeModal.classList.remove('open');
+            welcomeModal.setAttribute('aria-hidden', 'true');
+            try { localStorage.setItem(WELCOME_KEY, '1'); } catch (e) {}
+        }
+        document.getElementById('info-toggle').addEventListener('click', openWelcome);
+        document.getElementById('welcome-cta').addEventListener('click', closeWelcome);
+        document.getElementById('welcome-close').addEventListener('click', closeWelcome);
+        welcomeModal.querySelector('.modal-backdrop').addEventListener('click', closeWelcome);
+
         document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape' && mapsModal.classList.contains('open')) closeMapsModal();
+            if (e.key !== 'Escape') return;
+            if (welcomeModal.classList.contains('open')) closeWelcome();
+            else if (mapsModal.classList.contains('open')) closeMapsModal();
         });
 
         // --- Collapsible sections (accordion) + current-selection headers ---
@@ -1423,6 +1499,7 @@
             });
         }
         document.getElementById('share-btn').addEventListener('click', function() {
+            enableHash();
             updateHash(); // make sure location.href reflects the current view
             track('share');
             copyText(location.href)
@@ -1465,7 +1542,17 @@
         if (initState.z != null && initState.lat != null && initState.lon != null) {
             restoredFromUrl = true;
         }
+        // A shared link (any known fragment present) keeps the permalink in sync from the start;
+        // a plain visit stays fragment-free until the user interacts.
+        var hasFragments = initState.z != null || initState.lat != null || initState.lon != null ||
+                           initState.base != null || initState.overlay != null;
+        hashEnabled = hasFragments;
         applyState(initState);
+
+        // Welcome only on a plain first visit (no fragments, not yet seen on this device).
+        var welcomeSeen = false;
+        try { welcomeSeen = !!localStorage.getItem('mtb-welcome-seen'); } catch (e) {}
+        if (!hasFragments && !welcomeSeen) openWelcome();
 
         // React to manual hash edits / pasted links. Our own updateHash() uses
         // replaceState, which does NOT fire hashchange — so no feedback loop.
@@ -1473,6 +1560,10 @@
             applyState(readHash());
         });
 
+        // First real map gesture enables the permalink; the following moveend then writes it.
+        map.getViewport().addEventListener('pointerdown', enableHash);
+        map.getViewport().addEventListener('wheel', enableHash, { passive: true });
+        map.getViewport().addEventListener('keydown', enableHash);
         // Keep the hash in sync with pan/zoom (fires once per interaction).
         map.on('moveend', updateHash);
     </script>
