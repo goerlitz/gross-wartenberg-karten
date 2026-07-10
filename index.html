@@ -25,7 +25,7 @@
             --border: #2f4356; --border-strong: #3d5568;
             --text: #dfe3e0; --text-muted: #8ca0a2; --text-bright: #f2eee2; --text-disabled: #5f7185;
             --primary: #5FA8A8; --primary-rgb: 95, 168, 168;
-            --accent: #C7A35B; --accent-icon: #C7A35B; --fav: #e8b84b; --title: #EDE6D2;
+            --accent: #C7A35B; --accent-icon: #B99653; --fav: #e8b84b; --title: #EDE6D2;
             --on-primary: #12222e;
             --map-backdrop: #161d29; --map-grid: rgba(255, 255, 255, 0.035);
             --shadow: rgba(0, 0, 0, 0.5);
@@ -45,11 +45,12 @@
             --border: #3b3730; --border-strong: #4c473d;
             --text: #E8E3D6; --text-muted: #9a9080; --text-bright: #f5f0e4; --text-disabled: #6d6557;
             --primary: #6B9FA3; --primary-rgb: 107, 159, 163;
-            --accent: #A96C42; --accent-icon: #C7A35B; --fav: #C7A35B; --title: #f5f0e4;
+            --accent: #A96C42; --accent-icon: #B99653; --fav: #C7A35B; --title: #f5f0e4;
             --on-primary: #1c1a16;
             --map-backdrop: #1c1a16; --map-grid: rgba(255, 255, 255, 0.03);
             --shadow: rgba(0, 0, 0, 0.55);
         }
+        :root { --serif: ui-serif, 'Iowan Old Style', 'Palatino Linotype', 'Book Antiqua', Palatino, Georgia, 'Times New Roman', serif; }
         html { transition: background-color 0.25s ease; }
         html, body { overflow: hidden; padding: 0; margin: 0; height: 100%; width: 100%; font-family: 'Inter', 'Segoe UI', system-ui, sans-serif; background: var(--bg); }
         #header { position: relative; height: 64px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 9px; padding: 0 20px; background-color: var(--surface); background-image: linear-gradient(180deg, rgba(255, 255, 255, 0.04) 0%, rgba(0, 0, 0, 0) 42%, rgba(0, 0, 0, 0.05) 100%); border-bottom: 1px solid var(--border); }
@@ -77,7 +78,7 @@
         }
         #info-toggle svg { display: block; width: 18px; height: 18px; }
         #theme-toggle svg { display: block; width: 18px; height: 18px; }
-        #header h1 { margin: 0; font-family: ui-serif, 'Iowan Old Style', 'Palatino Linotype', 'Book Antiqua', Palatino, Georgia, 'Times New Roman', serif; font-size: 23px; line-height: 1.05; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--title); text-align: center; }
+        #header h1 { margin: 0; font-family: var(--serif); font-size: 23px; line-height: 1.05; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--title); text-align: center; }
         #header h1 span { font-weight: 600; }
         #header .subtitle {
             margin: 0;
@@ -494,29 +495,55 @@
         }
         .modal .modal-body::-webkit-scrollbar { width: 8px; }
         .modal .modal-body::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 4px; }
-        /* Welcome modal: readable running text + a primary action button */
-        #welcome-modal .modal-dialog { width: min(460px, calc(100vw - 32px)); }
-        #welcome-modal .modal-body { font-size: 13.5px; line-height: 1.55; color: var(--text); letter-spacing: 0.01em; }
+        /* Welcome modal: "Kartenarchiv" intro card (see welcome_new.png) */
+        #welcome-modal .modal-dialog { width: min(500px, calc(100vw - 32px)); }
+        #welcome-modal .modal-close { position: absolute; top: 12px; right: 14px; z-index: 2; color: var(--text); opacity: 0.55; font-size: 20px; transition: opacity 0.15s, color 0.15s; }
+        #welcome-modal .modal-close:hover { color: var(--text-bright); opacity: 1; }
+        #welcome-modal .modal-body { padding: 24px 26px 6px 26px; font-size: 13.5px; line-height: 1.55; color: var(--text); letter-spacing: 0.01em; }
         #welcome-modal .modal-body p { margin: 0 0 11px 0; }
-        #welcome-modal .modal-body p:last-child { margin-bottom: 0; }
-        #welcome-modal .modal-body ul { margin: 0 0 11px 0; padding-left: 20px; }
-        #welcome-modal .modal-body li { margin: 3px 0; }
-        #welcome-modal .modal-body strong { color: var(--text-bright); font-weight: 600; }
-        #welcome-modal .modal-foot { display: flex; justify-content: flex-end; }
+        #welcome-modal .modal-body a { color: var(--accent-icon); text-decoration: none; border-bottom: 1px solid transparent; transition: border-color 0.15s; }
+        #welcome-modal .modal-body a:hover { border-bottom-color: currentColor; }
+        /* Hero: eyebrow + serif title + sans tagline + short brass rule */
+        .welcome-hero { margin: 0 0 20px 0; }
+        .welcome-eyebrow { margin: 0 0 12px 0; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.14em; color: var(--accent-icon); }
+        .welcome-title { margin: 0; font-family: var(--serif); font-size: 40px; font-weight: 600; line-height: 1.05; letter-spacing: 0.01em; color: var(--text-bright); }
+        .welcome-tagline { margin: 6px 0 0 0; font-size: 15px; font-weight: 500; letter-spacing: 0.02em; color: var(--accent-icon); opacity: 0.85; }
+        .welcome-hero::after { content: ''; display: block; width: 60px; height: 1px; margin-top: 16px; background: var(--accent-icon); opacity: 0.6; }
+        .welcome-lead { margin: 0 0 16px 0; font-size: 15px; line-height: 1.5; color: var(--text-bright); }
+        /* Collection chips */
+        .welcome-chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 18px 0; }
+        .welcome-chip { display: inline-flex; align-items: center; gap: 6px; padding: 4px 11px; border-radius: 999px; font-size: 12px; letter-spacing: 0.01em; color: var(--text); background: rgba(var(--primary-rgb), 0.1); border: 1px solid rgba(var(--primary-rgb), 0.3); white-space: nowrap; }
+        .welcome-chip svg { width: 13px; height: 13px; color: var(--accent-icon); }
+        /* Feature list with icons */
+        .welcome-features { list-style: none; margin: 0 0 18px 0; padding: 0; }
+        .welcome-features li { display: flex; align-items: flex-start; gap: 12px; margin: 9px 0; color: var(--text-bright); }
+        .welcome-features svg { flex: none; width: 17px; height: 17px; margin-top: 1px; color: var(--primary); }
+        /* Tip callout */
+        .welcome-tip { display: flex; align-items: flex-start; gap: 10px; margin: 0 0 16px 0; padding: 12px 14px; border-radius: 8px; background: rgba(var(--primary-rgb), 0.07); color: var(--text); line-height: 1.5; }
+        .welcome-tip svg { flex: none; width: 17px; height: 17px; margin-top: 1px; color: var(--accent-icon); }
+        .welcome-note { color: var(--text-muted); margin: 0; font-size: 12.5px; }
+        /* Footer: dismiss checkbox (left) + filled brass CTA (right) */
+        #welcome-modal .modal-foot { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 16px 24px; border-top: 1px solid var(--border); }
+        .welcome-dismiss { display: inline-flex; align-items: center; gap: 8px; font-size: 12.5px; color: var(--text-muted); cursor: pointer; letter-spacing: 0.01em; }
+        .welcome-dismiss input { accent-color: var(--primary); cursor: pointer; }
         #welcome-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
             font: inherit;
             font-size: 13px;
             font-weight: 600;
-            letter-spacing: 0.03em;
-            padding: 8px 18px;
+            letter-spacing: 0.02em;
+            padding: 9px 18px;
             border-radius: 7px;
-            border: 1px solid var(--primary);
-            background: rgba(var(--primary-rgb), 0.14);
-            color: var(--primary);
+            border: none;
+            background: var(--accent-icon);
+            color: #23200f;
             cursor: pointer;
-            transition: background-color 0.15s, color 0.15s;
+            transition: filter 0.15s;
         }
-        @media (hover: hover) { #welcome-cta:hover { background: rgba(var(--primary-rgb), 0.24); color: var(--text-bright); } }
+        #welcome-cta svg { width: 15px; height: 15px; }
+        @media (hover: hover) { #welcome-cta:hover { filter: brightness(1.08); } }
         #maps-modal label {
             display: flex;
             align-items: center;
@@ -789,22 +816,34 @@
     <div id="welcome-modal" class="modal" aria-hidden="true">
         <div class="modal-backdrop"></div>
         <div class="modal-dialog" role="dialog" aria-modal="true" aria-label="Willkommen">
-            <div class="modal-head">
-                <span class="modal-title">Willkommen</span>
-                <button type="button" class="modal-close" id="welcome-close" title="Schließen" aria-label="Schließen">&times;</button>
-            </div>
+            <button type="button" class="modal-close" id="welcome-close" title="Schließen" aria-label="Schließen">&times;</button>
             <div class="modal-body">
-                <p>Diese Website richtet sich an Familienforscher, Heimatforscher und alle, die sich für die Geschichte des Kreises Groß Wartenberg interessieren.</p>
-                <p>Hier können Sie:</p>
-                <ul>
-                    <li>historische Karten verschiedener Jahre betrachten,</li>
-                    <li>heutige Basiskarten zur Orientierung einblenden,</li>
-                    <li>historische Kreis- und Landesgrenzen sowie Ortslagen anzeigen,</li>
-                    <li>die Karten frei verschieben und vergrößern.</li>
+                <div class="welcome-hero">
+                    <p class="welcome-eyebrow">Kartenarchiv · Kreis Groß Wartenberg</p>
+                    <h2 class="welcome-title">Willkommen</h2>
+                    <p class="welcome-tagline">Historische Karten digital entdecken</p>
+                </div>
+                <p class="welcome-lead">Historische Karten des Kreises Groß Wartenberg &ndash; durchsuchbar, überblendbar und frei vergleichbar mit heutigen Basiskarten.</p>
+                <div class="welcome-chips">
+                    <span class="welcome-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15.5 14"/></svg>ca. 1820–1945</span>
+                    <span class="welcome-chip">Meßtischblätter</span>
+                    <span class="welcome-chip">Katasterkarten</span>
+                </div>
+                <ul class="welcome-features">
+                    <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.05" y2="16.05"/></svg>Ort suchen und direkt zur historischen Lage springen</li>
+                    <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>Historische und heutige Karten überblenden</li>
+                    <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9V5a1 1 0 0 1 1-1h4"/><path d="M20 9V5a1 1 0 0 0-1-1h-4"/><path d="M4 15v4a1 1 0 0 0 1 1h4"/><path d="M20 15v4a1 1 0 0 1-1 1h-4"/></svg>Kreis- und Landesgrenzen sowie Ortslagen anzeigen</li>
                 </ul>
-                <p><strong>Hinweis:</strong> Historische Karten können je nach Quelle, Alter und Qualität von heutigen Karten abweichen.</p>
+                <div class="welcome-tip">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6"/><path d="M10 22h4"/><path d="M12 2a7 7 0 0 0-4 12.7c.6.5 1 1.3 1 2.1V17h6v-.2c0-.8.4-1.6 1-2.1A7 7 0 0 0 12 2z"/></svg>
+                    <span>Tipp: Beginne mit der <a href="#" id="welcome-search-hint">Ortssuche</a> oben links, um dein Dorf zu finden.</span>
+                </div>
+                <p class="welcome-note">Historische Karten können je nach Quelle, Alter und Qualität von heutigen Karten abweichen. <a href="#" id="welcome-sources-link">Zu den Quellen</a>.</p>
             </div>
-            <div class="modal-foot"><button type="button" id="welcome-cta">Schließen</button></div>
+            <div class="modal-foot">
+                <label class="welcome-dismiss"><input type="checkbox" id="welcome-dismiss"> Nicht mehr anzeigen</label>
+                <button type="button" id="welcome-cta">Zur Karte <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></button>
+            </div>
         </div>
     </div>
     <script type="text/javascript">
@@ -1247,22 +1286,40 @@
         document.getElementById('maps-modal-close').addEventListener('click', closeMapsModal);
         mapsModal.querySelector('.modal-backdrop').addEventListener('click', closeMapsModal);
 
-        // --- Welcome modal: shown once per device on a fragment-free visit; ?-button reopens it. ---
-        var WELCOME_KEY = 'mtb-welcome-seen';
+        // --- Welcome modal: shown on every fragment-free visit until "Nicht mehr anzeigen" is
+        // ticked; the ?-button reopens it anytime. ---
+        var WELCOME_KEY = 'mtb-welcome-hidden';
         var welcomeModal = document.getElementById('welcome-modal');
+        var welcomeDismiss = document.getElementById('welcome-dismiss');
         function openWelcome() {
+            try { welcomeDismiss.checked = !!localStorage.getItem(WELCOME_KEY); } catch (e) {}
             welcomeModal.classList.add('open');
             welcomeModal.setAttribute('aria-hidden', 'false');
         }
         function closeWelcome() {
             welcomeModal.classList.remove('open');
             welcomeModal.setAttribute('aria-hidden', 'true');
-            try { localStorage.setItem(WELCOME_KEY, '1'); } catch (e) {}
+            try {
+                if (welcomeDismiss.checked) localStorage.setItem(WELCOME_KEY, '1');
+                else localStorage.removeItem(WELCOME_KEY);
+            } catch (e) {}
         }
         document.getElementById('info-toggle').addEventListener('click', openWelcome);
         document.getElementById('welcome-cta').addEventListener('click', closeWelcome);
         document.getElementById('welcome-close').addEventListener('click', closeWelcome);
         welcomeModal.querySelector('.modal-backdrop').addEventListener('click', closeWelcome);
+        // "Ortssuche" hint has no target yet -> just dismiss so the user can explore the map.
+        document.getElementById('welcome-search-hint').addEventListener('click', function(e) {
+            e.preventDefault();
+            closeWelcome();
+        });
+        // "Zu den Quellen" -> close the welcome and open the sources panel.
+        document.getElementById('welcome-sources-link').addEventListener('click', function(e) {
+            e.preventDefault();
+            closeWelcome();
+            sourcesPanel.classList.add('open');
+            sourcesToggle.setAttribute('aria-expanded', 'true');
+        });
 
         document.addEventListener('keydown', function(e) {
             if (e.key !== 'Escape') return;
@@ -1550,9 +1607,9 @@
         applyState(initState);
 
         // Welcome only on a plain first visit (no fragments, not yet seen on this device).
-        var welcomeSeen = false;
-        try { welcomeSeen = !!localStorage.getItem('mtb-welcome-seen'); } catch (e) {}
-        if (!hasFragments && !welcomeSeen) openWelcome();
+        var welcomeHidden = false;
+        try { welcomeHidden = !!localStorage.getItem('mtb-welcome-hidden'); } catch (e) {}
+        if (!hasFragments && !welcomeHidden) openWelcome();
 
         // React to manual hash edits / pasted links. Our own updateHash() uses
         // replaceState, which does NOT fire hashchange — so no feedback loop.
