@@ -389,21 +389,6 @@
         }
         /* Featured maps (panel) + "show all" */
         #featured-maps { display: flex; flex-direction: column; }
-        .featured-map {
-            display: block;
-            width: 100%;
-            text-align: left;
-            background: none;
-            border: none;
-            padding: 5px 0;
-            font: inherit;
-            letter-spacing: 0.03em;
-            color: var(--text);
-            cursor: pointer;
-            transition: color 0.15s;
-        }
-        .featured-map:hover { color: var(--text-bright); }
-        .featured-map.active { color: var(--text-bright); font-weight: 600; }
         #show-all-maps {
             display: flex;
             align-items: center;
@@ -853,7 +838,6 @@
             topo25Layer.setOpacity(opacity);
             census1910Layer.setOpacity(opacity);
             reymann200Layer.setOpacity(opacity);
-            if (topoOutlineLayer) topoOutlineLayer.setOpacity(opacity);
         }
 
         // Umami custom event helpers (no-op if the tracker is absent / blocked).
@@ -900,49 +884,68 @@
             history.replaceState(null, '', '#' + params.toString());
         }
 
-        // Load extent from tiles-extent.json (regenerate with: python3 update-extent.py)
-        fetch('./tiles-extent.json')
-            .then(function(r) { return r.json(); })
-            .then(function(meta) {
-                topo25Layer.setExtent(meta.extent);
-                census1910Layer.setExtent(meta.extent);
-                reymann200Layer.setExtent(meta.extent);
-                topo25Layer.getSource().setProperties({ minZoom: meta.minZoom, maxZoom: meta.maxZoom });
-                census1910Layer.getSource().setProperties({ minZoom: meta.minZoom, maxZoom: meta.maxZoom });
-                reymann200Layer.getSource().setProperties({ minZoom: 8, maxZoom: 14 });
-                if (!restoredFromUrl) {
-                    map.getView().fit(meta.extent, { padding: [20, 20, 20, 20] });
-                }
-                OVERLAY_EXTENT = meta.extent;
-            });
+        // --- Overlay-map footprint shadow: a soft OUTER drop-shadow with the interior punched
+        // out (so overlay transparency never gets "dirty"), coloured by the backdrop. Rendered
+        // on a canvas so the blur stays constant in pixels and works for any polygon shape. ---
 
-        // Shared outline style: soft shadow + bright edge around any tile sheet footprint.
-        function makeOutlineLayer(url, tileLayer) {
-            var layer = new ol.layer.Vector({
-                source: new ol.source.Vector({
-                    url: url,
-                    format: new ol.format.GeoJSON({
-                        dataProjection: 'EPSG:3857',
-                        featureProjection: 'EPSG:3857'
-                    })
-                }),
-                visible: tileLayer.getVisible(),
-                style: [
-                    new ol.style.Style({
-                        stroke: new ol.style.Stroke({ color: 'rgba(0, 0, 0, 0.35)', width: 7 })
-                    }),
-                    new ol.style.Style({
-                        stroke: new ol.style.Stroke({ color: 'rgba(255, 255, 255, 0.5)', width: 1.5 })
-                    })
-                ]
-            });
-            map.addLayer(layer);
-            tileLayer.on('change:visible', function() { layer.setVisible(tileLayer.getVisible()); });
-            return layer;
+        // Footprint rings in EPSG:3857. topo25 is already 3857; reymann200 is CRS84 (lon/lat).
+        var FOOTPRINTS = {};
+        function loadFootprint(key, url, lonLat) {
+            fetch(url)
+                .then(function(r) { return r.json(); })
+                .then(function(geo) {
+                    var ring = geo.features[0].geometry.coordinates[0];
+                    FOOTPRINTS[key] = lonLat
+                        ? ring.map(function(c) { return ol.proj.fromLonLat(c); })
+                        : ring.map(function(c) { return [c[0], c[1]]; });
+                    if (shadowSource) shadowSource.changed();
+                })
+                .catch(function() {});
         }
 
-        var topoOutlineLayer    = makeOutlineLayer('./extend_topo25.geojson',    topo25Layer);
-        var reymannOutlineLayer = makeOutlineLayer('./extend_reymann200.geojson', reymann200Layer);
+        function baseMapVisible() {
+            return osmLayer.getVisible() || cartodbLayer.getVisible() || esriLayer.getVisible();
+        }
+        // Active overlay's footprint ring (census1910 has none -> no shadow).
+        function activeFootprint() {
+            var layer = getActiveMapLayer();
+            if (layer === topo25Layer) return FOOTPRINTS.topo25;
+            if (layer === reymann200Layer) return FOOTPRINTS.reymann200;
+            return null;
+        }
+        // Dark backdrop (base off + dark theme) -> warm glow; otherwise -> soft dark shadow.
+        // Interior is punched out; a subtle 1px edge line adds definition.
+        function drawShadow(extent, res, pr, size) {
+            var c = document.createElement('canvas'), x = c.getContext('2d'), r = activeFootprint();
+            c.width = size[0]; c.height = size[1];
+            if (!r) return c;
+            var p = function() {
+                x.beginPath();
+                r.forEach(function(q, i) {
+                    var X = (q[0] - extent[0]) / res * pr, Y = (extent[3] - q[1]) / res * pr;
+                    i ? x.lineTo(X, Y) : x.moveTo(X, Y);
+                });
+                x.closePath();
+            };
+            var dark = !baseMapVisible() && currentTheme() !== 'light';
+            x.shadowColor = dark ? 'rgba(232,223,200,.35)' : 'rgba(0,0,0,.28)';
+            x.shadowBlur = (dark ? 14 : 10) * pr; p(); x.fill();
+            x.globalCompositeOperation = 'destination-out'; x.shadowColor = 'transparent'; p(); x.fill();
+            x.globalCompositeOperation = 'source-over';
+            x.strokeStyle = dark ? 'rgba(232,223,200,.55)' : 'rgba(70,60,45,.45)'; x.lineWidth = pr; p(); x.stroke();
+            return c;
+        }
+
+        var shadowSource = new ol.source.ImageCanvas({ canvasFunction: drawShadow, ratio: 1 });
+        var shadowLayer = new ol.layer.Image({ source: shadowSource });
+        map.getLayers().insertAt(3, shadowLayer);   // above basemaps, below overlays/boundaries/labels
+
+        // Re-render the shadow when the backdrop changes (base map / theme / active overlay).
+        function updateShadow() { shadowSource.changed(); }
+
+        loadFootprint('topo25', './extend_topo25.geojson', false);
+        loadFootprint('reymann200', './extend_reymann200.geojson', true);
+        updateShadow();
 
         var kreisLayer = new ol.layer.Vector({
             source: new ol.source.Vector({
@@ -1025,6 +1028,7 @@
                 cartodbLayer.setVisible(this.value === 'cartodb');
                 esriLayer.setVisible(this.value === 'esri');
                 updateTransparencyControl();
+                updateShadow();
                 trackSelect('basemap-select', this.value);
                 updateGroupHeads();
                 updateHash();
@@ -1038,6 +1042,7 @@
             topo25Layer.setVisible(value === 'topo25');
             reymann200Layer.setVisible(value === 'reymann200');
             census1910Layer.setVisible(value === 'census1910');
+            updateShadow();
             updateActiveSource();
             refreshOverlayUI();
         }
@@ -1080,6 +1085,7 @@
             else document.documentElement.setAttribute('data-theme', t);
             try { localStorage.setItem(THEME_KEY, t); } catch (e) {}
             updateThemeButton(t);
+            updateShadow();
             trackSelect('theme-select', t);
         }
         document.getElementById('theme-toggle').addEventListener('click', function() {
@@ -1445,6 +1451,7 @@
                 view.setZoom(s.z);
             }
             updateTransparencyControl();
+            updateShadow();
             updateActiveSource();
             refreshOverlayUI();
         }
