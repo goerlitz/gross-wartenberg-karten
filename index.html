@@ -20,14 +20,15 @@
         *, *::before, *::after { box-sizing: border-box; }
         button { -webkit-tap-highlight-color: transparent; }
         /* ---- Theme tokens: :root = Palette 1 (default). Switched via [data-theme] on <html>. ---- */
+        /* Palette 1 "Navy + Brass + Ivory": cream = content, brass = history/brand, teal = interaction */
         :root, [data-theme="dark"] {
-            --bg: #1A2A3A; --surface: #243545; --surface-rgb: 36, 53, 69;
-            --border: #2f4356; --border-strong: #3d5568;
-            --text: #dfe3e0; --text-muted: #8ca0a2; --text-bright: #f2eee2; --text-disabled: #5f7185;
-            --primary: #5FA8A8; --primary-rgb: 95, 168, 168;
-            --accent: #C7A35B; --accent-icon: #B99653; --fav: #e8b84b; --title: #EDE6D2;
-            --on-primary: #12222e;
-            --map-backdrop: #161d29; --map-grid: rgba(255, 255, 255, 0.035);
+            --bg: #1B2738; --surface: #26384D; --surface-rgb: 38, 56, 77;
+            --border: rgba(210, 176, 106, 0.20); --border-strong: rgba(255, 255, 255, 0.12);
+            --text: #F1ECE2; --text-muted: #B8C2CC; --text-bright: #F7F2E8; --text-disabled: #8593A2;
+            --primary: #5DA7B5; --primary-rgb: 93, 167, 181;
+            --accent: #D2B06A; --accent-icon: #D2B06A; --accent-hover: #E0BE79; --fav: #D2B06A; --title: #F1ECE2;
+            --on-primary: #1B2738; --on-accent: #1B2738; --icon: #C7D0D8;
+            --map-backdrop: #16202e; --map-grid: rgba(255, 255, 255, 0.04);
             --shadow: rgba(0, 0, 0, 0.5);
         }
         [data-theme="light"] {
@@ -35,8 +36,8 @@
             --border: #e2dccb; --border-strong: #cfc7b2;
             --text: #2B2B2B; --text-muted: #6f6a5c; --text-bright: #1a1a1a; --text-disabled: #a9a292;
             --primary: #4F7C82; --primary-rgb: 79, 124, 130;
-            --accent: #B38A3A; --accent-icon: #B38A3A; --fav: #B38A3A; --title: #2B2B2B;
-            --on-primary: #ffffff;
+            --accent: #B38A3A; --accent-icon: #B38A3A; --accent-hover: #9c7730; --fav: #B38A3A; --title: #2B2B2B;
+            --on-primary: #ffffff; --on-accent: #2B2B2B; --icon: #5b6b78;
             --map-backdrop: #eae4d5; --map-grid: rgba(0, 0, 0, 0.05);
             --shadow: rgba(0, 0, 0, 0.18);
         }
@@ -45,8 +46,8 @@
             --border: #3b3730; --border-strong: #4c473d;
             --text: #E8E3D6; --text-muted: #9a9080; --text-bright: #f5f0e4; --text-disabled: #6d6557;
             --primary: #6B9FA3; --primary-rgb: 107, 159, 163;
-            --accent: #A96C42; --accent-icon: #B99653; --fav: #C7A35B; --title: #f5f0e4;
-            --on-primary: #1c1a16;
+            --accent: #A96C42; --accent-icon: #D2B06A; --accent-hover: #E0BE79; --fav: #D2B06A; --title: #f5f0e4;
+            --on-primary: #1c1a16; --on-accent: #24221E; --icon: #C7D0D8;
             --map-backdrop: #1c1a16; --map-grid: rgba(255, 255, 255, 0.03);
             --shadow: rgba(0, 0, 0, 0.55);
         }
@@ -67,14 +68,14 @@
             background: none;
             border: 1px solid var(--border-strong);
             border-radius: 8px;
-            color: var(--accent-icon);
+            color: var(--icon);
             cursor: pointer;
             transition: background-color 0.2s, border-color 0.2s, color 0.2s;
         }
         #theme-toggle { right: 10px; }
         #info-toggle { left: 10px; }
         @media (hover: hover) {
-            #theme-toggle:hover, #info-toggle:hover { border-color: var(--primary); color: var(--primary); background: rgba(var(--primary-rgb), 0.12); }
+            #theme-toggle:hover, #info-toggle:hover { border-color: var(--accent-icon); color: var(--accent-icon); background: rgba(255, 255, 255, 0.06); }
         }
         #info-toggle svg { display: block; width: 18px; height: 18px; }
         #theme-toggle svg { display: block; width: 18px; height: 18px; }
@@ -259,14 +260,14 @@
             backdrop-filter: blur(8px);
             border: 1px solid var(--border-strong);
             border-radius: 8px;
-            color: var(--text);
+            color: var(--icon);
             font-family: inherit;
             font-size: 18px;
             line-height: 1;
             cursor: pointer;
             transition: background-color 0.2s, border-color 0.2s, color 0.2s;
         }
-        @media (hover: hover) { .map-btn:hover { background-color: rgba(var(--primary-rgb), 0.14); border-color: var(--primary); color: var(--primary); } }
+        @media (hover: hover) { .map-btn:hover { background-color: rgba(255, 255, 255, 0.06); border-color: var(--accent-icon); color: var(--accent-icon); } }
         .map-btn svg { display: block; }
         #map-controls {
             position: absolute;
@@ -361,7 +362,7 @@
             font-size: 11px;
             text-transform: uppercase;
             letter-spacing: 0.1em;
-            color: var(--primary);
+            color: var(--text-bright);
             font-weight: 600;
         }
         .head-value {
@@ -378,7 +379,7 @@
             flex: none;
             margin-left: 8px;
             display: flex;
-            color: var(--primary);
+            color: var(--text-muted);
             transition: transform 0.2s;
         }
         .layer-group-head .chev svg { display: block; }
@@ -452,7 +453,7 @@
             font-size: 12px;
             text-transform: uppercase;
             letter-spacing: 0.14em;
-            color: var(--primary);
+            color: var(--text-bright);
             font-weight: 600;
         }
         .modal .modal-close {
@@ -538,12 +539,12 @@
             border-radius: 7px;
             border: none;
             background: var(--accent-icon);
-            color: #23200f;
+            color: var(--on-accent);
             cursor: pointer;
-            transition: filter 0.15s;
+            transition: background-color 0.15s;
         }
         #welcome-cta svg { width: 15px; height: 15px; }
-        @media (hover: hover) { #welcome-cta:hover { filter: brightness(1.08); } }
+        @media (hover: hover) { #welcome-cta:hover { background: var(--accent-hover); } }
         #maps-modal label {
             display: flex;
             align-items: center;
