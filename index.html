@@ -18,6 +18,7 @@
     </script>
     <style type="text/css">
         *, *::before, *::after { box-sizing: border-box; }
+        button { -webkit-tap-highlight-color: transparent; }
         /* ---- Theme tokens: :root = Palette 1 (default). Switched via [data-theme] on <html>. ---- */
         :root, [data-theme="dark"] {
             --bg: #1A2A3A; --surface: #243545; --surface-rgb: 36, 53, 69;
@@ -70,7 +71,7 @@
             cursor: pointer;
             transition: background-color 0.2s, border-color 0.2s, color 0.2s;
         }
-        #theme-toggle:hover { border-color: var(--primary); color: var(--primary); background: rgba(var(--primary-rgb), 0.12); }
+        @media (hover: hover) { #theme-toggle:hover { border-color: var(--primary); color: var(--primary); background: rgba(var(--primary-rgb), 0.12); } }
         #theme-toggle svg { display: block; width: 18px; height: 18px; }
         #header h1 { margin: 0; font-family: ui-serif, 'Iowan Old Style', 'Palatino Linotype', 'Book Antiqua', Palatino, Georgia, 'Times New Roman', serif; font-size: 23px; line-height: 1.05; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--title); text-align: center; }
         #header h1 span { font-weight: 600; }
@@ -140,7 +141,7 @@
             border-radius: 5px;
             transition: background 0.15s;
         }
-        #sources-toggle:hover { background: rgba(var(--primary-rgb), 0.1); }
+        @media (hover: hover) { #sources-toggle:hover { background: rgba(var(--primary-rgb), 0.1); } }
         #sources-toggle .chev { font-size: 8px; transition: transform 0.2s; }
         #sources-toggle[aria-expanded="true"] .chev { transform: rotate(180deg); }
         #sources-panel {
@@ -260,7 +261,7 @@
             cursor: pointer;
             transition: background-color 0.2s, border-color 0.2s, color 0.2s;
         }
-        .map-btn:hover { background-color: rgba(var(--primary-rgb), 0.14); border-color: var(--primary); color: var(--primary); }
+        @media (hover: hover) { .map-btn:hover { background-color: rgba(var(--primary-rgb), 0.14); border-color: var(--primary); color: var(--primary); } }
         .map-btn svg { display: block; }
         #map-controls {
             position: absolute;
@@ -406,7 +407,7 @@
             cursor: pointer;
             transition: background 0.15s, color 0.15s, border-color 0.15s;
         }
-        #show-all-maps:hover { background: rgba(var(--primary-rgb), 0.08); border-color: var(--border-strong); color: var(--text-bright); }
+        @media (hover: hover) { #show-all-maps:hover { background: rgba(var(--primary-rgb), 0.08); border-color: var(--border-strong); color: var(--text-bright); } }
         #show-all-maps svg { display: block; }
         /* Full map overview modal */
         #maps-modal { position: fixed; inset: 0; z-index: 2000; display: none; }
