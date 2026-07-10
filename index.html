@@ -26,8 +26,9 @@
             --border: rgba(210, 176, 106, 0.20); --border-strong: rgba(255, 255, 255, 0.12);
             --text: #F1ECE2; --text-muted: #B8C2CC; --text-bright: #F7F2E8; --text-disabled: #8593A2;
             --primary: #5DA7B5; --primary-rgb: 93, 167, 181;
-            --accent: #D2B06A; --accent-icon: #D2B06A; --accent-hover: #E0BE79; --fav: #D2B06A; --title: #F1ECE2;
+            --accent: #D2B06A; --accent-icon: #D2B06A; --accent-rgb: 210, 176, 106; --accent-hover: #E0BE79; --fav: #D2B06A; --title: #F1ECE2;
             --on-primary: #1B2738; --on-accent: #1B2738; --icon: #C7D0D8;
+            --modal-bg: #18283D; --modal-bg-elevated: #1E3148; --modal-border: #3A5268;
             --map-backdrop: #16202e; --map-grid: rgba(255, 255, 255, 0.04);
             --shadow: rgba(0, 0, 0, 0.5);
         }
@@ -36,8 +37,9 @@
             --border: #e2dccb; --border-strong: #cfc7b2;
             --text: #2B2B2B; --text-muted: #6f6a5c; --text-bright: #1a1a1a; --text-disabled: #a9a292;
             --primary: #4F7C82; --primary-rgb: 79, 124, 130;
-            --accent: #B38A3A; --accent-icon: #B38A3A; --accent-hover: #9c7730; --fav: #B38A3A; --title: #2B2B2B;
+            --accent: #B38A3A; --accent-icon: #B38A3A; --accent-rgb: 179, 138, 58; --accent-hover: #9c7730; --fav: #B38A3A; --title: #2B2B2B;
             --on-primary: #ffffff; --on-accent: #2B2B2B; --icon: #5b6b78;
+            --modal-bg: #FFFFFF; --modal-bg-elevated: #F3EFE4; --modal-border: #DBD3C0;
             --map-backdrop: #eae4d5; --map-grid: rgba(0, 0, 0, 0.05);
             --shadow: rgba(0, 0, 0, 0.18);
         }
@@ -46,8 +48,9 @@
             --border: #3b3730; --border-strong: #4c473d;
             --text: #E8E3D6; --text-muted: #9a9080; --text-bright: #f5f0e4; --text-disabled: #6d6557;
             --primary: #6B9FA3; --primary-rgb: 107, 159, 163;
-            --accent: #A96C42; --accent-icon: #D2B06A; --accent-hover: #E0BE79; --fav: #D2B06A; --title: #f5f0e4;
+            --accent: #A96C42; --accent-icon: #D2B06A; --accent-rgb: 210, 176, 106; --accent-hover: #E0BE79; --fav: #D2B06A; --title: #f5f0e4;
             --on-primary: #1c1a16; --on-accent: #24221E; --icon: #C7D0D8;
+            --modal-bg: #201D19; --modal-bg-elevated: #29251F; --modal-border: #453F38;
             --map-backdrop: #1c1a16; --map-grid: rgba(255, 255, 255, 0.03);
             --shadow: rgba(0, 0, 0, 0.55);
         }
@@ -433,11 +436,10 @@
             max-height: min(80vh, calc(100vh - 64px));
             display: flex;
             flex-direction: column;
-            background: rgba(var(--surface-rgb), 0.98);
-            backdrop-filter: blur(8px);
-            border: 1px solid var(--border-strong);
+            background: var(--modal-bg);
+            border: 1px solid var(--modal-border);
             border-radius: 10px;
-            box-shadow: 0 16px 48px var(--shadow), inset 0 1px 0 rgba(255, 255, 255, 0.07);
+            box-shadow: 0 16px 48px var(--shadow), inset 0 1px 0 rgba(255, 255, 255, 0.06);
             color: var(--text);
             font-size: 13px;
             overflow: hidden;
@@ -500,7 +502,7 @@
         #welcome-modal .modal-dialog { width: min(500px, calc(100vw - 32px)); }
         #welcome-modal .modal-close { position: absolute; top: 12px; right: 14px; z-index: 2; color: var(--text); opacity: 0.55; font-size: 20px; transition: opacity 0.15s, color 0.15s; }
         #welcome-modal .modal-close:hover { color: var(--text-bright); opacity: 1; }
-        #welcome-modal .modal-body { padding: 24px 26px 6px 26px; font-size: 13.5px; line-height: 1.55; color: var(--text); letter-spacing: 0.01em; }
+        #welcome-modal .modal-body { padding: 24px 26px 6px 26px; font-size: 13.5px; font-weight: 400; line-height: 1.5; color: var(--text); letter-spacing: 0; }
         #welcome-modal .modal-body p { margin: 0 0 11px 0; }
         #welcome-modal .modal-body a { color: var(--accent-icon); text-decoration: none; border-bottom: 1px solid transparent; transition: border-color 0.15s; }
         #welcome-modal .modal-body a:hover { border-bottom-color: currentColor; }
@@ -512,15 +514,16 @@
         .welcome-hero::after { content: ''; display: block; width: 60px; height: 1px; margin-top: 16px; background: var(--accent-icon); opacity: 0.6; }
         .welcome-lead { margin: 0 0 16px 0; font-size: 15px; line-height: 1.5; color: var(--text-bright); }
         /* Collection chips */
-        .welcome-chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 18px 0; }
-        .welcome-chip { display: inline-flex; align-items: center; gap: 6px; padding: 4px 11px; border-radius: 999px; font-size: 12px; letter-spacing: 0.01em; color: var(--text); background: rgba(var(--primary-rgb), 0.1); border: 1px solid rgba(var(--primary-rgb), 0.3); white-space: nowrap; }
-        .welcome-chip svg { width: 13px; height: 13px; color: var(--accent-icon); }
+        .welcome-chips { display: flex; flex-wrap: nowrap; gap: 6px; margin: 0 0 18px 0; overflow-x: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+        .welcome-chips::-webkit-scrollbar { display: none; }
+        .welcome-chip { flex: 0 0 auto; display: inline-flex; align-items: center; gap: 5px; padding: 3px 8px; border-radius: 999px; font-size: 11.5px; letter-spacing: 0; color: var(--accent-icon); background: rgba(var(--accent-rgb), 0.1); border: 1px solid rgba(var(--accent-rgb), 0.4); white-space: nowrap; }
+        .welcome-chip svg { width: 12px; height: 12px; color: var(--accent-icon); }
         /* Feature list with icons */
         .welcome-features { list-style: none; margin: 0 0 18px 0; padding: 0; }
-        .welcome-features li { display: flex; align-items: flex-start; gap: 12px; margin: 9px 0; color: var(--text-bright); }
+        .welcome-features li { display: flex; align-items: flex-start; gap: 12px; margin: 10px 0; font-weight: 400; line-height: 1.5; color: var(--text); }
         .welcome-features svg { flex: none; width: 17px; height: 17px; margin-top: 1px; color: var(--primary); }
         /* Tip callout */
-        .welcome-tip { display: flex; align-items: flex-start; gap: 10px; margin: 0 0 16px 0; padding: 12px 14px; border-radius: 8px; background: rgba(var(--primary-rgb), 0.07); color: var(--text); line-height: 1.5; }
+        .welcome-tip { display: flex; align-items: flex-start; gap: 10px; margin: 0 0 16px 0; padding: 12px 14px; border-radius: 8px; background: var(--modal-bg-elevated); border: 1px solid var(--modal-border); color: var(--text); line-height: 1.5; }
         .welcome-tip svg { flex: none; width: 17px; height: 17px; margin-top: 1px; color: var(--accent-icon); }
         .welcome-note { color: var(--text-muted); margin: 0; font-size: 12.5px; }
         /* Footer: dismiss checkbox (left) + filled brass CTA (right) */
@@ -824,20 +827,20 @@
                     <h2 class="welcome-title">Willkommen</h2>
                     <p class="welcome-tagline">Historische Karten digital entdecken</p>
                 </div>
-                <p class="welcome-lead">Historische Karten des Kreises Groß Wartenberg &ndash; durchsuchbar, überblendbar und frei vergleichbar mit heutigen Basiskarten.</p>
+                <p class="welcome-lead">Eine kuratierte Sammlung historischer Karten des Kreises Groß Wartenberg.</p>
                 <div class="welcome-chips">
                     <span class="welcome-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15.5 14"/></svg>ca. 1820–1945</span>
-                    <span class="welcome-chip">Meßtischblätter</span>
-                    <span class="welcome-chip">Katasterkarten</span>
+                    <span class="welcome-chip">georeferenziert</span>
+                    <span class="welcome-chip">interaktiv</span>
                 </div>
                 <ul class="welcome-features">
-                    <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.05" y2="16.05"/></svg>Ort suchen und direkt zur historischen Lage springen</li>
-                    <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>Historische und heutige Karten überblenden</li>
-                    <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9V5a1 1 0 0 1 1-1h4"/><path d="M20 9V5a1 1 0 0 0-1-1h-4"/><path d="M4 15v4a1 1 0 0 0 1 1h4"/><path d="M20 15v4a1 1 0 0 1-1 1h-4"/></svg>Kreis- und Landesgrenzen sowie Ortslagen anzeigen</li>
+                    <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.05" y2="16.05"/></svg>Orte finden</li>
+                    <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>Mit heutigen Karten vergleichen</li>
+                    <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9V5a1 1 0 0 1 1-1h4"/><path d="M20 9V5a1 1 0 0 0-1-1h-4"/><path d="M4 15v4a1 1 0 0 0 1 1h4"/><path d="M20 15v4a1 1 0 0 1-1 1h-4"/></svg>Historische Grenzen anzeigen</li>
                 </ul>
                 <div class="welcome-tip">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6"/><path d="M10 22h4"/><path d="M12 2a7 7 0 0 0-4 12.7c.6.5 1 1.3 1 2.1V17h6v-.2c0-.8.4-1.6 1-2.1A7 7 0 0 0 12 2z"/></svg>
-                    <span>Tipp: Beginne mit der <a href="#" id="welcome-search-hint">Ortssuche</a> oben links, um dein Dorf zu finden.</span>
+                    <span>Tipp: Starte mit der <a href="#" id="welcome-search-hint">Ortssuche</a></span>
                 </div>
                 <p class="welcome-note">Historische Karten können je nach Quelle, Alter und Qualität von heutigen Karten abweichen. <a href="#" id="welcome-sources-link">Zu den Quellen</a>.</p>
             </div>
