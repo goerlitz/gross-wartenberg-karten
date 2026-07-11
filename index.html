@@ -33,15 +33,15 @@
             --shadow: rgba(0, 0, 0, 0.5);
         }
         [data-theme="light"] {
-            --bg: #F5F2E9; --surface: #FFFFFF; --surface-rgb: 255, 255, 255;
-            --border: #e2dccb; --border-strong: #cfc7b2;
-            --text: #2B2B2B; --text-muted: #6f6a5c; --text-bright: #1a1a1a; --text-disabled: #a9a292;
+            --bg: #EDE7DA; --surface: #FCFBF7; --surface-raised: #FFFDF8; --surface-muted: #F1EBDF; --surface-rgb: 252, 251, 247;
+            --border: #DDD6C8; --border-strong: #C8BEAD;
+            --text: #30322F; --text-muted: #6E716B; --text-bright: #20221F; --text-disabled: #a9a292;
             --primary: #4F7C82; --primary-rgb: 79, 124, 130;
-            --accent: #B38A3A; --accent-icon: #B38A3A; --accent-rgb: 179, 138, 58; --accent-hover: #9c7730; --fav: #B38A3A; --title: #2B2B2B;
+            --accent: #B88A35; --accent-icon: #B88A35; --accent-rgb: 184, 138, 53; --accent-hover: #A67C2D; --fav: #B88A35; --title: #20221F;
             --on-primary: #ffffff; --on-accent: #2B2B2B; --icon: #5b6b78;
-            --modal-bg: #FFFFFF; --modal-bg-elevated: #F3EFE4; --modal-border: #DBD3C0;
+            --modal-bg: #F6F2E8; --modal-bg-elevated: #EFE9DC; --modal-border: #D5C8AC;
             --map-backdrop: #eae4d5; --map-grid: rgba(0, 0, 0, 0.05);
-            --shadow: rgba(0, 0, 0, 0.18);
+            --shadow: rgba(57, 48, 34, 0.18);
         }
         [data-theme="warm-dark"] {
             --bg: #24221E; --surface: #2F2C28; --surface-rgb: 47, 44, 40;
@@ -542,6 +542,57 @@
         }
         #welcome-cta svg { width: 15px; height: 15px; }
         @media (hover: hover) { #welcome-cta:hover { background: var(--accent-hover); } }
+        /* Light theme: teal = interaction (button), brass stays branding (eyebrow/title) */
+        [data-theme="light"] #welcome-cta { background: var(--primary); color: var(--on-primary); }
+        [data-theme="light"] #welcome-modal .modal-foot { background: #F0EADF; }
+        @media (hover: hover) { [data-theme="light"] #welcome-cta:hover { background: #456C72; } }
+
+        /* ---- Light theme surface hierarchy: ivory base, paper for floating UI, beige chrome, gold = archive structure, teal = interaction ---- */
+        [data-theme="light"] #header {
+            background: #F7F3EA;
+            background-image: none;
+            border-bottom: 1px solid #D8CFBE;
+            box-shadow: 0 1px 8px rgba(57, 48, 34, 0.06);
+        }
+        [data-theme="light"] #footer {
+            background: #F7F3EA;
+            border-top-color: #DDD6C8;
+        }
+        [data-theme="light"] .map-btn {
+            background: rgba(252, 251, 247, 0.96);
+            border-color: #CFC3AE;
+            color: #4E6166;
+            box-shadow: 0 2px 8px rgba(57, 48, 34, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+        }
+        [data-theme="light"] #layer-list {
+            background: rgba(252, 251, 247, 0.96);
+            border-color: #D2C6B2;
+            box-shadow: 0 14px 34px rgba(57, 48, 34, 0.16), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+        }
+        [data-theme="light"] .head-title { color: var(--text); }
+        [data-theme="light"] .layer-group[open] .head-title { color: var(--accent); }
+        [data-theme="light"] .layer-group[open] > .layer-group-head { background: rgba(var(--accent-rgb), 0.04); }
+        [data-theme="light"] .layer-group-head:hover { background: rgba(var(--primary-rgb), 0.05); }
+        [data-theme="light"] #legend,
+        [data-theme="light"] #sources-panel {
+            background: rgba(252, 251, 247, 0.96);
+            border-color: #D2C6B2;
+            box-shadow: 0 10px 28px rgba(57, 48, 34, 0.15);
+        }
+        [data-theme="light"] #sources-panel .source-item.active .source-label { color: var(--accent); }
+        [data-theme="light"] .city-label {
+            background: var(--surface-raised);
+            border-color: rgba(var(--primary-rgb), 0.55);
+            box-shadow: 0 2px 6px rgba(57, 48, 34, 0.13);
+        }
+        [data-theme="light"] .city-label::after { border-top-color: var(--surface-raised); }
+        @media (hover: hover) {
+            [data-theme="light"] .map-btn:hover {
+                background: #F3EBDC;
+                border-color: var(--accent);
+                color: var(--accent);
+            }
+        }
         #maps-modal label {
             display: flex;
             align-items: center;
@@ -635,7 +686,7 @@
             transition: color 0.15s;
         }
         #layer-list label:hover { color: var(--text-bright); }
-        #layer-list label:has(input:checked) { color: var(--text-bright); font-weight: 600; }
+        #layer-list label:has(input:checked) { color: var(--text-bright); font-weight: 500; }
         #layer-list label:has(input:disabled) { opacity: 0.4; cursor: default; }
         #layer-list label:has(input:disabled):hover { color: var(--text); }
         #layer-list .layer-name { display: flex; flex-direction: column; line-height: 1.3; }
@@ -700,8 +751,8 @@
     <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
         <symbol id="ic-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.05" y2="16.05"/></symbol>
         <symbol id="ic-layers" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></symbol>
-        <!-- Simplified outline of Kreis Groß Wartenberg (from kreis_gross_wartenberg_umriss.svg), dashed like a border -->
-        <symbol id="ic-border" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="butt" stroke-linejoin="round" stroke-dasharray="6 4"><path d="M 3.2 3.0 L 3.1 12.4 L 6.4 13.3 L 7.7 17.4 L 12.6 19.0 L 13.1 21.0 L 19.8 19.0 L 20.9 15.3 L 13.9 10.2 L 13.7 3.5 L 4.0 3.0 Z"/></symbol>
+        <!-- Abstract region outline: rounded rectangle with a tab top- and bottom-centre, drawn as a dashed border line -->
+        <symbol id="ic-border" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="5 3.5"><path d="M 3.5 9 Q 3.5 6.5 6 6.5 L 9 6.5 Q 9 3 12 3 Q 15 3 15 6.5 L 18 6.5 Q 20.5 6.5 20.5 9 L 20.5 15 Q 20.5 17.5 18 17.5 L 15 17.5 Q 15 21 12 21 Q 9 21 9 17.5 L 6 17.5 Q 3.5 17.5 3.5 15 Z"/></symbol>
     </svg>
     <div id="header">
         <h1><span>Kreis Gross Wartenberg</span></h1>
