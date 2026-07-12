@@ -124,8 +124,8 @@ Serve the static files via a local server (not `file://`, since `fetch()` reads 
 JSON/GeoJSON/tiles):
 
 ```bash
-python3 -m http.server 8000
-# then open http://localhost:8000/
+python3 -m http.server 8080
+# then open http://localhost:8080/
 ```
 
 ## Update tiles / extent
