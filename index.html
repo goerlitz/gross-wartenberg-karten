@@ -25,26 +25,38 @@
         :root, [data-theme="dark"] {
             --chrome-bg: #26384D; --footer-bg: #1E3148; --surface-bg: #18283D; --surface-elevated: #1E3148; --map-bg: #16202E; --map-grid: rgba(255, 255, 255, 0.04);
             --chrome-gradient: linear-gradient(180deg, rgba(255, 255, 255, 0.04) 0%, rgba(0, 0, 0, 0) 42%, rgba(0, 0, 0, 0.05) 100%);
-            --border: rgba(255, 255, 255, 0.12); --hover: rgba(255, 255, 255, 0.05); --pressed: rgba(255, 255, 255, 0.08);
-            --text: #F1ECE2; --text-muted: #B8C2CC;
-            --brand: #D2B06A; --interactive: #5DA7B5; --interactive-rgb: 93, 167, 181; --on-brand: #1B2738;
+            --border: rgba(255, 255, 255, 0.12); --border-strong: rgba(255, 255, 255, 0.20); --hover: rgba(255, 255, 255, 0.05); --pressed: rgba(255, 255, 255, 0.08);
+            --text: #F1ECE2; --text-muted: #B8C2CC; --text-disabled: #6C7A88;
+            --brand: #D2B06A; --interactive: #5DA7B5; --interactive-rgb: 93, 167, 181; --on-brand: #1B2738; --on-interactive: #10202C;
             --shadow: rgba(0, 0, 0, 0.5);
+            --modal-shadow: 0 16px 48px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+            --backdrop: rgba(6, 10, 20, 0.74); --backdrop-filter: blur(2px);
+            --wip-bg: rgba(129, 148, 166, 0.13); --wip-border: rgba(129, 148, 166, 0.28); --wip-text: var(--text-muted);
+            --fav-idle: #6F7C88; --control-disabled: #455565;
         }
         [data-theme="light"] {
-            --chrome-bg: #F6F2EA; --footer-bg: #EFEADF; --surface-bg: #FFFDF8; --surface-elevated: #F4EEE2; --map-bg: #E8E1D3; --map-grid: rgba(45, 40, 32, 0.055);
-            --chrome-gradient: linear-gradient(180deg, rgba(255, 255, 255, 0.55) 0%, rgba(255, 255, 255, 0) 45%, rgba(88, 70, 42, 0.035) 100%);
-            --border: rgba(55, 47, 36, 0.17); --hover: rgba(55, 47, 36, 0.05); --pressed: rgba(55, 47, 36, 0.085);
-            --text: #292D2B; --text-muted: #676B65;
-            --brand: #A66F1F; --interactive: #3F7780; --interactive-rgb: 63, 119, 128; --on-brand: #FFFDF8;
-            --shadow: rgba(45, 38, 28, 0.20);
+            --chrome-bg: #F3EDE2; --footer-bg: #EEE7DA; --surface-bg: #FFFCF6; --surface-elevated: #F5F0E7; --map-bg: #DED5C5; --map-grid: rgba(57, 49, 38, 0.05);
+            --chrome-gradient: linear-gradient(180deg, rgba(255, 255, 255, 0.52) 0%, rgba(255, 255, 255, 0) 52%);
+            --border: #DDD4C7; --border-strong: #CBC0B0; --hover: #F5F0E8; --pressed: #E7EFED;
+            --text: #252A28; --text-muted: #6F736E; --text-disabled: #A4A59F;
+            --brand: #B47718; --interactive: #317B83; --interactive-rgb: 49, 123, 131; --on-brand: #FFFFFF; --on-interactive: #FFFFFF;
+            --shadow: rgba(55, 44, 30, 0.18);
+            --modal-shadow: 0 20px 50px rgba(55, 44, 30, 0.20), 0 2px 8px rgba(55, 44, 30, 0.08);
+            --backdrop: rgba(35, 38, 37, 0.56); --backdrop-filter: blur(3px) saturate(0.75);
+            --wip-bg: #F1EDE5; --wip-border: #DED7CB; --wip-text: #7B7A73;
+            --fav-idle: #A9A49B; --control-disabled: #C8C8C1;
         }
         [data-theme="warm-dark"] {
             --chrome-bg: #2F2C28; --footer-bg: #29251F; --surface-bg: #2F2C28; --surface-elevated: #38332D; --map-bg: #1C1A16; --map-grid: rgba(255, 255, 255, 0.03);
             --chrome-gradient: linear-gradient(180deg, rgba(255, 255, 255, 0.04) 0%, rgba(0, 0, 0, 0) 42%, rgba(0, 0, 0, 0.05) 100%);
-            --border: rgba(255, 255, 255, 0.11); --hover: rgba(255, 255, 255, 0.05); --pressed: rgba(255, 255, 255, 0.08);
-            --text: #E8E3D6; --text-muted: #9a9080;
-            --brand: #D2B06A; --interactive: #6B9FA3; --interactive-rgb: 107, 159, 163; --on-brand: #24221E;
+            --border: rgba(255, 255, 255, 0.11); --border-strong: rgba(255, 255, 255, 0.18); --hover: rgba(255, 255, 255, 0.05); --pressed: rgba(255, 255, 255, 0.08);
+            --text: #E8E3D6; --text-muted: #9a9080; --text-disabled: #6a6355;
+            --brand: #D2B06A; --interactive: #6B9FA3; --interactive-rgb: 107, 159, 163; --on-brand: #24221E; --on-interactive: #14211F;
             --shadow: rgba(0, 0, 0, 0.55);
+            --modal-shadow: 0 16px 48px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+            --backdrop: rgba(10, 8, 6, 0.74); --backdrop-filter: blur(2px);
+            --wip-bg: rgba(154, 144, 128, 0.13); --wip-border: rgba(154, 144, 128, 0.28); --wip-text: var(--text-muted);
+            --fav-idle: #6f6656; --control-disabled: #4a453d;
         }
         :root { --serif: ui-serif, 'Iowan Old Style', 'Palatino Linotype', 'Book Antiqua', Palatino, Georgia, 'Times New Roman', serif; }
         html { transition: background-color 0.25s ease; }
@@ -417,8 +429,8 @@
         .modal .modal-backdrop {
             position: absolute;
             inset: 0;
-            background: rgba(6, 10, 20, 0.74);
-            backdrop-filter: blur(2px);
+            background: var(--backdrop);
+            backdrop-filter: var(--backdrop-filter);
         }
         .modal .modal-dialog {
             position: absolute;
@@ -430,9 +442,9 @@
             display: flex;
             flex-direction: column;
             background: var(--surface-bg);
-            border: 1px solid var(--border);
+            border: 1px solid var(--border-strong);
             border-radius: 10px;
-            box-shadow: 0 16px 48px var(--shadow), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+            box-shadow: var(--modal-shadow);
             color: var(--text);
             font-size: 13px;
             overflow: hidden;
@@ -443,6 +455,8 @@
             justify-content: space-between;
             padding: 13px 16px;
             border-bottom: 1px solid var(--border);
+            background-color: var(--chrome-bg);
+            background-image: var(--chrome-gradient);
         }
         .modal .modal-title {
             font-size: 12px;
@@ -473,6 +487,7 @@
             flex: none;
             padding: 11px 16px;
             border-top: 1px solid var(--border);
+            background: var(--footer-bg);
             font-size: 11px;
             line-height: 1.4;
             color: var(--text-muted);
@@ -562,7 +577,7 @@
         /* Active selection: full-row tint + cyan accent bar + bright text + badge */
         #maps-modal .map-row:has(input:checked) {
             background: var(--pressed);
-            box-shadow: inset 3px 0 0 var(--interactive);
+            box-shadow: inset 3px 0 0 var(--interactive), inset 0 0 0 1px rgba(var(--interactive-rgb), 0.18);
         }
         #maps-modal .map-row:has(input:checked) label { color: var(--text); font-weight: 600; }
         #maps-modal .map-row:has(input:checked) label::after {
@@ -571,29 +586,29 @@
             flex: none;
             font-size: 9px;
             font-weight: 700;
-            letter-spacing: 0.07em;
+            letter-spacing: 0.08em;
             text-transform: uppercase;
-            color: var(--surface-bg);
+            color: var(--on-interactive);
             background: var(--interactive);
-            padding: 2px 7px;
-            border-radius: 10px;
+            padding: 3px 8px;
+            border-radius: 999px;
+            line-height: 1;
         }
-        /* Coming-soon rows: pushed back (dimmed) + non-interactive pill */
-        #maps-modal .map-row:has(input:disabled) { opacity: 0.62; }
-        #maps-modal label:has(input:disabled) { color: var(--text-muted); }
-        #maps-modal label:has(input:disabled) .layer-name small { color: var(--text-muted); }
+        /* Coming-soon rows: pushed back via muted text (not blanket opacity) + non-interactive pill */
+        #maps-modal label:has(input:disabled) { color: var(--text-disabled); }
+        #maps-modal label:has(input:disabled) .layer-name small { color: var(--text-disabled); }
         #maps-modal .wip-tag {
             flex: none;
             margin-left: auto;
-            font-size: 9px;
+            font-size: 8.5px;
             font-weight: 600;
-            letter-spacing: 0.04em;
+            letter-spacing: 0.055em;
             text-transform: uppercase;
-            color: var(--text-muted);
-            background: rgba(129, 148, 166, 0.13);
-            border: 1px solid rgba(129, 148, 166, 0.28);
-            padding: 2px 7px;
-            border-radius: 10px;
+            color: var(--wip-text);
+            background: var(--wip-bg);
+            border: 1px solid var(--wip-border);
+            padding: 3px 8px;
+            border-radius: 999px;
             white-space: nowrap;
         }
         /* Secondary metadata: year / scale — readable but not primary */
@@ -601,14 +616,14 @@
         #maps-modal .layer-name small { font-size: 10.5px; font-weight: 400; color: var(--text-muted); letter-spacing: 0.02em; }
         #maps-modal .map-row:has(input:checked) .layer-name small { color: var(--text); }
         #maps-modal input[type="radio"] { accent-color: var(--interactive); cursor: pointer; }
-        #maps-modal input[type="radio"]:disabled { accent-color: var(--text-muted); opacity: 0.4; cursor: not-allowed; }
+        #maps-modal input[type="radio"]:disabled { accent-color: var(--control-disabled); opacity: 1; cursor: not-allowed; }
         /* Favorite star: warm gold, distinct from the cyan selection colour;
            idle stars stay dim and only light up on hover / when active */
         #maps-modal .fav-toggle {
             flex: none;
             background: none;
             border: none;
-            color: var(--text-muted);
+            color: var(--fav-idle);
             font-size: 16px;
             line-height: 1;
             cursor: pointer;
