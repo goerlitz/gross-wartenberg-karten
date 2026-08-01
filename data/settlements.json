@@ -1,0 +1,474 @@
+{
+  "dataset": "Orte des Kreises Groß Wartenberg",
+  "reference_date": "1933-02-01",
+  "scope": "3 Stadtgemeinden und 51 Landgemeinden nach AGoFF/Gemeindelexikon 1933",
+  "warning": "Arbeitsdatensatz. Die Ortsliste ist vollständig für den Gebietsstand 1933-02-01; polnische Entsprechungen und Koordinaten sind nur eingetragen, soweit in dieser Recherche sicher oder plausibel zuordenbar. Null-Werte und status='unresolved' dürfen nicht als fehlende historische Orte interpretiert werden.",
+  "status_legend": {
+    "verified": "Name und Koordinaten geprüft",
+    "name_verified": "Namenszuordnung geprüft; Koordinaten noch offen",
+    "probable": "plausible Zuordnung, vor wissenschaftlicher Nutzung prüfen",
+    "unresolved": "noch nicht eindeutig zugeordnet"
+  },
+  "sources": [
+    {
+      "title": "AGoFF: Kreis Groß Wartenberg, Gebietsstand 1. Februar 1933",
+      "url": "https://agoff.de/?p=102289"
+    },
+    {
+      "title": "Kreis Groß Wartenberg – Gemeinden und Umbenennungen",
+      "url": "https://de.wikipedia.org/wiki/Kreis_Gro%C3%9F_Wartenberg"
+    },
+    {
+      "title": "Kartenmeister Ortsdatenbank",
+      "url": "https://www.kartenmeister.com/"
+    },
+    {
+      "title": "Geschichtliches Ortsverzeichnis GOV",
+      "url": "https://gov.genealogy.net/"
+    }
+  ],
+  "places": [
+    {
+      "name_historisch": "Festenberg",
+      "name_eingedeutscht_1936_1937": null,
+      "name_polnisch": "Twardogóra",
+      "coordinates": {
+        "lat": 51.3644,
+        "lon": 17.4688
+      },
+      "status": "verified"
+    },
+    {
+      "name_historisch": "Groß Wartenberg",
+      "name_eingedeutscht_1936_1937": null,
+      "name_polnisch": "Syców",
+      "coordinates": {
+        "lat": 51.3088,
+        "lon": 17.719
+      },
+      "status": "verified"
+    },
+    {
+      "name_historisch": "Neumittelwalde",
+      "name_eingedeutscht_1936_1937": null,
+      "name_polnisch": "Międzybórz",
+      "coordinates": {
+        "lat": 51.3974,
+        "lon": 17.6661
+      },
+      "status": "verified"
+    },
+    {
+      "name_historisch": "Amalienthal",
+      "name_eingedeutscht_1936_1937": null,
+      "name_polnisch": "Sławoszowa",
+      "coordinates": {
+        "lat": 51.4616,
+        "lon": 17.4586
+      },
+      "status": "verified"
+    },
+    {
+      "name_historisch": "Bischdorf",
+      "name_eingedeutscht_1936_1937": null,
+      "name_polnisch": "Biskupice",
+      "coordinates": null,
+      "status": "name_verified"
+    },
+    {
+      "name_historisch": "Bukowine",
+      "name_eingedeutscht_1936_1937": "Buchenhain",
+      "name_polnisch": "Bukowina Sycowska",
+      "coordinates": null,
+      "status": "name_verified"
+    },
+    {
+      "name_historisch": "Bunkai",
+      "name_eingedeutscht_1936_1937": "Grünbach",
+      "name_polnisch": "Bąków",
+      "coordinates": {
+        "lat": 51.4051,
+        "lon": 17.5534
+      },
+      "status": "probable"
+    },
+    {
+      "name_historisch": "Charlottenfeld",
+      "name_polnisch": "Oska Piła",
+      "coordinates": {
+        "lat": 51.3708,
+        "lon": 17.6175
+      },
+      "status": ""
+    },
+    {
+      "name_historisch": "Charlottenthal",
+      "name_polnisch": "Grabownica",
+      "coordinates": {
+        "lat": 51.4657,
+        "lon": 17.4641
+      },
+      "status": "verified"
+    },
+    {
+      "name_historisch": "Dalbersdorf",
+      "name_eingedeutscht_1936_1937": null,
+      "name_polnisch": "Dalborowice",
+      "coordinates": {
+        "lat": 51.1996,
+        "lon": 17.7173
+      },
+      "status": "verified"
+    },
+    {
+      "name_historisch": "Distelwitz",
+      "name_polnisch": "Dziesławice",
+      "coordinates": {
+        "lat": 51.3521,
+        "lon": 17.6320
+      },
+      "status": "probable"
+    },
+    {
+      "name_historisch": "Domaslawitz",
+      "name_eingedeutscht_1936_1937": "Lindenhorst",
+      "name_polnisch": "Domasławice",
+      "coordinates": {
+        "lat": 51.4076,
+        "lon": 17.5333
+    },
+      "status": "verified"
+    },
+    {
+      "name_historisch": "Dombrowe",
+      "name_eingedeutscht_1936_1937": "Eichenhain",
+      "name_polnisch": "Dąbrowa",
+      "coordinates": {
+        "lat": 51.3400,
+        "lon": 17.4513
+      },
+      "status": "probable"
+    },
+    {
+      "name_historisch": "Drungawe",
+      "name_eingedeutscht_1936_1937": "Wildheide",
+      "name_polnisch": "Drągów",
+      "coordinates": {
+        "lat": 51.4127,
+        "lon": 17.4861
+      },
+      "status": "probable"
+    },
+    {
+      "name_historisch": "Dyhrnfeld",
+      "name_eingedeutscht_1936_1937": null,
+      "name_polnisch": null,
+      "coordinates": null,
+      "status": "unresolved"
+    },
+    {
+      "name_historisch": "Ellguth-Rippin",
+      "name_eingedeutscht_1936_1937": "Ostfelde",
+      "name_polnisch": "Ligota Rybińska",
+      "coordinates": null,
+      "status": "probable"
+    },
+    {
+      "name_historisch": "Görnsdorf",
+      "name_eingedeutscht_1936_1937": null,
+      "name_polnisch": "Górzyce",
+      "coordinates": null,
+      "status": "probable"
+    },
+    {
+      "name_historisch": "Goschütz",
+      "name_eingedeutscht_1936_1937": null,
+      "name_polnisch": "Goszcz",
+      "coordinates": {
+        "lat": 51.3966,
+        "lon": 17.4802
+      },
+      "status": "name_verified"
+    },
+    {
+      "name_historisch": "Goschützhammer",
+      "name_eingedeutscht_1936_1937": null,
+      "name_polnisch": "Kuźnica Goszczańska",
+      "coordinates": {
+        "lat": 51.4012,
+        "lon": 17.4505
+      },
+      "status": "probable"
+    },
+    {
+      "name_historisch": "Goschütz-Neudorf",
+      "name_eingedeutscht_1936_1937": null,
+      "name_polnisch": "Nowa Wieś Goszczańska",
+      "coordinates": {
+        "lat": 51.4195,
+        "lon": 17.4526
+      },
+      "status": "probable"
+    },
+    {
+      "name_historisch": "Groß Gahle",
+      "name_eingedeutscht_1936_1937": null,
+      "name_polnisch": "Gola Wielka",
+      "coordinates": {
+        "lat": 51.3561,
+        "lon": 17.5429
+      },
+      "status": "probable"
+    },
+    {
+      "name_historisch": "Groß Schönwald",
+      "name_eingedeutscht_1936_1937": null,
+      "name_polnisch": "Chełstów",
+      "coordinates": {
+        "lat": 51.3404,
+        "lon": 17.4954
+      },
+      "status": "unresolved"
+    },
+    {
+      "name_historisch": "Groß Woitsdorf",
+      "name_eingedeutscht_1936_1937": null,
+      "name_polnisch": "Wojciechów",
+      "coordinates": null,
+      "status": "probable"
+    },
+    {
+      "name_historisch": "Grunwitz",
+      "name_eingedeutscht_1936_1937": null,
+      "name_polnisch": "Gronowice",
+      "coordinates": {
+        "lat": 51.2044,
+        "lon": 17.7465
+      },
+      "status": "probable"
+    },
+    {
+      "name_historisch": "Kammerau",
+      "name_eingedeutscht_1936_1937": null,
+      "name_polnisch": "Komorów",
+      "coordinates": null,
+      "status": "probable"
+    },
+    {
+      "name_historisch": "Klein Kosel",
+      "name_eingedeutscht_1936_1937": null,
+      "name_polnisch": "Koziołek",
+      "coordinates": null,
+      "status": "probable"
+    },
+    {
+      "name_historisch": "Klein Schönwald",
+      "name_eingedeutscht_1936_1937": null,
+      "name_polnisch": null,
+      "coordinates": null,
+      "status": "unresolved"
+    },
+    {
+      "name_historisch": "Klein Ulbersdorf",
+      "name_eingedeutscht_1936_1937": null,
+      "name_polnisch": null,
+      "coordinates": null,
+      "status": "unresolved"
+    },
+    {
+      "name_historisch": "Klenowe",
+      "name_eingedeutscht_1936_1937": "Hirschrode",
+      "name_polnisch": "Klonów",
+      "coordinates": {
+        "lat": 51.4064,
+        "lon": 17.6327
+      },
+      "status": "probable"
+    },
+    {
+      "name_historisch": "Kraschen",
+      "name_eingedeutscht_1936_1937": null,
+      "name_polnisch": "Kruszowice",
+      "coordinates": null,
+      "status": "probable"
+    },
+    {
+      "name_historisch": "Kraschen-Niesken",
+      "name_eingedeutscht_1936_1937": "Landeshalt",
+      "name_polnisch": null,
+      "coordinates": null,
+      "status": "unresolved"
+    },
+    {
+      "name_historisch": "Kunzendorf",
+      "name_eingedeutscht_1936_1937": null,
+      "name_polnisch": "Dziadowa Kłoda",
+      "coordinates": null,
+      "status": "probable"
+    },
+    {
+      "name_historisch": "Langendorf",
+      "name_eingedeutscht_1936_1937": null,
+      "name_polnisch": "Wielowieś",
+      "coordinates": null,
+      "status": "probable"
+    },
+    {
+      "name_historisch": "Lassisken",
+      "name_eingedeutscht_1936_1937": "Lichtenhain (Niederschles.)",
+      "name_polnisch": "Łazisko",
+      "coordinates": null,
+      "status": "probable"
+    },
+    {
+      "name_historisch": "Muschlitz",
+      "name_eingedeutscht_1936_1937": null,
+      "name_polnisch": "Moszyce",
+      "coordinates": null,
+      "status": "probable"
+    },
+    {
+      "name_historisch": "Neuhof",
+      "name_eingedeutscht_1936_1937": null,
+      "name_polnisch": "Nowy Dwór",
+      "coordinates": null,
+      "status": "probable"
+    },
+    {
+      "name_historisch": "Neurode",
+      "name_eingedeutscht_1936_1937": null,
+      "name_polnisch": "Nowa Ruda",
+      "coordinates": null,
+      "status": "probable"
+    },
+    {
+      "name_historisch": "Neu Stradam",
+      "name_eingedeutscht_1936_1937": null,
+      "name_polnisch": "Stradomia Nowa",
+      "coordinates": null,
+      "status": "name_verified"
+    },
+    {
+      "name_historisch": "Nieder Stradam",
+      "name_eingedeutscht_1936_1937": null,
+      "name_polnisch": "Stradomia Dolna",
+      "coordinates": null,
+      "status": "name_verified"
+    },
+    {
+      "name_historisch": "Ober Stradam",
+      "name_eingedeutscht_1936_1937": null,
+      "name_polnisch": "Stradomia Wierzchnia",
+      "coordinates": null,
+      "status": "name_verified"
+    },
+    {
+      "name_historisch": "Olschoske",
+      "name_eingedeutscht_1936_1937": "Erlengrund",
+      "name_polnisch": "Olszówka",
+      "coordinates": null,
+      "status": "probable"
+    },
+    {
+      "name_historisch": "Ossen",
+      "name_eingedeutscht_1936_1937": null,
+      "name_polnisch": "Ose",
+      "coordinates": null,
+      "status": "probable"
+    },
+    {
+      "name_historisch": "Ottendorf",
+      "name_eingedeutscht_1936_1937": null,
+      "name_polnisch": null,
+      "coordinates": null,
+      "status": "unresolved"
+    },
+    {
+      "name_historisch": "Rudelsdorf",
+      "name_polnisch": "Drołtowice",
+      "coordinates": {
+        "lat": 51.3396,
+        "lon": 17.5862
+      },
+      "status": "name_verified"
+    },
+    {
+      "name_historisch": "Sandraschütz",
+      "name_eingedeutscht_1936_1937": null,
+      "name_polnisch": "Sądrożyce",
+      "coordinates": {
+        "lat": 51.3444,
+        "lon": 17.4723
+      },
+      "status": "probable"
+    },
+    {
+      "name_historisch": "Schleise",
+      "name_eingedeutscht_1936_1937": null,
+      "name_polnisch": "Ślizów",
+      "coordinates": null,
+      "status": "name_verified"
+    },
+    {
+      "name_historisch": "Schöneiche",
+      "name_eingedeutscht_1936_1937": null,
+      "name_polnisch": null,
+      "coordinates": null,
+      "status": "unresolved"
+    },
+    {
+      "name_historisch": "Schön Steine",
+      "name_eingedeutscht_1936_1937": null,
+      "name_polnisch": null,
+      "coordinates": null,
+      "status": "unresolved"
+    },
+    {
+      "name_historisch": "Schollendorf",
+      "name_eingedeutscht_1936_1937": null,
+      "name_polnisch": null,
+      "coordinates": null,
+      "status": "unresolved"
+    },
+    {
+      "name_historisch": "Tscheschen, Glashütte",
+      "name_eingedeutscht_1936_1937": "Alt Glashütte",
+      "name_polnisch": "Szklarka Śląska",
+      "coordinates": null,
+      "status": "probable"
+    },
+    {
+      "name_historisch": "Tscheschenhammer",
+      "name_eingedeutscht_1936_1937": "Grenzhammer (Niederschles.)",
+      "name_polnisch": "Kuźnica Czeszycka",
+      "coordinates": null,
+      "status": "name_verified"
+    },
+    {
+      "name_historisch": "Wedelsdorf",
+      "name_polnisch": "Suliradzice",
+      "coordinates": {
+        "lat": 51.4735,
+        "lon": 17.5050
+      },
+      "status": "probable"
+    },
+    {
+      "name_historisch": "Wielgy",
+      "name_eingedeutscht_1936_1937": "Weidendorf",
+      "name_polnisch": "Wielgie Sycowskie",
+      "coordinates": {
+        "lat": 51.5175,
+        "lon": 17.5236
+      },
+      "status": "probable"
+    },
+    {
+      "name_historisch": "Wioske",
+      "name_eingedeutscht_1936_1937": "Mühlenort",
+      "name_polnisch": "Wioska",
+      "coordinates": null,
+      "status": "probable"
+    }
+  ]
+}
