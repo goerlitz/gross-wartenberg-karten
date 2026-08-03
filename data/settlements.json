@@ -49,6 +49,60 @@
       "status": "verified"
     },
     {
+      "name_historisch": "Paulschütz",
+      "coordinates": {
+        "lat": 51.3053,
+        "lon": 17.7261
+      },
+      "status": "verified",
+      "type": ["Dorf", "Rittergut"]
+    },
+    {
+      "name_historisch": "Dyhrnhof",
+      "coordinates": {
+        "lat": 51.2938,
+        "lon": 17.7394
+      },
+      "status": "verified",
+      "type": ["vw:Paulschütz"]
+    },
+    {
+      "name_historisch": "Maliers",
+      "coordinates": {
+        "lat": 51.2971,
+        "lon": 17.7521
+      },
+      "status": "verified",
+      "type": ["vw:Groß Kosel"]
+    },
+    {
+      "name_historisch": "Alt Scheunig",
+      "coordinates": {
+        "lat": 51.3069,
+        "lon": 17.751
+      },
+      "status": "verified",
+      "type": ["Ziegelei:Gross Kosel"]
+    },
+    {
+      "name_historisch": "Messinietz",
+      "coordinates": {
+        "lat": 51.3176,
+        "lon": 17.7552
+      },
+      "status": "verified",
+      "type": ["vw:Schreibersdorf"]
+    },
+    {
+      "name_historisch": "Schlossvorwerk",
+      "coordinates": {
+        "lat": 51.3028,
+        "lon": 17.7169
+      },
+      "status": "verified",
+      "type": ["vw:Weinberg"]
+    },
+    {
       "name_historisch": "Neumittelwalde",
       "name_eingedeutscht_1936_1937": null,
       "name_polnisch": "Międzybórz",
@@ -72,19 +126,49 @@
       "name_historisch": "Bischdorf",
       "name_eingedeutscht_1936_1937": null,
       "name_polnisch": "Biskupice",
-      "coordinates": null,
-      "status": "name_verified"
+      "coordinates": {
+        "lat": 51.3333,
+        "lon": 17.6422
+      },
+      "status": "verified",
+      "type": ["Dorf", "Rittergut"],
+      "sources": [
+        {
+          "title": "Wikipedia: Biskupice (powiat oleśnicki)",
+          "url": "https://pl.wikipedia.org/wiki/Biskupice_(powiat_ole%C5%9Bnicki)"
+        }
+      ]
     },
     {
       "name_historisch": "Bukowine",
       "name_eingedeutscht_1936_1937": "Buchenhain",
       "name_polnisch": "Bukowina Sycowska",
-      "coordinates": null,
-      "status": "name_verified"
+      "coordinates": {
+        "lat": 51.3806,
+        "lon": 17.5836
+      },
+      "status": "verified",
+      "type": ["Dorf", "Rittergut"],
+      "sources": [
+        {
+          "title": "Wikipedia: Bukowina Sycowska",
+          "url": "https://pl.wikipedia.org/wiki/Bukowina_Sycowska"
+        }
+      ]
+    },
+        {
+      "name_historisch": "Königswille",
+      "name_polnisch": "Królewska Wola",
+      "coordinates": {
+        "lat": 51.3951,
+        "lon": 17.5572
+      },
+      "status": "verified",
+      "type": ["Dorf"]
     },
     {
       "name_historisch": "Bunkai",
-      "name_eingedeutscht_1936_1937": "Grünbach",
+      "name_eingedeutscht_1936_1937": "Grünbach N. S.",
       "name_polnisch": "Bąków",
       "coordinates": {
         "lat": 51.4051,
@@ -125,7 +209,7 @@
       "name_polnisch": "Dziesławice",
       "coordinates": {
         "lat": 51.3521,
-        "lon": 17.6320
+        "lon": 17.632
       },
       "status": "probable"
     },
@@ -134,9 +218,9 @@
       "name_eingedeutscht_1936_1937": "Lindenhorst",
       "name_polnisch": "Domasławice",
       "coordinates": {
-        "lat": 51.4076,
-        "lon": 17.5333
-    },
+        "lat": 51.4070,
+        "lon": 17.5276
+      },
       "status": "verified"
     },
     {
@@ -144,7 +228,7 @@
       "name_eingedeutscht_1936_1937": "Eichenhain",
       "name_polnisch": "Dąbrowa",
       "coordinates": {
-        "lat": 51.3400,
+        "lat": 51.34,
         "lon": 17.4513
       },
       "status": "probable"
@@ -154,31 +238,47 @@
       "name_eingedeutscht_1936_1937": "Wildheide",
       "name_polnisch": "Drągów",
       "coordinates": {
-        "lat": 51.4127,
-        "lon": 17.4861
+        "lat": 51.412,
+        "lon": 17.4856
       },
-      "status": "probable"
+      "status": "validated",
+      "type": ["Dorf", "Rittergut"]
     },
     {
       "name_historisch": "Dyhrnfeld",
       "name_eingedeutscht_1936_1937": null,
-      "name_polnisch": null,
-      "coordinates": null,
-      "status": "unresolved"
+      "name_polnisch": "Zawada",
+      "coordinates": {
+        "lat": 51.3158,
+        "lon": 17.6005
+      },
+      "status": "verified"
     },
     {
       "name_historisch": "Ellguth-Rippin",
       "name_eingedeutscht_1936_1937": "Ostfelde",
       "name_polnisch": "Ligota Rybińska",
-      "coordinates": null,
-      "status": "probable"
+      "coordinates": {
+        "lat": 51.3733,
+        "lon": 17.7105
+      },
+      "status": "verified",
+      "sources": [
+        {
+          "title": "Wikipedia: Ligota Rybińska",
+          "url": "https://pl.wikipedia.org/wiki/Ligota_Rybi%C5%84ska"
+        }
+      ]
     },
     {
       "name_historisch": "Görnsdorf",
       "name_eingedeutscht_1936_1937": null,
-      "name_polnisch": "Górzyce",
-      "coordinates": null,
-      "status": "probable"
+      "name_polnisch": "Gaszowice",
+      "coordinates": {
+        "lat": 51.2595,
+        "lon": 17.5831
+      },
+      "status": "verified"
     },
     {
       "name_historisch": "Goschütz",
@@ -231,11 +331,44 @@
       "status": "unresolved"
     },
     {
+      "name_historisch": "Klein Woitsdorf",
+      "name_polnisch": null,
+      "coordinates": {
+        "lat": 51.3039,
+        "lon": 17.7111
+      },
+      "status": "verified",
+      "type": ["Dorf", "Rittergut"]
+    },
+    {
+      "name_historisch": "Gerberberge",
+      "name_polnisch": null,
+      "coordinates": {
+        "lat": 51.3244,
+        "lon": 17.7124
+      },
+      "status": "verified",
+      "type": ["kol:Klein Woitsdorf"]
+    },
+    {
+      "name_historisch": "Niefken",
+      "name_polnisch": null,
+      "coordinates": {
+        "lat": 51.3267,
+        "lon": 17.7153
+      },
+      "status": "verified",
+      "type": ["vw:Klein Woitsdorf"]
+    },
+    {
       "name_historisch": "Groß Woitsdorf",
       "name_eingedeutscht_1936_1937": null,
-      "name_polnisch": "Wojciechów",
-      "coordinates": null,
-      "status": "probable"
+      "name_polnisch": "Wojciechowo Wielkie",
+      "coordinates": {
+        "lat": 51.3106,
+        "lon": 17.605
+      },
+      "status": "verified"
     },
     {
       "name_historisch": "Grunwitz",
@@ -251,29 +384,46 @@
       "name_historisch": "Kammerau",
       "name_eingedeutscht_1936_1937": null,
       "name_polnisch": "Komorów",
-      "coordinates": null,
-      "status": "probable"
+      "coordinates": {
+        "lat": 51.3281,
+        "lon": 17.6911
+      },
+      "status": "verified",
+      "sources": [
+        {
+          "title": "Wikipedia: Komorów (powiat oleśnicki)",
+          "url": "https://pl.wikipedia.org/wiki/Komor%C3%B3w_(powiat_ole%C5%9Bnicki)"
+        }
+      ]
     },
     {
       "name_historisch": "Klein Kosel",
-      "name_eingedeutscht_1936_1937": null,
-      "name_polnisch": "Koziołek",
-      "coordinates": null,
-      "status": "probable"
+      "name_polnisch": null,
+      "coordinates": {
+        "lat": 51.3079,
+        "lon": 17.7362
+      },
+      "status": "verified"
     },
     {
       "name_historisch": "Klein Schönwald",
       "name_eingedeutscht_1936_1937": null,
-      "name_polnisch": null,
-      "coordinates": null,
-      "status": "unresolved"
+      "name_polnisch": "Chelstowek",
+      "coordinates": {
+        "lat": 51.3552,
+        "lon": 17.4886
+      },
+      "status": "verified"
     },
     {
       "name_historisch": "Klein Ulbersdorf",
       "name_eingedeutscht_1936_1937": null,
-      "name_polnisch": null,
-      "coordinates": null,
-      "status": "unresolved"
+      "name_polnisch": "Hadrychowice",
+      "coordinates": {
+        "lat": 51.3635,
+        "lon": 17.6594
+      },
+      "status": "verified"
     },
     {
       "name_historisch": "Klenowe",
@@ -288,100 +438,383 @@
     {
       "name_historisch": "Kraschen",
       "name_eingedeutscht_1936_1937": null,
-      "name_polnisch": "Kruszowice",
-      "coordinates": null,
-      "status": "probable"
+      "name_polnisch": "Kraszow",
+      "coordinates": {
+        "lat": 51.3841,
+        "lon": 17.6758
+      },
+      "status": "verified"
     },
     {
-      "name_historisch": "Kraschen-Niesken",
+      "name_historisch": "Kraschen-Niefken",
       "name_eingedeutscht_1936_1937": "Landeshalt",
-      "name_polnisch": null,
-      "coordinates": null,
-      "status": "unresolved"
+      "name_polnisch": "Niwki Kraszowskie",
+      "coordinates": {
+        "lat": 51.399,
+        "lon": 17.7127
+      },
+      "status": "verified"
     },
     {
       "name_historisch": "Kunzendorf",
       "name_eingedeutscht_1936_1937": null,
       "name_polnisch": "Dziadowa Kłoda",
-      "coordinates": null,
-      "status": "probable"
+      "coordinates": {
+        "lat": 51.2332,
+        "lon": 17.7045
+      },
+      "status": "verified",
+      "sources": [
+        {
+          "title": "Wikipedia: Dziadowa Kłoda",
+          "url": "https://pl.wikipedia.org/wiki/Dziadowa_K%C5%82oda"
+        }
+      ]
+    },
+    {
+      "name_historisch": "Sklarka",
+      "alternative_name": "Sklarke",
+      "name_eingedeutscht_1936_1937": "Sandhäuser",
+      "name_polnisch": "Szklarka",
+      "coordinates": {
+        "lat": 51.2542,
+        "lon": 17.7056
+      },
+      "status": "verified",
+      "type": ["vw:Gross Woitsdorf"]
+    },
+    {
+      "name_historisch": "Sauerwinkel",
+      "name_polnisch": "Kwaśnina",
+      "coordinates": {
+        "lat": 51.2322,
+        "lon": 17.6687
+      },
+      "status": "verified",
+      "type": ["kol"]
+    },
+    {
+      "name_historisch": "Blottnig",
+      "alternative_name": "Blattnig",
+      "name_eingedeutscht_1936_1937": "Rübenfelde",
+      "name_polnisch": "Błotnik",
+      "coordinates": {
+        "lat": 51.2987,
+        "lon": 17.6125
+      },
+      "status": "verified",
+      "type": ["vw:Gross Woitsdorf"]
+    },
+    {
+      "name_historisch": "Benklowe",
+      "alternative_name": "Benklawe",
+      "coordinates": {
+        "lat": 51.3015,
+        "lon": 17.585
+      },
+      "status": "verified",
+      "type": ["Häuser:Gross Woitsdorf"]
+    },
+    {
+      "name_historisch": "Ober Langendorf",
+      "name_polnisch": null,
+      "coordinates": {
+        "lat": 51.3052,
+        "lon": 17.6816
+      },
+      "status": "verified",
+      "type": ["Rg.Rittergut"]
+    },
+    {
+      "name_historisch": "Mittel Langendorf",
+      "name_polnisch": null,
+      "coordinates": {
+        "lat": 51.3061,
+        "lon": 17.6720
+      },
+      "status": "verified",
+      "type": ["Rg.Rittergut"]
+    },
+    {
+      "name_historisch": "Otto-Langendorf",
+      "name_polnisch": null,
+      "coordinates": {
+        "lat": 51.3072,
+        "lon": 17.6561
+      },
+      "status": "verified",
+      "type": ["Dorf", "Gut"]
+    },
+    {
+      "name_historisch": "Birkvorwerk",
+      "name_polnisch": null,
+      "coordinates": {
+        "lat": 51.291,
+        "lon": 17.6466
+      },
+      "status": "verified",
+      "type": ["vw:Otto-Langendorf"]
+    },
+    {
+      "name_historisch": "Skudlawe",
+      "name_polnisch": null,
+      "coordinates": {
+        "lat": 51.2973,
+        "lon": 17.6761
+      },
+      "status": "verified",
+      "type": ["vw:Ober Langendorf"]
+    },
+    {
+      "name_historisch": "Weißer Giebel",
+      "laternative_name": "Weisse Giebel",
+      "name_polnisch": null,
+      "coordinates": {
+        "lat": 51.3196,
+        "lon": 17.6840
+      },
+      "status": "verified",
+      "type": ["Gasthaus"]
     },
     {
       "name_historisch": "Langendorf",
       "name_eingedeutscht_1936_1937": null,
       "name_polnisch": "Wielowieś",
-      "coordinates": null,
-      "status": "probable"
+      "coordinates": {
+        "lat": 51.3062,
+        "lon": 17.6772
+      },
+      "status": "verified",
+      "type": ["Dorf"],
+      "sources": [
+        {
+          "title": "Wikipedia: Wielowieś (Syców)",
+          "url": "https://de.wikipedia.org/wiki/Wielowie%C5%9B_(Syc%C3%B3w)"
+        }
+      ]
+    },
+    {
+      "name_historisch": "Markusdorf",
+      "name_polnisch": "Święty Marek",
+      "coordinates": {
+        "lat": 51.3188,
+        "lon": 17.6742
+      },
+      "status": "verified",
+      "type": ["kol:Langendorf"],
+      "sources": [
+        {
+          "title": "Wikipedia: Święty Marek",
+          "url": "https://de.wikipedia.org/wiki/%C5%9Awi%C4%99ty_Marek"
+        }
+      ]
     },
     {
       "name_historisch": "Lassisken",
-      "name_eingedeutscht_1936_1937": "Lichtenhain (Niederschles.)",
+      "name_eingedeutscht_1936_1937": "Lichtenhain N. S.",
       "name_polnisch": "Łazisko",
-      "coordinates": null,
-      "status": "probable"
+      "coordinates": {
+        "lat": 51.4237,
+        "lon": 17.5132
+      },
+      "status": "verified"
     },
     {
       "name_historisch": "Muschlitz",
       "name_eingedeutscht_1936_1937": null,
       "name_polnisch": "Moszyce",
-      "coordinates": null,
-      "status": "probable"
+      "coordinates": {
+        "lat": 51.37,
+        "lon": 17.4794
+      },
+      "status": "probable",
+      "sources": [
+        {
+          "title": "Wikipedia: Moszyce",
+          "url": "https://pl.wikipedia.org/wiki/Moszyce"
+        }
+      ]
     },
     {
       "name_historisch": "Neuhof",
-      "name_eingedeutscht_1936_1937": null,
       "name_polnisch": "Nowy Dwór",
-      "coordinates": null,
-      "status": "probable"
+      "coordinates": {
+        "lat": 51.3022,
+        "lon": 17.6997
+      },
+      "status": "verified",
+      "type": ["Dorf", "Rittergut", "Vorwerk"],
+      "sources": [
+        {
+          "title": "Wikipedia: Nowy Dwór (powiat oleśnicki)",
+          "url": "https://pl.wikipedia.org/wiki/Nowy_Dw%C3%B3r_(powiat_ole%C5%9Bnicki)"
+        }
+      ]
+    },
+    {
+      "name_historisch": "Weinberg",
+      "coordinates": {
+        "lat": 51.2879,
+        "lon": 17.7121
+      },
+      "status": "verified",
+      "type": ["Rittergut"]
     },
     {
       "name_historisch": "Neurode",
       "name_eingedeutscht_1936_1937": null,
-      "name_polnisch": "Nowa Ruda",
-      "coordinates": null,
-      "status": "probable"
+      "name_polnisch": "Stara Huta",
+      "coordinates": {
+        "lat": 51.4954,
+        "lon": 17.5077
+      },
+      "status": "verified",
+      "type": ["Dorf", "Rittergut"]
     },
     {
       "name_historisch": "Neu Stradam",
-      "name_eingedeutscht_1936_1937": null,
-      "name_polnisch": "Stradomia Nowa",
-      "coordinates": null,
-      "status": "name_verified"
+      "name_polnisch": "Nowa Stradomia",
+      "coordinates": {
+        "lat": 51.2544,
+        "lon": 17.6535
+      },
+      "status": "verified"
+    },
+    {
+      "name_historisch": "Mittel Stradam",
+      "name_polnisch": null,
+      "coordinates": {
+        "lat": 51.2668,
+        "lon": 17.6443
+      },
+      "status": "verified"
     },
     {
       "name_historisch": "Nieder Stradam",
-      "name_eingedeutscht_1936_1937": null,
       "name_polnisch": "Stradomia Dolna",
-      "coordinates": null,
-      "status": "name_verified"
+      "coordinates": {
+        "lat": 51.2478,
+        "lon": 17.6771
+      },
+      "status": "verified",
+      "sources": [
+        {
+          "title": "Wikipedia: Stradomia Dolna",
+          "url": "https://pl.wikipedia.org/wiki/Stradomia_Dolna"
+        }
+      ]
     },
     {
       "name_historisch": "Ober Stradam",
       "name_eingedeutscht_1936_1937": null,
       "name_polnisch": "Stradomia Wierzchnia",
-      "coordinates": null,
-      "status": "name_verified"
+      "coordinates": {
+        "lat": 51.2712,
+        "lon": 17.6299
+      },
+      "status": "verified",
+      "sources": [
+        {
+          "title": "Wikipedia: Stradomia Wierzchnia",
+          "url": "https://pl.wikipedia.org/wiki/Stradomia_Wierzchnia"
+        }
+      ]
     },
     {
-      "name_historisch": "Olschoske",
+      "name_historisch": "Obergut",
+      "coordinates": {
+        "lat": 51.2749,
+        "lon": 17.6158
+      },
+      "status": "verified",
+      "type": ["vw:Ober Stradam"]
+    },
+    {
+      "name_historisch": "Grüneiche",
+      "name_polnisch": "Zieleniec",
+      "coordinates": {
+        "lat": 51.2578,
+        "lon": 17.6168
+      },
+      "status": "verified",
+      "type": ["vw:Ober Stradam"]
+    },
+    {
+      "name_historisch": "Grünwald",
+      "name_polnisch": "Lesieniec",
+      "coordinates": {
+        "lat": 51.2643,
+        "lon": 17.6003
+      },
+      "status": "verified",
+      "type": ["vw:Ober Stradam"]
+    },
+    {
+      "name_historisch": "Paulwitz",
+      "name_polnisch": "Pawłowice",
+      "coordinates": {
+        "lat": 51.2854,
+        "lon": 17.6288
+      },
+      "status": "verified",
+      "type": ["kol:Ober Stradam"]
+    },
+    {
+      "name_historisch": "Olschofke",
       "name_eingedeutscht_1936_1937": "Erlengrund",
       "name_polnisch": "Olszówka",
-      "coordinates": null,
-      "status": "probable"
+      "coordinates": {
+        "lat": 51.3923,
+        "lon": 17.4197
+      },
+      "status": "verified"
     },
     {
       "name_historisch": "Ossen",
-      "name_eingedeutscht_1936_1937": null,
       "name_polnisch": "Ose",
-      "coordinates": null,
-      "status": "probable"
+      "coordinates": {
+        "lat": 51.3861,
+        "lon": 17.6478
+      },
+      "status": "verified",
+      "type": ["Dorf", "Rittergut"],
+      "sources": [
+        {
+          "title": "Wikipedia: Ose",
+          "url": "https://pl.wikipedia.org/wiki/Ose"
+        }
+      ]
     },
     {
       "name_historisch": "Ottendorf",
-      "name_eingedeutscht_1936_1937": null,
-      "name_polnisch": null,
-      "coordinates": null,
-      "status": "unresolved"
+      "name_polnisch": "Dzialosza",
+      "coordinates": {
+        "lat": 51.3093,
+        "lon": 17.6347
+      },
+      "status": "verified",
+      "type": ["Dorf", "Rittergut"]
+    },
+    {
+      "name_historisch": "Widawe",
+      "name_eingedeutscht_1936_1937": "Vorwald",
+      "name_polnisch": "Widawki",
+      "coordinates": {
+        "lat": 51.2935,
+        "lon": 17.6312
+      },
+      "status": "verified",
+      "type": ["kol:Ottendorf"]
+    },
+    {
+      "name_historisch": "Neue Welt",
+      "name_polnisch": "Nowy Świat",
+      "coordinates": {
+        "lat": 51.3281,
+        "lon": 17.6542
+      },
+      "type": ["kol:Bischdorf", "hrgr:Ottendorf"],
+      "status": "verified"
     },
     {
       "name_historisch": "Rudelsdorf",
@@ -406,52 +839,92 @@
       "name_historisch": "Schleise",
       "name_eingedeutscht_1936_1937": null,
       "name_polnisch": "Ślizów",
-      "coordinates": null,
-      "status": "name_verified"
+      "coordinates": {
+        "lat": 51.2726,
+        "lon": 17.7214
+      },
+      "status": "verified",
+      "sources": [
+        {
+          "title": "Wikipedia: Ślizów",
+          "url": "https://pl.wikipedia.org/wiki/%C5%9Aliz%C3%B3w"
+        }
+      ]
+    },
+    {
+      "name_historisch": "Peterhof",
+      "name_polnisch": "Bielawki",
+      "coordinates": {
+        "lat": 51.2825,
+        "lon": 17.7143
+      },
+      "status": "verified",
+      "type": ["Dorf"]
     },
     {
       "name_historisch": "Schöneiche",
       "name_eingedeutscht_1936_1937": null,
-      "name_polnisch": null,
-      "coordinates": null,
-      "status": "unresolved"
+      "name_polnisch": "Drogoszowice",
+      "coordinates": {
+        "lat": 51.325,
+        "lon": 17.4809
+      },
+      "status": "verified"
     },
     {
-      "name_historisch": "Schön Steine",
-      "name_eingedeutscht_1936_1937": null,
-      "name_polnisch": null,
-      "coordinates": null,
-      "status": "unresolved"
+      "name_historisch": "Polnisch Steine",
+      "name_eingedeutscht_1936_1937": "Schön Steine",
+      "name_polnisch": "Kamien",
+      "coordinates": {
+        "lat": 51.4015,
+        "lon": 17.581
+      },
+      "status": "verified"
     },
     {
       "name_historisch": "Schollendorf",
       "name_eingedeutscht_1936_1937": null,
-      "name_polnisch": null,
-      "coordinates": null,
-      "status": "unresolved"
+      "name_polnisch": "Szczodrow",
+      "coordinates": {
+        "lat": 51.2896,
+        "lon": 17.5676
+      },
+      "status": "verified"
     },
     {
-      "name_historisch": "Tscheschen, Glashütte",
+      "name_historisch": "Tscheschen-Glashütte",
       "name_eingedeutscht_1936_1937": "Alt Glashütte",
-      "name_polnisch": "Szklarka Śląska",
-      "coordinates": null,
-      "status": "probable"
+      "name_polnisch": "Czeszyce",
+      "coordinates": {
+        "lat": 51.5,
+        "lon": 17.4545
+      },
+      "status": "verified"
     },
     {
       "name_historisch": "Tscheschenhammer",
-      "name_eingedeutscht_1936_1937": "Grenzhammer (Niederschles.)",
+      "name_eingedeutscht_1936_1937": "Grenzhammer N. S.",
       "name_polnisch": "Kuźnica Czeszycka",
-      "coordinates": null,
-      "status": "name_verified"
+      "coordinates": {
+        "lat": 51.4863,
+        "lon": 17.4919
+      },
+      "status": "verified",
+      "sources": [
+        {
+          "title": "Wikipedia: Kuźnica Czeszycka",
+          "url": "https://pl.wikipedia.org/wiki/Ku%C5%BAnica_Czeszycka"
+        }
+      ]
     },
     {
       "name_historisch": "Wedelsdorf",
       "name_polnisch": "Suliradzice",
       "coordinates": {
-        "lat": 51.4735,
-        "lon": 17.5050
+        "lat": 51.4725,
+        "lon": 17.5054
       },
-      "status": "probable"
+      "status": "verified"
     },
     {
       "name_historisch": "Wielgy",
@@ -461,14 +934,23 @@
         "lat": 51.5175,
         "lon": 17.5236
       },
-      "status": "probable"
+      "status": "verified"
     },
     {
       "name_historisch": "Wioske",
       "name_eingedeutscht_1936_1937": "Mühlenort",
       "name_polnisch": "Wioska",
-      "coordinates": null,
-      "status": "probable"
+      "coordinates": {
+        "lat": 51.328,
+        "lon": 17.734
+      },
+      "status": "verified",
+      "sources": [
+        {
+          "title": "Wikipedia: Wioska (powiat oleśnicki)",
+          "url": "https://pl.wikipedia.org/wiki/Wioska_(powiat_ole%C5%9Bnicki)"
+        }
+      ]
     }
   ]
 }
