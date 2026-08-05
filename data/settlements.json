@@ -36,7 +36,8 @@
         "lat": 51.3644,
         "lon": 17.4688
       },
-      "status": "verified"
+      "status": "verified",
+      "city": true
     },
     {
       "name_historisch": "Alt Festenberg",
@@ -97,7 +98,8 @@
         "lat": 51.3088,
         "lon": 17.719
       },
-      "status": "verified"
+      "status": "verified",
+      "city": true
     },
     {
       "name_historisch": "Paulschütz",
@@ -161,7 +163,8 @@
         "lat": 51.3974,
         "lon": 17.6661
       },
-      "status": "verified"
+      "status": "verified",
+      "city": true
     },
     {
       "name_historisch": "Amalienthal",
@@ -493,13 +496,22 @@
     },
     {
       "name_historisch": "Görnsdorf",
-      "name_eingedeutscht_1936_1937": null,
       "name_polnisch": "Gaszowice",
       "coordinates": {
         "lat": 51.2595,
         "lon": 17.5831
       },
-      "status": "verified"
+      "status": "verified",
+      "type": ["Dorf", "Rittergut"]
+    },
+    {
+      "name_historisch": "Dörrhaus",
+      "coordinates": {
+        "lat": 51.2544,
+        "lon": 17.5836
+      },
+      "status": "verified",
+      "type": ["h:Görnsdorf"]
     },
     {
       "name_historisch": "Goschütz",
@@ -728,13 +740,34 @@
     },
     {
       "name_historisch": "Grunwitz",
-      "name_eingedeutscht_1936_1937": null,
       "name_polnisch": "Gronowice",
       "coordinates": {
         "lat": 51.2044,
         "lon": 17.7465
       },
-      "status": "probable"
+      "status": "verified"
+    },
+    {
+      "name_historisch": "Klochowitz",
+      "alternative_name": "Chlochowitz",
+      "name_eingedeutscht_1936_1937": "Grunwitzer Vorwerk",
+      "name_polnisch": "Kłochowice",
+      "coordinates": {
+        "lat": 51.1937,
+        "lon": 17.7678
+      },
+      "status": "verified",
+      "type": ["vw:Grunwitz"]
+    },
+    {
+      "name_historisch": "Sogoy",
+      "name_polnisch": null,
+      "coordinates": {
+        "lat": 51.2087,
+        "lon": 17.7354
+      },
+      "status": "verified",
+      "type": ["hrgr:Grunwitz"]
     },
     {
       "name_historisch": "Kammerau",
@@ -835,6 +868,81 @@
           "url": "https://pl.wikipedia.org/wiki/Dziadowa_K%C5%82oda"
         }
       ]
+    },
+    {
+      "name_historisch": "Helenenhof",
+      "coordinates": {
+        "lat": 51.2243,
+        "lon": 17.7014
+      },
+      "status": "verified",
+      "type": ["vw:Kunzendorf"]
+    },
+    {
+      "name_historisch": "Karlowitz",
+      "coordinates": {
+        "lat": 51.2241,
+        "lon": 17.7226
+      },
+      "status": "verified",
+      "type": ["kol:Kunzendorf"]
+    },
+    {
+      "name_historisch": "Wiersnick",
+      "alternative_name": "Wierzniok",
+      "coordinates": {
+        "lat": 51.2286,
+        "lon": 17.7514
+      },
+      "status": "verified",
+      "type": ["Gut:Kunzendorf"]
+    },
+    {
+      "name_historisch": "Kolewe",
+      "alternative_name": "Cholewe",
+      "coordinates": {
+        "lat": 51.2186,
+        "lon": 17.7159
+      },
+      "status": "verified",
+      "type": ["hrgr,ml:Kunzendorf"]
+    },
+    {
+      "name_historisch": "Boguslawitz",
+      "coordinates": {
+        "lat": 51.1951,
+        "lon": 17.7125
+      },
+      "status": "verified",
+      "type": ["Dorf", "Rittergut"]
+    },
+    {
+      "name_historisch": "Marthahof",
+      "coordinates": {
+        "lat": 51.1878,
+        "lon": 17.7279
+      },
+      "status": "verified",
+      "type": ["vw:Boguslawitz"]
+    },
+    {
+      "name_historisch": "Eichgrund",
+      "coordinates": {
+        "lat": 51.1793,
+        "lon": 17.7080
+      },
+      "status": "verified",
+      "type": ["Rittergut"]
+    },
+        {
+      "name_historisch": "Neuguth",
+      "alternative_name": "Neugut",
+      "coordinates": {
+        "lat": 51.1932,
+        "lon": 17.7429
+      },
+      "status": "verified",
+      "type": ["vw:Dalbersdorf"]
     },
     {
       "name_historisch": "Sklarka",
@@ -1427,6 +1535,66 @@
       },
       "status": "verified",
       "type": ["h:Goschütz"]
+    },
+    {
+      "name_historisch": "Annenthal",
+      "name_polnisch": "Wydzierno",
+      "coordinates": {
+        "lat": 51.3882,
+        "lon": 17.6060
+      },
+      "status": "verified",
+      "type": ["Dorf"]
+    },
+    {
+      "name_historisch": "Knopke",
+      "name_polnisch": "Knopka",
+      "coordinates": {
+        "lat": 51.3933,
+        "lon": 17.6288
+      },
+      "status": "verified",
+      "type": ["hrgr:Ossen"]
+    },
+    {
+      "name_historisch": "Oberhof",
+      "name_polnisch": "Górzyca",
+      "coordinates": {
+        "lat": 51.3794,
+        "lon": 17.6324
+      },
+      "status": "verified",
+      "type": ["hrgr:Ossen"]
+    },
+    {
+      "name_historisch": "Sielonke",
+      "name_polnisch": "Zielonka",
+      "coordinates": {
+        "lat": 51.4013,
+        "lon": 17.6563
+      },
+      "status": "verified",
+      "type": ["GutsB"]
+    },
+    {
+      "name_historisch": "Eichvorwerk",
+      "name_polnisch": "",
+      "coordinates": {
+        "lat": 51.3963,
+        "lon": 17.6869
+      },
+      "status": "verified",
+      "type": ["kol:Kraschen"]
+    },
+    {
+      "name_historisch": "Dombrowe",
+      "name_polnisch": "",
+      "coordinates": {
+        "lat": 51.3884,
+        "lon": 17.7191
+      },
+      "status": "verified",
+      "type": ["kol:Rippin"]
     },
     {
       "name_historisch": "Wegersdorf",
