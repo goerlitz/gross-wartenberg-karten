@@ -517,8 +517,6 @@
         .modal .modal-body::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
         /* Welcome modal: "Kartenarchiv" intro card (see welcome_new.png) */
         #welcome-modal .modal-dialog { width: min(500px, calc(100vw - 32px)); }
-        #welcome-modal .modal-close { position: absolute; top: 12px; right: 14px; z-index: 2; color: var(--text); opacity: 0.55; font-size: 20px; transition: opacity 0.15s, color 0.15s; }
-        #welcome-modal .modal-close:hover { color: var(--text); opacity: 1; }
         #welcome-modal .modal-body { padding: 24px 26px 6px 26px; font-size: 13.5px; font-weight: 400; line-height: 1.5; color: var(--text); letter-spacing: 0; }
         #welcome-modal .modal-body p { margin: 0 0 11px 0; }
         #welcome-modal .welcome-accent { color: var(--brand); }
@@ -1099,11 +1097,14 @@
             }
         });
         // Base map radios (in the panel).
+        function setBaseLayer(value) {
+            osmLayer.setVisible(value === 'osm');
+            cartodbLayer.setVisible(value === 'cartodb');
+            esriLayer.setVisible(value === 'esri');
+        }
         document.querySelectorAll('#layer-panel input[name="base"]').forEach(function(input) {
             input.addEventListener('change', function() {
-                osmLayer.setVisible(this.value === 'osm');
-                cartodbLayer.setVisible(this.value === 'cartodb');
-                esriLayer.setVisible(this.value === 'esri');
+                setBaseLayer(this.value);
                 updateTransparencyControl();
                 updateShadow();
                 trackSelect('basemap-select', this.value);
@@ -1294,7 +1295,6 @@
         }
         bind('info-toggle', 'click', openWelcome);
         bind('welcome-cta', 'click', closeWelcome);
-        bind('welcome-close', 'click', closeWelcome);
         var welcomeBackdrop = welcomeModal && welcomeModal.querySelector('.modal-backdrop');
         if (welcomeBackdrop) welcomeBackdrop.addEventListener('click', closeWelcome);
 
@@ -1427,7 +1427,19 @@
             var padX = 8, w = Math.ceil(ctx.measureText(name).width) + padX * 2, h = (selected ? 15 : 13) + 9;
             canvas.width = w * dpr; canvas.height = h * dpr;
             ctx.scale(dpr, dpr);
-            ctx.roundRect(0.5, 0.5, w - 1, h - 1, (h - 1) / 2);   // radius = height/2 → full capsule
+            // radius = height/2 → full capsule; traced manually (not ctx.roundRect) for older-browser support
+            var r = (h - 1) / 2, x0 = 0.5, y0 = 0.5, x1 = w - 0.5, y1 = h - 0.5;
+            ctx.beginPath();
+            ctx.moveTo(x0 + r, y0);
+            ctx.lineTo(x1 - r, y0);
+            ctx.arcTo(x1, y0, x1, y1, r);
+            ctx.lineTo(x1, y1 - r);
+            ctx.arcTo(x1, y1, x0, y1, r);
+            ctx.lineTo(x0 + r, y1);
+            ctx.arcTo(x0, y1, x0, y0, r);
+            ctx.lineTo(x0, y0 + r);
+            ctx.arcTo(x0, y0, x1, y0, r);
+            ctx.closePath();
             ctx.fillStyle = 'rgba(255, 252, 246, 0.88)'; ctx.fill();   // warm ivory, matches the app surface
             ctx.strokeStyle = 'rgba(0, 0, 0, 0.08)'; ctx.stroke();
             ctx.font = font; ctx.textBaseline = 'middle';
@@ -1657,8 +1669,8 @@
 
         // Fit the view to the currently selected overlay's extent.
         bind('fit-btn', 'click', function() {
-            var layer = getActiveMapLayer();
-            var extent = (layer && layer.getExtent()) || OVERLAY_EXTENT;
+            var ring = activeFootprint();
+            var extent = (ring && ol.extent.boundingExtent(ring)) || OVERLAY_EXTENT;
             if (extent) {
                 map.getView().fit(extent, { padding: [20, 20, 20, 20], duration: 400 });
             }
@@ -1705,17 +1717,9 @@
             if (s.base) {
                 var baseInput = document.querySelector('#layer-panel input[name="base"][value="' + s.base + '"]');
                 if (baseInput) baseInput.checked = true;
-                osmLayer.setVisible(s.base === 'osm');
-                cartodbLayer.setVisible(s.base === 'cartodb');
-                esriLayer.setVisible(s.base === 'esri');
+                setBaseLayer(s.base);
             }
-            if (s.overlay) {
-                var overlayInput = document.querySelector('#maps-modal input[name="overlay"][value="' + s.overlay + '"]');
-                if (overlayInput) overlayInput.checked = true;
-                topo25Layer.setVisible(s.overlay === 'topo25');
-                reymann200Layer.setVisible(s.overlay === 'reymann200');
-                census1910Layer.setVisible(s.overlay === 'census1910');
-            }
+            if (s.overlay) applyOverlay(s.overlay);
             if (s.z != null && s.lat != null && s.lon != null) {
                 var view = map.getView();
                 view.setCenter(ol.proj.fromLonLat([s.lon, s.lat]));
