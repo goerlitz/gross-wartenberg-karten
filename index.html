@@ -1414,50 +1414,86 @@
             SETTLE.markers[key] = style;
             return style;
         }
-        // The rounded capsule drawn once per name (native ol.style.Text cannot do border-radius),
-        // reused across the fade by varying only the Icon opacity.
+        // A rounded rectangle (corners A/B/C rounded, D sharp) with a small trapezoid tab EDFG
+        // attached to the left of edge D–A: D→F runs left along the baseline (length = tabW),
+        // F→G is a short blunt vertical edge (length = tabH), G→E closes diagonally back to E
+        // (tabW + tabH above D on the left edge). Drawn once per name (native
+        // ol.style.Text cannot do border-radius), reused across the fade by varying only the Icon
+        // opacity.
         function settlementPill(name, selected) {
             var key = name + '|' + (selected ? 1 : 0);
             if (SETTLE.pills[key]) return SETTLE.pills[key];
+
             var dpr = window.devicePixelRatio || 1;
-            var font = (selected ? '600 15px ' : '500 13px ') + SETTLE.font;
+            var fontSize = selected ? 15 : 13;
+            var font = (selected ? '600 ' : '500 ') + fontSize + 'px ' + SETTLE.font;
+
+            var padX = 8, padY = 5;
+            var radius = 7;         // corner radius at A (top-left), B (top-right), C (bottom-right)
+            var tabW = 3.5;         // D→F: baseline extension to the left — fixed, independent of radius
+            var tabH = 1;           // F→G: 1px blunt edge — distinct points, not a sharp tip
+            var border = 1;
+
+            var measure = document.createElement('canvas').getContext('2d');
+            measure.font = font;
+            var bodyW = Math.ceil(measure.measureText(name).width) + padX * 2;
+            var bodyH = fontSize + padY * 2;
+            var logicalW = bodyW + tabW + border * 2;
+            var logicalH = bodyH + border * 2;
+
             var canvas = document.createElement('canvas');
+            canvas.width = Math.ceil(logicalW * dpr);
+            canvas.height = Math.ceil(logicalH * dpr);
+
             var ctx = canvas.getContext('2d');
-            ctx.font = font;
-            var padX = 8, w = Math.ceil(ctx.measureText(name).width) + padX * 2, h = (selected ? 15 : 13) + 9;
-            canvas.width = w * dpr; canvas.height = h * dpr;
             ctx.scale(dpr, dpr);
-            // radius = height/2 → full capsule; traced manually (not ctx.roundRect) for older-browser support
-            var r = (h - 1) / 2, x0 = 0.5, y0 = 0.5, x1 = w - 0.5, y1 = h - 0.5;
+            ctx.font = font;
+
+            var x0 = border + tabW, y0 = border;    // A = (x0, y0)
+            var x1 = x0 + bodyW, y1 = y0 + bodyH;   // C = (x1, y1); D = (x0, y1)
+
             ctx.beginPath();
-            ctx.moveTo(x0 + r, y0);
-            ctx.lineTo(x1 - r, y0);
-            ctx.arcTo(x1, y0, x1, y1, r);
-            ctx.lineTo(x1, y1 - r);
-            ctx.arcTo(x1, y1, x0, y1, r);
-            ctx.lineTo(x0 + r, y1);
-            ctx.arcTo(x0, y1, x0, y0, r);
-            ctx.lineTo(x0, y0 + r);
-            ctx.arcTo(x0, y0, x1, y0, r);
+            ctx.moveTo(x0 + radius, y0);
+            ctx.lineTo(x1 - radius, y0);
+            ctx.arcTo(x1, y0, x1, y0 + radius, radius);       // A -> B
+            ctx.lineTo(x1, y1 - radius);
+            ctx.arcTo(x1, y1, x1 - radius, y1, radius);       // B -> C
+            ctx.lineTo(x0 - tabW, y1);                         // C -> F
+            ctx.lineTo(x0 - tabW, y1 - tabH);                  // F -> G
+            ctx.lineTo(x0, y1 - (tabW + tabH));                // G -> E (D→E length = tabW + tabH)
+            ctx.lineTo(x0, y0 + radius);                       // E -> up to A
+            ctx.arcTo(x0, y0, x0 + radius, y0, radius);
             ctx.closePath();
-            ctx.fillStyle = 'rgba(255, 252, 246, 0.88)'; ctx.fill();   // warm ivory, matches the app surface
-            ctx.strokeStyle = 'rgba(0, 0, 0, 0.08)'; ctx.stroke();
-            ctx.font = font; ctx.textBaseline = 'middle';
-            ctx.fillStyle = 'rgb(30, 41, 59)'; ctx.fillText(name, padX, h / 2);
-            SETTLE.pills[key] = canvas;
-            return canvas;
+
+            ctx.fillStyle = 'rgba(255, 252, 246, 0.92)'; ctx.fill();   // warm ivory, matches the app surface
+            // Selected border matches the marker's own selCore ring colour (#f59e0b), not brass.
+            ctx.strokeStyle = selected ? 'rgba(245, 158, 11, 0.75)' : 'rgba(30, 49, 72, 0.38)';
+            ctx.lineWidth = 1;
+            ctx.stroke();
+
+            ctx.textBaseline = 'middle';
+            ctx.fillStyle = 'rgb(30, 41, 59)'; ctx.fillText(name, x0 + padX, y0 + bodyH / 2);
+
+            SETTLE.pills[key] = {
+                canvas: canvas,
+                // Fraction-based anchor (dpr-independent) at the F/G tab tip, closest to the marker.
+                anchorX: (x0 - tabW) / logicalW,
+                anchorY: (y1 - tabH / 2) / logicalH
+            };
+            return SETTLE.pills[key];
         }
-        // offsetX = distance from the point to the pill's left edge; larger for cities so their
-        // bigger marker keeps the same visual gap to the name.
-        function settlementLabel(name, alpha, selected, offsetX, zIndex) {
+        // offsetX/offsetY = displacement from the marker centre to the tab's tip; larger for
+        // cities so their bigger marker keeps the same visual gap to the name.
+        function settlementLabel(name, alpha, selected, offsetX, offsetY, zIndex) {
             var a = Math.round(alpha * 10) / 10;                  // round so the cache stays small
-            var key = name + '|' + a + '|' + (selected ? 1 : 0) + '|' + offsetX + '|' + zIndex;
+            var key = name + '|' + a + '|' + (selected ? 1 : 0) + '|' + offsetX + '|' + offsetY + '|' + zIndex;
             if (SETTLE.labels.has(key)) return SETTLE.labels.get(key);
-            var canvas = settlementPill(name, selected);
+            var pill = settlementPill(name, selected);
             var dpr = window.devicePixelRatio || 1;
             var style = new ol.style.Style({ image: new ol.style.Icon({
-                img: canvas, imgSize: [canvas.width, canvas.height], scale: 1 / dpr,
-                anchor: [0, 0.5], displacement: [offsetX, 0], opacity: a
+                img: pill.canvas, imgSize: [pill.canvas.width, pill.canvas.height], scale: 1 / dpr,
+                anchor: [pill.anchorX, pill.anchorY],
+                displacement: [offsetX, offsetY], opacity: a
             }), zIndex: zIndex });
             SETTLE.labels.set(key, style);
             return style;
@@ -1487,13 +1523,13 @@
             if (alpha <= 0.05) return null;
             // Towns wear the bigger marker → larger offset; higher zIndex keeps their name above
             // ordinary place names within this shared layer.
-            return settlementLabel(f.get('name'), alpha, sel, town ? 16 : 13, town ? 1 : 0);
+            return settlementLabel(f.get('name'), alpha, sel, town ? 10 : 8, town ? 7 : 6, town ? 1 : 0);
         }
         // A city uses the same marker as a settlement town, with its name always shown; the larger
         // offset clears the bigger city marker to keep an even gap.
         function cityStyle(f) {
             var sel = f.get('selected') === true;
-            return [].concat(settlementMarker(true, sel), settlementLabel(f.get('name'), 1, sel, 16, 1));
+            return [].concat(settlementMarker(true, sel), settlementLabel(f.get('name'), 1, sel, 10, 7, 1));
         }
 
         var settlementsSource = new ol.source.Vector();
