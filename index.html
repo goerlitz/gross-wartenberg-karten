@@ -295,6 +295,86 @@
         .btn-group .map-btn:first-child { border-radius: 8px 8px 0 0; }
         .btn-group .map-btn:last-child { border-radius: 0 0 8px 8px; margin-top: -1px; }
         .btn-group .map-btn:hover { position: relative; z-index: 1; }
+        /* Always-visible place search, top-left over the map (clears the button column). */
+        #place-search {
+            position: absolute;
+            top: 10px;
+            left: 54px;
+            z-index: 1000;
+            width: min(360px, calc(100vw - 76px));
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        #place-search .place-search__field {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            height: 32px;
+            padding: 0 10px;
+            background: var(--float-bg);
+            backdrop-filter: blur(8px);
+            border: 1px solid var(--border-strong);
+            box-shadow: var(--float-shadow);
+            border-radius: 8px;
+        }
+        #place-search .place-search__icon { flex: none; width: 16px; height: 16px; color: var(--text-muted); }
+        #place-search-input {
+            flex: 1;
+            min-width: 0;
+            border: none;
+            background: none;
+            outline: none;
+            font: inherit;
+            font-size: 13px;
+            color: var(--text);
+        }
+        #place-search-input::placeholder { color: var(--text-muted); }
+        #place-search-input::-webkit-search-decoration,
+        #place-search-input::-webkit-search-cancel-button,
+        #place-search-input::-webkit-search-results-button,
+        #place-search-input::-webkit-search-results-decoration { display: none; }
+        #place-search-clear {
+            flex: none;
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: 16px;
+            line-height: 1;
+            cursor: pointer;
+            padding: 2px 4px;
+        }
+        #place-search-clear:hover { color: var(--text); }
+        #place-search-results {
+            max-height: min(50vh, 360px);
+            overflow-y: auto;
+            background: var(--float-bg);
+            backdrop-filter: blur(8px);
+            border: 1px solid var(--border-strong);
+            box-shadow: var(--float-shadow);
+            border-radius: 8px;
+            padding: 4px;
+            scrollbar-width: thin;
+            scrollbar-color: var(--border) transparent;
+        }
+        #place-search-results .place-result {
+            display: flex;
+            flex-direction: column;
+            gap: 1px;
+            padding: 7px 9px;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+        @media (hover: hover) { #place-search-results .place-result:hover { background: var(--hover); } }
+        #place-search-results .place-result.active { background: var(--pressed); }
+        #place-search-results .place-result-name { font-size: 13px; color: var(--text); }
+        #place-search-results .place-result-meta { font-size: 11px; color: var(--text-muted); }
+        #place-search-results .place-search__empty { padding: 8px 9px; font-size: 12px; color: var(--text-muted); }
+        @media (max-width: 768px) {
+            #place-search { top: 10px; left: 12px; width: calc(100% - 24px); }
+            #map-controls { top: 62px; }
+            #layer-panel { top: 62px; }
+        }
         #copy-toast {
             position: absolute;
             bottom: 16px;
@@ -729,6 +809,14 @@
                     </div>
                 </details>
             </div>
+        </div>
+        <div id="place-search">
+            <div class="place-search__field">
+                <svg class="place-search__icon" aria-hidden="true"><use href="#ic-search"/></svg>
+                <input type="search" id="place-search-input" placeholder="Ort suchen" autocomplete="off" aria-label="Ort suchen">
+                <button type="button" id="place-search-clear" aria-label="Suche löschen" hidden>&times;</button>
+            </div>
+            <div id="place-search-results" hidden></div>
         </div>
         <div id="map-controls">
             <button id="share-btn" class="map-btn" title="Ansicht teilen (Link kopieren)"><svg viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg></button>
@@ -1622,6 +1710,115 @@
                 });
             settlementsSource.addFeatures(feats);
             applySettlementVisibility();
+            PLACE_SEARCH_INDEX = feats
+                .filter(function(f) { return f.get('name'); })
+                .map(function(f) { return { name: f.get('name'), normalized: normalizeSearchText(f.get('name')), feature: f }; });
+        });
+
+        // --- Place search: settlements only, matched against name_historisch. Step 1: no filters,
+        // favourites, detail card or bottom sheet — just search, centre, highlight. ---
+        function normalizeSearchText(value) {
+            return String(value)
+                .toLocaleLowerCase('de')
+                .normalize('NFD')
+                .replace(/[̀-ͯ]/g, '');
+        }
+        var PLACE_SEARCH_INDEX = [];
+        var MIN_SEARCH_LENGTH = 2;
+        var SEARCH_DELAY = 250;
+        var MAX_SEARCH_RESULTS = 8;
+
+        var searchInput = document.getElementById('place-search-input');
+        var searchClear = document.getElementById('place-search-clear');
+        var searchResultsEl = document.getElementById('place-search-results');
+        var searchContainer = document.getElementById('place-search');
+        var selectedSettlementFeature = null;
+
+        function hideSearchResults() {
+            if (!searchResultsEl) return;
+            searchResultsEl.hidden = true;
+            searchResultsEl.innerHTML = '';
+        }
+
+        function renderSearchResults(matches) {
+            if (!searchResultsEl) return;
+            searchResultsEl.innerHTML = '';
+            if (!matches.length) {
+                var empty = document.createElement('div');
+                empty.className = 'place-search__empty';
+                empty.textContent = 'Keine Treffer';
+                searchResultsEl.appendChild(empty);
+            } else {
+                matches.forEach(function(entry) {
+                    var row = document.createElement('div');
+                    row.className = 'place-result';
+                    var nameEl = document.createElement('div');
+                    nameEl.className = 'place-result-name';
+                    nameEl.textContent = entry.name;
+                    var metaEl = document.createElement('div');
+                    metaEl.className = 'place-result-meta';
+                    metaEl.textContent = entry.feature.get('city') === true ? 'Stadt' : 'Ort';
+                    row.appendChild(nameEl);
+                    row.appendChild(metaEl);
+                    row.addEventListener('click', function() { selectSearchResult(entry); });
+                    searchResultsEl.appendChild(row);
+                });
+            }
+            searchResultsEl.hidden = false;
+        }
+
+        function runPlaceSearch(query) {
+            var normalizedQuery = normalizeSearchText(query);
+            var matches = PLACE_SEARCH_INDEX
+                .filter(function(entry) { return entry.normalized.indexOf(normalizedQuery) !== -1; })
+                .slice(0, MAX_SEARCH_RESULTS);
+            renderSearchResults(matches);
+        }
+
+        function selectSearchResult(entry) {
+            hideSearchResults();
+            if (searchInput) searchInput.value = entry.name;
+            if (searchClear) searchClear.hidden = false;
+
+            if (selectedSettlementFeature) selectedSettlementFeature.set('selected', false);
+            entry.feature.set('selected', true);
+            selectedSettlementFeature = entry.feature;
+            settlementMarkersLayer.changed();
+            settlementLabelsLayer.changed();
+
+            // Make sure "Orte" is actually visible, otherwise the highlight can't be seen.
+            if (settlementsCheckbox && !settlementsCheckbox.checked) {
+                settlementsCheckbox.checked = true;
+                applySettlementVisibility();
+                try { localStorage.setItem(ORTE_KEY, '1'); } catch (e) {}
+                updateGroupHeads();
+            }
+
+            enableHash();
+            map.getView().animate({ center: entry.feature.getGeometry().getCoordinates(), zoom: 14, duration: 500 });
+            trackSelect('place-select', entry.name);
+        }
+
+        if (searchInput) {
+            var searchTimer = null;
+            searchInput.addEventListener('input', function() {
+                var query = this.value.trim();
+                if (searchClear) searchClear.hidden = query.length === 0;
+                clearTimeout(searchTimer);
+                if (query.length < MIN_SEARCH_LENGTH) { hideSearchResults(); return; }
+                searchTimer = setTimeout(function() { runPlaceSearch(query); }, SEARCH_DELAY);
+            });
+            searchInput.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') { hideSearchResults(); this.blur(); }
+            });
+        }
+        bind('place-search-clear', 'click', function() {
+            if (searchInput) { searchInput.value = ''; searchInput.focus(); }
+            if (searchClear) searchClear.hidden = true;
+            hideSearchResults();
+        });
+        document.addEventListener('click', function(e) {
+            if (searchContainer && !searchContainer.contains(e.target)) hideSearchResults();
         });
 
         var slider = document.getElementById('opacity-slider');
