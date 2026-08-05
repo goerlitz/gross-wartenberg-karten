@@ -666,48 +666,7 @@
         #layer-list input[type="radio"],
         #layer-list input[type="checkbox"] { accent-color: var(--interactive); cursor: pointer; }
 
-        /* City labels (modern pill with pin) — DOM overlays, unchanged from original.
-           Settlement markers ("Orte") are drawn on Canvas vector layers (see script), not DOM. */
-        .city-label {
-            position: relative;
-            display: flex;
-            align-items: center;
-            padding: 3px 10px;
-            background: var(--surface-bg);
-            border: 1px solid rgba(var(--interactive-rgb), 0.55);
-            border-radius: 999px;
-            color: var(--text);
-            font-size: 11px;
-            font-weight: 500;
-            letter-spacing: 0.03em;
-            white-space: nowrap;
-            pointer-events: none;
-            user-select: none;
-            transform: translateY(-6px);
-            transition: opacity 0.15s linear;
-        }
-        /* outer triangle = outline colour, inner (smaller, top-aligned) = fill */
-        .city-label::before,
-        .city-label::after {
-            content: '';
-            position: absolute;
-            left: 50%;
-            top: 100%;
-            width: 0;
-            height: 0;
-        }
-        .city-label::before {
-            transform: translate(-50%, 1px);
-            border-left: 5px solid transparent;
-            border-right: 5px solid transparent;
-            border-top: 6px solid rgba(var(--interactive-rgb), 0.55);
-        }
-        .city-label::after {
-            transform: translate(-50%, 0);
-            border-left: 4px solid transparent;
-            border-right: 4px solid transparent;
-            border-top: 5px solid var(--surface-bg);
-        }
+        /* City and settlement markers are drawn on Canvas vector layers (see script), not DOM. */
     </style>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@main/dist/en/v7.0.0/legacy/ol.css" type="text/css">
     <script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@main/dist/en/v7.0.0/legacy/ol.js"></script>
@@ -1420,15 +1379,36 @@
             markers: {}, pills: {}, labels: new Map(),
             core: '#22384d', selCore: '#f59e0b'
         };
-        // One circle with fill + white stroke — the dark centre can never drift out of its ring.
+        // A filled circle with a white border — the dark centre can never drift out of its ring.
+        // Towns (city:true) are bigger and gain a second concentric ring (same centre, so it cannot
+        // misalign) to stand out from ordinary places.
         function settlementMarker(town, selected) {
             var key = (town ? 't' : 'p') + (selected ? 's' : 'n');
             if (SETTLE.markers[key]) return SETTLE.markers[key];
-            var style = new ol.style.Style({ image: new ol.style.Circle({
-                radius: (town ? 6 : 5) + (selected ? 1 : 0),
-                fill: new ol.style.Fill({ color: selected ? SETTLE.selCore : SETTLE.core }),
-                stroke: new ol.style.Stroke({ color: '#fff', width: 2 })
-            }) });
+            var color = selected ? SETTLE.selCore : SETTLE.core;
+            var r = (town ? 5.5 : 5) + (selected ? 1 : 0);
+            var style;
+            if (town) {
+                // A white-filled disc bounded by the dark outer ring, with the dark centre dot on
+                // top — the white fully fills the room between dot and ring (no map showing through).
+                // zIndex 1 keeps towns above ordinary places even within the shared settlement layer.
+                style = [
+                    new ol.style.Style({ image: new ol.style.Circle({
+                        radius: r + 3,
+                        fill: new ol.style.Fill({ color: '#fff' }),
+                        stroke: new ol.style.Stroke({ color: color, width: 1.5 })
+                    }), zIndex: 1 }),
+                    new ol.style.Style({ image: new ol.style.Circle({
+                        radius: r, fill: new ol.style.Fill({ color: color })
+                    }), zIndex: 1 })
+                ];
+            } else {
+                style = new ol.style.Style({ image: new ol.style.Circle({
+                    radius: r,
+                    fill: new ol.style.Fill({ color: color }),
+                    stroke: new ol.style.Stroke({ color: '#fff', width: 2 })
+                }) });
+            }
             SETTLE.markers[key] = style;
             return style;
         }
@@ -1446,23 +1426,25 @@
             canvas.width = w * dpr; canvas.height = h * dpr;
             ctx.scale(dpr, dpr);
             ctx.roundRect(0.5, 0.5, w - 1, h - 1, (h - 1) / 2);   // radius = height/2 → full capsule
-            ctx.fillStyle = 'rgba(255, 255, 255, 0.82)'; ctx.fill();
+            ctx.fillStyle = 'rgba(255, 252, 246, 0.88)'; ctx.fill();   // warm ivory, matches the app surface
             ctx.strokeStyle = 'rgba(0, 0, 0, 0.08)'; ctx.stroke();
             ctx.font = font; ctx.textBaseline = 'middle';
             ctx.fillStyle = 'rgb(30, 41, 59)'; ctx.fillText(name, padX, h / 2);
             SETTLE.pills[key] = canvas;
             return canvas;
         }
-        function settlementLabel(name, alpha, selected) {
+        // offsetX = distance from the point to the pill's left edge; larger for cities so their
+        // bigger marker keeps the same visual gap to the name.
+        function settlementLabel(name, alpha, selected, offsetX, zIndex) {
             var a = Math.round(alpha * 10) / 10;                  // round so the cache stays small
-            var key = name + '|' + a + '|' + (selected ? 1 : 0);
+            var key = name + '|' + a + '|' + (selected ? 1 : 0) + '|' + offsetX + '|' + zIndex;
             if (SETTLE.labels.has(key)) return SETTLE.labels.get(key);
             var canvas = settlementPill(name, selected);
             var dpr = window.devicePixelRatio || 1;
             var style = new ol.style.Style({ image: new ol.style.Icon({
                 img: canvas, imgSize: [canvas.width, canvas.height], scale: 1 / dpr,
-                anchor: [0, 0.5], displacement: [13, 0], opacity: a
-            }) });
+                anchor: [0, 0.5], displacement: [offsetX, 0], opacity: a
+            }), zIndex: zIndex });
             SETTLE.labels.set(key, style);
             return style;
         }
@@ -1470,38 +1452,58 @@
             return Math.max(0, Math.min(1, (zoom - 11.5) / (13.5 - 11.5)));
         }
         // Two layers over one shared source: markers are always drawn (no declutter, so no point
-        // ever vanishes); names live on their own layer and fade in with zoom. Overlapping names
-        // at high zoom are accepted.
+        // ever vanishes); ordinary-place names live on their own layer and fade in with zoom, while
+        // town (city:true) and selected names are always shown. Overlapping names are accepted.
+        // Cities and settlements share one marker family. A settlement whose name duplicates a city
+        // is drawn by the cities layer instead — but only while that layer is visible, so it never
+        // simply disappears when the cities layer is off.
+        var CITY_NAMES = new Set();
+        function hiddenAsCity(f) {
+            return citiesLayer.getVisible() && CITY_NAMES.has(f.get('name'));
+        }
         function settlementMarkerStyle(f) {
+            if (hiddenAsCity(f)) return null;
             return settlementMarker(f.get('city') === true, f.get('selected') === true);
         }
         function settlementLabelStyle(f, resolution) {
+            if (hiddenAsCity(f)) return null;
             var sel = f.get('selected') === true;
-            var alpha = sel ? 1 : labelAlpha(map.getView().getZoomForResolution(resolution));
+            var town = f.get('city') === true;
+            var alpha = (sel || town) ? 1 : labelAlpha(map.getView().getZoomForResolution(resolution));
             if (alpha <= 0.05) return null;
-            return settlementLabel(f.get('name'), alpha, sel);
+            // Towns wear the bigger marker → larger offset; higher zIndex keeps their name above
+            // ordinary place names within this shared layer.
+            return settlementLabel(f.get('name'), alpha, sel, town ? 16 : 13, town ? 1 : 0);
+        }
+        // A city uses the same marker as a settlement town, with its name always shown; the larger
+        // offset clears the bigger city marker to keep an even gap.
+        function cityStyle(f) {
+            var sel = f.get('selected') === true;
+            return [].concat(settlementMarker(true, sel), settlementLabel(f.get('name'), 1, sel, 16, 1));
         }
 
         var settlementsSource = new ol.source.Vector();
         // Markers stay cheap/stable (no live updates). The label layer updates during animation and
         // interaction so the opacity fade tracks the zoom continuously instead of jumping.
-        var settlementMarkersLayer = new ol.layer.Vector({ source: settlementsSource, style: settlementMarkerStyle, visible: false, updateWhileAnimating: true, updateWhileInteracting: true });
+        var settlementMarkersLayer = new ol.layer.Vector({ source: settlementsSource, style: settlementMarkerStyle, visible: false });
         var settlementLabelsLayer = new ol.layer.Vector({
-            source: settlementsSource, style: settlementLabelStyle, visible: false, minZoom: 11,
+            source: settlementsSource, style: settlementLabelStyle, visible: false,
             updateWhileAnimating: true, updateWhileInteracting: true
         });
+        // Cities (cities.json): the same marker family, drawn above the settlements with an
+        // always-visible name.
+        var citiesLayer = new ol.layer.Vector({ source: new ol.source.Vector(), style: cityStyle });
         map.addLayer(settlementMarkersLayer);
         map.addLayer(settlementLabelsLayer);
+        map.addLayer(citiesLayer);
 
-        // City labels (German/historical names) as modern pill overlays
-        var cityOverlays = [];
         var citiesCheckbox = document.querySelector('#layer-panel input[name="labels"]');
 
         function applyCityVisibility() {
-            var show = !citiesCheckbox || citiesCheckbox.checked;
-            cityOverlays.forEach(function(o) {
-                o.getElement().style.display = show ? '' : 'none';
-            });
+            citiesLayer.setVisible(!citiesCheckbox || citiesCheckbox.checked);
+            // The Orte layer hides city duplicates only while cities are shown — refresh it.
+            settlementMarkersLayer.changed();
+            settlementLabelsLayer.changed();
         }
         if (citiesCheckbox) citiesCheckbox.addEventListener('change', function() {
             applyCityVisibility();
@@ -1520,35 +1522,19 @@
             trackSelect('borders-toggle', show);
         });
 
-        // Fade labels out between zoom 13 and 14 — close enough to read the map itself
-        function applyCityZoomFade() {
-            var zoom = map.getView().getZoom();
-            var opacity = 1 - Math.min(Math.max((zoom - 13) / (14 - 13), 0), 1);
-            cityOverlays.forEach(function(o) {
-                o.getElement().style.opacity = opacity;
-            });
-        }
-        map.getView().on('change:resolution', applyCityZoomFade);
-
-        fetch('./cities.json')
-            .then(function(r) { return r.json(); })
-            .then(function(cities) {
-                cities.forEach(function(city) {
-                    var el = document.createElement('div');
-                    el.className = 'city-label';
-                    el.textContent = city.historical_name;
-                    var overlay = new ol.Overlay({
-                        element: el,
-                        position: ol.proj.fromLonLat([city.lon, city.lat]),
-                        positioning: 'bottom-center',
-                        stopEvent: false
+        fetch('./cities.json').then(function(r) { return r.json(); }).then(function(cities) {
+            var feats = cities
+                .filter(function(c) { return c.lat != null && c.lon != null; })
+                .map(function(c) {
+                    CITY_NAMES.add(c.historical_name);   // used to dedupe same-named settlements
+                    return new ol.Feature({
+                        geometry: new ol.geom.Point(ol.proj.fromLonLat([c.lon, c.lat])),
+                        name: c.historical_name, data: c
                     });
-                    map.addOverlay(overlay);
-                    cityOverlays.push(overlay);
                 });
-                applyCityVisibility();
-                applyCityZoomFade();
-            });
+            citiesLayer.getSource().addFeatures(feats);
+            applyCityVisibility();
+        });
 
         // Settlements ("Orte") — municipalities from settlements.json, only those with coordinates
         var settlementsCheckbox = document.getElementById('settlements-toggle');
