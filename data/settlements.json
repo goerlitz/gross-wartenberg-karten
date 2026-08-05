@@ -39,8 +39,59 @@
       "status": "verified"
     },
     {
+      "name_historisch": "Alt Festenberg",
+      "alternative_name": "Altfestenberg",
+      "name_polnisch": null,
+      "coordinates": {
+        "lat": 51.3698,
+        "lon": 17.4644
+      },
+      "status": "verified"
+    },
+    {
+      "name_historisch": "Borsinowe-Waldhäuser",
+      "name_eingedeutscht_1936_1937": "Fünfhäuser",
+      "name_polnisch": null,
+      "coordinates": {
+        "lat": 51.5015,
+        "lon": 17.491
+      },
+      "status": "verified",
+      "type": ["kol:Neurode"]
+    },
+    {
+      "name_historisch": "Troske",
+      "name_eingedeutscht_1936_1937": "Mühlengrund",
+      "name_polnisch": null,
+      "coordinates": {
+        "lat": 51.3959,
+        "lon": 17.4964
+      },
+      "status": "verified",
+      "type": ["kol:Goschütz"]
+    },
+    {
+      "name_historisch": "Vierhäuser",
+      "name_polnisch": "Czwórka",
+      "coordinates": {
+        "lat": 51.3960,
+        "lon": 17.5321
+      },
+      "status": "verified",
+      "type": ["kol:Domaslawitz"]
+    },
+    {
+      "name_historisch": "Vierhäuser",
+      "name_polnisch": null,
+      "coordinates": {
+        "lat": 51.3663,
+        "lon": 17.4356
+      },
+      "status": "verified",
+      "type": ["kol:Festenberg"]
+    },
+    {
       "name_historisch": "Groß Wartenberg",
-      "name_eingedeutscht_1936_1937": null,
       "name_polnisch": "Syców",
       "coordinates": {
         "lat": 51.3088,
@@ -214,6 +265,36 @@
       "status": "probable"
     },
     {
+      "name_historisch": "Wiesemühle",
+      "name_polnisch": null,
+      "coordinates": {
+        "lat": 51.3461,
+        "lon": 17.6469
+      },
+      "status": "verified",
+      "type": ["ml:Distelwitz"]
+    },
+    {
+      "name_historisch": "Dreihäuser",
+      "name_polnisch": "Trzy Chałupy",
+      "coordinates": {
+        "lat": 51.3454,
+        "lon": 17.6696
+      },
+      "status": "verified",
+      "type": ["hrgr:Distelwitz"]
+    },
+    {
+      "name_historisch": "Dreihäuser",
+      "name_polnisch": null,
+      "coordinates": {
+        "lat": 51.3435,
+        "lon": 17.6564
+      },
+      "status": "verified",
+      "type": ["kol:Bischdorf"]
+    },
+    {
       "name_historisch": "Domaslawitz",
       "name_eingedeutscht_1936_1937": "Lindenhorst",
       "name_polnisch": "Domasławice",
@@ -243,6 +324,146 @@
       },
       "status": "validated",
       "type": ["Dorf", "Rittergut"]
+    },
+    {
+      "name_historisch": "Berge",
+      "alternative_name": "Drungawer Berge",
+      "name_eingedeutscht_1936_1937": "Wildheider Berge",
+      "name_polnisch": null,
+      "coordinates": {
+        "lat": 51.4256,
+        "lon": 17.5024
+      },
+      "status": "validated"
+    },
+    {
+      "name_historisch": "Jeziore",
+      "name_eingedeutscht_1936_1937": "Amselgrund",
+      "name_polnisch": "Jezioro",
+      "coordinates": {
+        "lat": 51.4325,
+        "lon": 17.5161
+      },
+      "status": "validated",
+      "type": ["h:Drungawe", "kol:Dobrzetz", "kol:Lassisken"]
+    },
+    {
+      "name_historisch": "Breschine",
+      "name_eingedeutscht_1936_1937": "Sanden",
+      "name_polnisch": "Brzezina",
+      "coordinates": {
+        "lat": 51.4325,
+        "lon": 17.5387
+      },
+      "status": "validated",
+      "type": ["Dorf:Dobrzetz", "vw:Dobrzetz"]
+    },
+    {
+      "name_historisch": "Frischfeuer",
+      "name_polnisch": "Pajęczak",
+      "coordinates": {
+        "lat": 51.4398,
+        "lon": 17.5050
+      },
+      "status": "validated",
+      "type": ["kol:Drungawe", "kol:Lassisken"]
+    },
+    {
+      "name_historisch": "Drosdenschin",
+      "name_eingedeutscht_1936_1937": "Drosselgrund",
+      "name_polnisch": "Droździęcin",
+      "coordinates": {
+        "lat": 51.4347,
+        "lon": 17.4888
+      },
+      "status": "validated",
+      "type": ["kol:Drungawe"]
+    },
+    {
+      "name_historisch": "Karzen",
+      "alternative_name": "Kartzen",
+      "coordinates": {
+        "lat": 51.4136,
+        "lon": 17.5063
+      },
+      "status": "validated",
+      "type": ["kol:Drungawe"]
+    },
+    {
+      "name_historisch": "Bendschine",
+      "name_eingedeutscht_1936_1937": "Wildhorst",
+      "name_polnisch": "Będzin",
+      "coordinates": {
+        "lat": 51.4450,
+        "lon": 17.4954
+      },
+      "status": "validated",
+      "type": ["kol,forsth:Lassisken"]
+    },
+    {
+      "name_historisch": "Grabek",
+      "name_eingedeutscht_1936_1937": "Aubach",
+      "name_polnisch": "Grabek",
+      "coordinates": {
+        "lat": 51.4504,
+        "lon": 17.5114
+      },
+      "status": "validated",
+      "type": ["kol,forsth:Lassisken"]
+    },
+    {
+      "name_historisch": "Poremben",
+      "name_eingedeutscht_1936_1937": "Rodenau",
+      "name_polnisch": "Poręby",
+      "coordinates": {
+        "lat": 51.4492,
+        "lon": 17.5268
+      },
+      "status": "validated",
+      "type": ["kol:Dobrzetz", "kol:Lassisken"]
+    },
+    {
+      "name_historisch": "Gusinnen",
+      "alternative_name": "Gussinden",
+      "name_eingedeutscht_1936_1937": "Wieseneck",
+      "name_polnisch": null,
+      "coordinates": {
+        "lat": 51.4487,
+        "lon": 17.4533
+      },
+      "status": "validated",
+      "type": ["forsth:Goschütz-Neudorf"]
+    },
+    {
+      "name_historisch": "Fuchszahl",
+      "name_polnisch": "Lisów",
+      "coordinates": {
+        "lat": 51.4722,
+        "lon": 17.4553
+      },
+      "status": "validated",
+      "type": ["kol:Tscheschen-Glashütte"]
+    },
+    {
+      "name_historisch": "Langebirke",
+      "name_polnisch": null,
+      "coordinates": {
+        "lat": 51.4816,
+        "lon": 17.4808
+      },
+      "status": "validated",
+      "type": ["h:Charlottenthal"]
+    },
+    {
+      "name_historisch": "Smolok",
+      "name_eingedeutscht_1936_1937": "Wolfsgruben",
+      "name_polnisch": null,
+      "coordinates": {
+        "lat": 51.4781,
+        "lon": 17.5026
+      },
+      "status": "validated",
+      "type": ["kol:Tscheschenhammer"]
     },
     {
       "name_historisch": "Dyhrnfeld",
@@ -282,7 +503,6 @@
     },
     {
       "name_historisch": "Goschütz",
-      "name_eingedeutscht_1936_1937": null,
       "name_polnisch": "Goszcz",
       "coordinates": {
         "lat": 51.3966,
@@ -292,23 +512,99 @@
     },
     {
       "name_historisch": "Goschützhammer",
-      "name_eingedeutscht_1936_1937": null,
       "name_polnisch": "Kuźnica Goszczańska",
       "coordinates": {
-        "lat": 51.4012,
-        "lon": 17.4505
+        "lat": 51.4003,
+        "lon": 17.4528
       },
-      "status": "probable"
+      "status": "validated"
     },
     {
       "name_historisch": "Goschütz-Neudorf",
-      "name_eingedeutscht_1936_1937": null,
       "name_polnisch": "Nowa Wieś Goszczańska",
       "coordinates": {
-        "lat": 51.4195,
-        "lon": 17.4526
+        "lat": 51.4201,
+        "lon": 17.4504
       },
-      "status": "probable"
+      "status": "validated",
+      "type": ["Dorf", "Rittergut"]
+    },
+    {
+      "name_historisch": "Swinaren",
+      "alternative_name": "Swiniaren",
+      "name_eingedeutscht_1936_1937": "Neutal",
+      "name_polnisch": "Świniary",
+      "coordinates": {
+        "lat": 51.4254,
+        "lon": 17.4605
+      },
+      "status": "validated",
+      "type": ["Häusergruppe:Goschütz-Neudorf"]
+    },
+    {
+      "name_historisch": "Sakrau",
+      "alternative_name": "Sacrau",
+      "name_polnisch": "Zakrzów",
+      "coordinates": {
+        "lat": 51.4202,
+        "lon": 17.4804
+      },
+      "status": "validated",
+      "type": ["Dorf", "Rittergut"]
+    },
+    {
+      "name_historisch": "Wigon",
+      "name_eingedeutscht_1936_1937": "Wiesengrund",
+      "name_polnisch": null,
+      "coordinates": {
+        "lat": 51.4202,
+        "lon": 17.4976
+      },
+      "status": "validated",
+      "type": ["kol:Drungawe"]
+    },
+    {
+      "name_historisch": "Wescholke",
+      "name_eingedeutscht_1936_1937": "Brückenbach",
+      "name_polnisch": "Wesółka",
+      "coordinates": {
+        "lat": 51.3867,
+        "lon": 17.4553
+      },
+      "status": "validated",
+      "type": ["Haus:Goschütz"]
+    },
+    {
+      "name_historisch": "Wescholke",
+      "name_eingedeutscht_1936_1937": "Brückenbach",
+      "name_polnisch": "Wesółka",
+      "coordinates": {
+        "lat": 51.3800,
+        "lon": 17.455
+      },
+      "status": "validated",
+      "type": ["Häusergruppe:Muschlitz"]
+    },
+    {
+      "name_historisch": "Czodrok",
+      "name_eingedeutscht_1936_1937": "Teich-Vorwerk",
+      "name_polnisch": "Szczodrak",
+      "coordinates": {
+        "lat": 51.3931,
+        "lon": 17.452
+      },
+      "status": "validated",
+      "type": ["vw:Goschütz"]
+    },
+    {
+      "name_historisch": "Dreihäuser",
+      "name_polnisch": "Trzy Chałupy",
+      "coordinates": {
+        "lat": 51.3946,
+        "lon": 17.4384
+      },
+      "status": "validated",
+      "type": ["kol:Goschützhammer"]
     },
     {
       "name_historisch": "Groß Gahle",
@@ -319,6 +615,66 @@
         "lon": 17.5429
       },
       "status": "probable"
+    },
+    {
+      "name_historisch": "Klein Gahle",
+      "name_polnisch": "Gola Mała",
+      "coordinates": {
+        "lat": 51.382,
+        "lon": 17.4261
+      },
+      "status": "verified",
+      "type": ["Dorf"]
+    },
+    {
+      "name_historisch": "Weizenberg",
+      "name_polnisch": null,
+      "coordinates": {
+        "lat": 51.3546,
+        "lon": 17.4718
+      },
+      "status": "verified",
+      "type": ["h"]
+    },
+    {
+      "name_historisch": "Rodeland",
+      "name_polnisch": "Karczowina",
+      "coordinates": {
+        "lat": 51.3495,
+        "lon": 17.4577
+      },
+      "status": "verified",
+      "type": ["hrgr:Dombrowe"]
+    },
+    {
+      "name_historisch": "Neumühle",
+      "name_polnisch": "Nowa Piła",
+      "coordinates": {
+        "lat": 51.3285,
+        "lon": 17.4601
+      },
+      "status": "verified",
+      "type": ["etabl:Dombrowe"]
+    },
+    {
+      "name_historisch": "Pawelke",
+      "name_polnisch": "Pawełki",
+      "coordinates": {
+        "lat": 51.3327,
+        "lon": 17.4726
+      },
+      "status": "verified",
+      "type": ["kol:Schöneiche"]
+    },
+    {
+      "name_historisch": "Alte Brettmühle",
+      "name_polnisch": "Drewniany Młyn",
+      "coordinates": {
+        "lat": 51.3141,
+        "lon": 17.4867
+      },
+      "status": "verified",
+      "type": ["kol:Schöneiche"]
     },
     {
       "name_historisch": "Groß Schönwald",
@@ -407,7 +763,6 @@
     },
     {
       "name_historisch": "Klein Schönwald",
-      "name_eingedeutscht_1936_1937": null,
       "name_polnisch": "Chelstowek",
       "coordinates": {
         "lat": 51.3552,
@@ -417,13 +772,23 @@
     },
     {
       "name_historisch": "Klein Ulbersdorf",
-      "name_eingedeutscht_1936_1937": null,
       "name_polnisch": "Hadrychowice",
       "coordinates": {
         "lat": 51.3635,
         "lon": 17.6594
       },
-      "status": "verified"
+      "status": "verified",
+      "type": ["Dorf", "Rittergut"]
+    },
+    {
+      "name_historisch": "Jeltsch",
+      "name_polnisch": null,
+      "coordinates": {
+        "lat": 51.348,
+        "lon": 17.6808
+      },
+      "status": "verified",
+      "type": ["vw"]
     },
     {
       "name_historisch": "Klenowe",
@@ -507,7 +872,7 @@
     },
     {
       "name_historisch": "Benklowe",
-      "alternative_name": "Benklawe",
+      "alternative_name": ["Benklawe", "Banklowe"],
       "coordinates": {
         "lat": 51.3015,
         "lon": 17.585
@@ -567,7 +932,7 @@
     },
     {
       "name_historisch": "Weißer Giebel",
-      "laternative_name": "Weisse Giebel",
+      "alternative_name": "Weisse Giebel",
       "name_polnisch": null,
       "coordinates": {
         "lat": 51.3196,
@@ -578,7 +943,6 @@
     },
     {
       "name_historisch": "Langendorf",
-      "name_eingedeutscht_1936_1937": null,
       "name_polnisch": "Wielowieś",
       "coordinates": {
         "lat": 51.3062,
@@ -890,6 +1254,219 @@
         "lon": 17.5676
       },
       "status": "verified"
+    },
+    {
+      "name_historisch": "Kieferkretscham",
+      "name_polnisch": null,
+      "coordinates": {
+        "lat": 51.3008,
+        "lon": 17.5359
+      },
+      "status": "verified",
+      "type": ["h:Schollendorf"]
+    },
+    {
+      "name_historisch": "Neu Freiheitsfeld",
+      "name_polnisch": null,
+      "coordinates": {
+        "lat": 51.2963,
+        "lon": 17.5407
+      },
+      "status": "verified",
+      "type": ["gut:Schollendorf"]
+    },
+    {
+      "name_historisch": "Zweihäuser",
+      "name_polnisch": null,
+      "coordinates": {
+        "lat": 51.2895,
+        "lon": 17.5411
+      },
+      "status": "verified",
+      "type": ["h:Schollendorf"]
+    },
+    {
+      "name_historisch": "Mittelmühle",
+      "name_polnisch": null,
+      "coordinates": {
+        "lat": 51.3016,
+        "lon": 17.5353
+      },
+      "status": "verified",
+      "type": ["ml:Schollendorf"]
+    },
+    {
+      "name_historisch": "Wolkemühle",
+      "alternative_name": ["Walkmühle", "Wendemühle"],
+      "name_polnisch": null,
+      "coordinates": {
+        "lat": 51.2981,
+        "lon": 17.5292
+      },
+      "status": "verified",
+      "type": ["ml:Schollendorf"]
+    },
+    {
+      "name_historisch": "Heidemühle",
+      "name_polnisch": null,
+      "coordinates": {
+        "lat": 51.3065,
+        "lon": 17.5408
+      },
+      "status": "verified",
+      "type": ["ml:Schollendorf"]
+    },
+    {
+      "name_historisch": "Brettmühle",
+      "name_polnisch": null,
+      "coordinates": {
+        "lat": 51.3831,
+        "lon": 17.5148
+      },
+      "status": "verified",
+      "type": ["ml:Goschütz"]
+    },
+    {
+      "name_historisch": "Kontomühle",
+      "alternative_name": "Contomühle",
+      "name_polnisch": null,
+      "coordinates": {
+        "lat": 51.4011,
+        "lon": 17.4731
+      },
+      "status": "verified",
+      "type": ["ml:Goschütz"]
+    },
+    {
+      "name_historisch": "Rothemühle",
+      "alternative_name": "Rotemühle",
+      "name_polnisch": null,
+      "coordinates": {
+        "lat": 51.344,
+        "lon": 17.7335
+      },
+      "status": "verified",
+      "type": ["ml:Wioske"]
+    },
+    {
+      "name_historisch": "Walkemühle",
+      "name_polnisch": null,
+      "coordinates": {
+        "lat": 51.3449,
+        "lon": 17.7425
+      },
+      "status": "verified",
+      "type": ["ml:Wioske"]
+    },
+    {
+      "name_historisch": "Hummelmühle",
+      "name_polnisch": null,
+      "coordinates": {
+        "lat": 51.3672,
+        "lon": 17.6999
+      },
+      "status": "verified",
+      "type": ["ml"]
+    },
+    {
+      "name_historisch": "Ossowitzmühle",
+      "alternative_name": "Osowiez",
+      "name_polnisch": "Osowiec",
+      "coordinates": {
+        "lat": 51.3652,
+        "lon": 17.7041
+      },
+      "status": "verified",
+      "type": ["h,ml:Ellguth-Rippin"]
+    },
+    {
+      "name_historisch": "Unterm Walde",
+      "name_polnisch": null,
+      "coordinates": {
+        "lat": 51.3621,
+        "lon": 17.7075
+      },
+      "status": "verified",
+      "type": ["hrgr:Ellguth-Rippin"]
+    },
+    {
+      "name_historisch": "Pawelke",
+      "name_polnisch": "Pawełki",
+      "coordinates": {
+        "lat": 51.3463,
+        "lon": 17.7057
+      },
+      "status": "verified",
+      "type": ["hrgr,ml:Wioske"]
+    },
+    {
+      "name_historisch": "Karolinenhof",
+      "name_polnisch": null,
+      "coordinates": {
+        "lat": 51.3673,
+        "lon": 17.6687
+      },
+      "status": "verified",
+      "type": ["vw:Kraschen"]
+    },
+    {
+      "name_historisch": "Waldkretscham",
+      "name_polnisch": null,
+      "coordinates": {
+        "lat": 51.3622,
+        "lon": 17.5599
+      },
+      "status": "verified"
+    },
+    {
+      "name_historisch": "Tiergarten",
+      "name_polnisch": null,
+      "coordinates": {
+        "lat": 51.3657,
+        "lon": 17.5208
+      },
+      "status": "verified",
+      "type": ["h:Goschütz"]
+    },
+    {
+      "name_historisch": "Wegersdorf",
+      "name_polnisch": "Węgrowa",
+      "coordinates": {
+        "lat": 51.3691,
+        "lon": 17.6035
+      },
+      "status": "verified",
+      "type": ["Dorf"]
+    },
+    {
+      "name_historisch": "Gaffron",
+      "name_polnisch": "Gawrony",
+      "coordinates": {
+        "lat": 51.3793,
+        "lon": 17.6926
+      },
+      "status": "verified",
+      "type": ["Dorf", "Rittergut"]
+    },
+    {
+      "name_historisch": "Radine",
+      "name_polnisch": "Radzyna",
+      "coordinates": {
+        "lat": 51.3349,
+        "lon": 17.6211
+      },
+      "status": "verified",
+      "type": ["Dorf", "Rittergut"]
+    },
+    {
+      "name_historisch": "Ellguth-Distelwitz",
+      "name_polnisch": "Ligota Dziesławska",
+      "coordinates": {
+        "lat": 51.3486,
+        "lon": 17.6
+      },
+      "status": "verified",
+      "type": ["Dorf", "Rittergut"]
     },
     {
       "name_historisch": "Tscheschen-Glashütte",
