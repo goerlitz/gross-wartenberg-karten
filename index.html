@@ -228,19 +228,21 @@
             z-index: 1000;
             display: flex;
             align-items: center;
-            gap: 8px;
-            width: 180px;
+            gap: 7px;
+            height: 32px;
+            width: fit-content;
             background: var(--float-bg);
             backdrop-filter: blur(8px);
             border: 1px solid var(--border-strong);
             box-shadow: var(--float-shadow);
             border-radius: 8px;
-            padding: 7px 11px;
+            padding: 0 11px;
         }
         #opacity-control.hidden { display: none; }
+        .opacity-control__icon { flex: none; width: 15px; height: 15px; color: var(--text-muted); }
         #opacity-slider {
-            flex: 1;
-            min-width: 0;
+            flex: none;
+            width: 110px;
             -webkit-appearance: none;
             appearance: none;
             height: 14px;
@@ -296,7 +298,10 @@
             cursor: pointer;
             transition: background-color 0.2s, border-color 0.2s, color 0.2s;
         }
-        @media (hover: hover) { .map-btn:hover { background-color: var(--hover); border-color: var(--border-strong); color: var(--text); } }
+        /* Opaque hover tint, not --hover: .map-btn floats directly over the (uncontrolled, often
+           bright) map, unlike other --hover usages which sit on an already-opaque app panel — a
+           translucent hover background there would let the map show through and wreck contrast. */
+        @media (hover: hover) { .map-btn:hover { background-color: var(--surface-elevated); border-color: var(--border-strong); color: var(--text); } }
         .map-btn svg { display: block; }
         #map-controls {
             position: absolute;
@@ -422,7 +427,9 @@
         }
 
         /* Custom layer panel: two independent menu groups (map selector, places & borders),
-           each its own toggle button + dropdown — flat content, no accordion nesting. */
+           each its own toggle button + dropdown — flat content, no accordion nesting. The button
+           bar stays fixed regardless of which panel is open: the dropdown is taken out of flow
+           (position: absolute) and opens to the LEFT of the buttons, never pushing them around. */
         #layer-panel {
             position: absolute;
             top: 10px;
@@ -430,13 +437,14 @@
             z-index: 1000;
             display: flex;
             flex-direction: column;
-            align-items: flex-end;
             gap: 6px;
         }
-        .menu-group { display: flex; flex-direction: column; align-items: flex-end; }
+        .menu-group { position: relative; }
         .menu-list {
             display: none;
-            margin-top: 4px;
+            position: absolute;
+            top: 0;
+            right: calc(100% + 8px);
             background: var(--float-bg);
             backdrop-filter: blur(8px);
             border: 1px solid var(--border-strong);
@@ -444,7 +452,8 @@
             border-radius: 8px;
             padding: 10px;
             min-width: 216px;
-            max-width: 280px;
+            width: max-content;
+            max-width: min(280px, calc(100vw - 76px));
             max-height: min(72vh, calc(100vh - 96px));
             overflow-y: auto;
             scrollbar-gutter: stable;
@@ -733,6 +742,7 @@
         <symbol id="ic-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.05" y2="16.05"/></symbol>
         <symbol id="ic-layers" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></symbol>
         <symbol id="ic-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15.5 14"/></symbol>
+        <symbol id="ic-opacity" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 1 0 18z" fill="currentColor" stroke="none"/></symbol>
     </svg>
     <div id="header">
         <h1><span>Kreis Gross Wartenberg</span></h1>
@@ -794,6 +804,7 @@
         </div>
         <div id="copy-toast"></div>
         <div id="opacity-control" class="hidden">
+            <svg class="opacity-control__icon" aria-hidden="true"><use href="#ic-opacity"/></svg>
             <input id="opacity-slider" type="range" min="0" max="100" value="100">
             <span id="opacity-value">100%</span>
         </div>
@@ -1329,6 +1340,8 @@
         }
         function closeMapsModal() {
             mapsModal.classList.remove('open');
+            // Move focus out first — aria-hidden must never be set while a descendant has focus.
+            if (mapsModal.contains(document.activeElement)) document.activeElement.blur();
             mapsModal.setAttribute('aria-hidden', 'true');
         }
         bind('show-all-maps', 'click', openMapsModal);
@@ -1350,6 +1363,8 @@
         function closeWelcome() {
             if (!welcomeModal) return;
             welcomeModal.classList.remove('open');
+            // Move focus out first — aria-hidden must never be set while a descendant has focus.
+            if (welcomeModal.contains(document.activeElement)) document.activeElement.blur();
             welcomeModal.setAttribute('aria-hidden', 'true');
             try {
                 if (welcomeDismiss && welcomeDismiss.checked) localStorage.setItem(WELCOME_KEY, '1');
