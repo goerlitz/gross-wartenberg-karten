@@ -820,6 +820,10 @@
         <span class="footer-caption">Historische Karten · Kreis Groß Wartenberg</span>
         <button id="sources-toggle" aria-expanded="false"><span class="chev">&#9650;</span> Quellen</button>
         <div id="sources-panel">
+            <div class="source-item" id="src-uraufnahme1829">
+                <div class="source-label">Topografisch</div>
+                <div class="source-text">Preußische Uraufnahme, 1829, 1:25&thinsp;000 &mdash; Kartensammlung Herder-Institut (<a href="https://www.herder-institut.de/" target="_blank">herder-institut.de</a>) &amp; Staatsbibliothek zu Berlin</div>
+            </div>
             <div class="source-item" id="src-topo25">
                 <div class="source-label">Topografisch</div>
                 <div class="source-text">Meßtischblätter 1937&ndash;1940, 1:25&thinsp;000 &mdash; Kartensammlung Herder-Institut (<a href="https://www.herder-institut.de/" target="_blank">herder-institut.de</a>) &amp; Staatsarchiv Posen</div>
@@ -848,7 +852,7 @@
             <div class="modal-body">
                 <div class="sub-group">
                     <div class="sub-title">Topografische Karten</div>
-                    <label><input type="radio" name="overlay" value="uraufnahme1829" disabled> <span class="layer-name">Preußische Uraufnahme<small>1829 · 1:25.000</small></span><span class="wip-tag">bald verfügbar</span></label>
+                    <label><input type="radio" name="overlay" value="uraufnahme1829"> <span class="layer-name">Preußische Uraufnahme<small>1829 · 1:25.000</small></span></label>
                     <label><input type="radio" name="overlay" value="topo25" checked> <span class="layer-name">Meßtischblätter<small>1937–1940 · 1:25.000</small></span></label>
                     <label><input type="radio" name="overlay" value="haase1920" disabled> <span class="layer-name">Kreiskarte von Lehrer Haase<small>1920 · 1:37.500</small></span><span class="wip-tag">bald verfügbar</span></label>
                     <label><input type="radio" name="overlay" value="reich1904" disabled> <span class="layer-name">Karte des Deutschen Reiches<small>1904 · 1:100.000</small></span><span class="wip-tag">bald verfügbar</span></label>
@@ -891,6 +895,18 @@
         </div>
     </div>
     <script type="text/javascript">
+        var uraufnahme1829Layer = new ol.layer.Tile({
+            title: 'Preußische Uraufnahme, 1829, 1:25.000',
+            visible: false,
+            opacity: 1.0,
+            source: new ol.source.XYZ({
+                attributions: '',
+                minZoom: 8,
+                maxZoom: 15,
+                url: './tiles_uraufnahme1829/{z}/{x}/{y}.webp',
+                tileSize: [256, 256]
+            })
+        });
         var topo25Layer = new ol.layer.Tile({
             title: 'Messtischblätter (Topo25) - 1937-1940, 1:25.000',
             visible: true,
@@ -953,7 +969,7 @@
         var map = new ol.Map({
             controls: ol.control.defaults.defaults({ zoom: false }),
             target: 'map',
-            layers: [osmLayer, cartodbLayer, esriLayer, census1910Layer, reymann200Layer, topo25Layer],
+            layers: [osmLayer, cartodbLayer, esriLayer, census1910Layer, reymann200Layer, uraufnahme1829Layer, topo25Layer],
             view: new ol.View({
                 center: [1939316.7540431642, 6682934.4834087156],
                 zoom: 12,
@@ -964,6 +980,7 @@
         function getActiveMapLayer() {
             if (census1910Layer.getVisible()) return census1910Layer;
             if (reymann200Layer.getVisible()) return reymann200Layer;
+            if (uraufnahme1829Layer.getVisible()) return uraufnahme1829Layer;
             return topo25Layer;
         }
 
@@ -971,6 +988,7 @@
             topo25Layer.setOpacity(opacity);
             census1910Layer.setOpacity(opacity);
             reymann200Layer.setOpacity(opacity);
+            uraufnahme1829Layer.setOpacity(opacity);
         }
 
         // Umami custom event helpers (no-op if the tracker is absent / blocked).
@@ -1000,7 +1018,7 @@
             var base = params.get('base');
             if (base === 'osm' || base === 'cartodb' || base === 'esri' || base === 'off') out.base = base;
             var overlay = params.get('overlay');
-            if (overlay === 'topo25' || overlay === 'census1910' || overlay === 'reymann200') out.overlay = overlay;
+            if (overlay === 'topo25' || overlay === 'census1910' || overlay === 'reymann200' || overlay === 'uraufnahme1829') out.overlay = overlay;
             return out;
         }
 
@@ -1199,6 +1217,7 @@
             topo25Layer.setVisible(value === 'topo25');
             reymann200Layer.setVisible(value === 'reymann200');
             census1910Layer.setVisible(value === 'census1910');
+            uraufnahme1829Layer.setVisible(value === 'uraufnahme1829');
             updateShadow();
             updateActiveSource();
             refreshOverlayUI();
