@@ -399,6 +399,13 @@
                on mobile — left/right anchoring instead of a fixed width so it fits either way.
                Symmetric margins already center it, so no translateX needed (reset the base rule's). */
             #place-search { left: 66px; right: 66px; width: auto; transform: none; }
+            /* Match the .map-btn mobile height (44px) so the search field isn't visibly shorter
+               than the flanking button columns; scale icon/text with it so they aren't left at
+               desktop size inside the taller field. */
+            #place-search .place-search__field { height: 44px; }
+            #place-search .place-search__icon { width: 20px; height: 20px; }
+            #place-search-input { font-size: 15px; }
+            #place-search-clear { font-size: 20px; }
         }
         #copy-toast {
             position: absolute;
@@ -437,7 +444,9 @@
             position: absolute;
             top: 10px;
             right: 10px;
-            z-index: 1000;
+            /* Above #place-search (z-index: 1000): its dropdowns (map selector, places & borders)
+               open toward the center of the screen and must not be covered by the search bar. */
+            z-index: 1001;
             display: flex;
             flex-direction: column;
             gap: 6px;
