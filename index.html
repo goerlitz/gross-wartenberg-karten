@@ -659,26 +659,12 @@
         #maps-modal .map-row label { flex: 1; min-width: 0; }
         #maps-modal .map-row:hover:not(:has(input:disabled)) { background: var(--hover); }
         #maps-modal .map-row:hover:not(:has(input:disabled)) label { color: var(--text); }
-        /* Active selection: full-row tint + cyan accent bar + bright text + badge */
+        /* Active selection: full-row tint + cyan accent bar + bright text */
         #maps-modal .map-row:has(input:checked) {
             background: var(--pressed);
             box-shadow: inset 0 0 0 1px rgba(var(--interactive-rgb), 0.32);
         }
         #maps-modal .map-row:has(input:checked) label { color: var(--text); font-weight: 600; }
-        #maps-modal .map-row:has(input:checked) label::after {
-            content: "Aktiv";
-            margin-left: auto;
-            flex: none;
-            font-size: 9px;
-            font-weight: 700;
-            letter-spacing: 0.08em;
-            text-transform: uppercase;
-            color: var(--on-interactive);
-            background: var(--interactive);
-            padding: 3px 8px;
-            border-radius: 999px;
-            line-height: 1;
-        }
         /* Coming-soon rows: pushed back via muted text (not blanket opacity) + non-interactive pill */
         #maps-modal label:has(input:disabled) { color: var(--text-disabled); }
         #maps-modal label:has(input:disabled) .layer-name small { color: var(--text-disabled); }
@@ -768,12 +754,12 @@
                 <button id="map-selector-toggle" class="map-btn" title="Kartenwahl"><svg viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg></button>
                 <div class="menu-list" id="map-selector-list">
                     <div class="sub-group">
-                        <div class="sub-title">Karten</div>
+                        <div class="sub-title">Karten (Schnellwahl)</div>
                         <div id="featured-maps"></div>
                         <button type="button" id="show-all-maps">Kartenübersicht<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></button>
                     </div>
                     <div class="sub-group">
-                        <div class="sub-title">Basiskarte</div>
+                        <div class="sub-title">Hintergrundkarte</div>
                         <label><input type="radio" name="base" value="osm"> OpenStreetMap</label>
                         <label><input type="radio" name="base" value="cartodb"> CartoDB Positron</label>
                         <label><input type="radio" name="base" value="esri"> Esri World Imagery</label>
@@ -860,14 +846,18 @@
             </div>
             <div class="modal-body">
                 <div class="sub-group">
-                    <div class="sub-title">Topografische Karten</div>
+                    <div class="sub-title">Kartenwerke</div>
                     <label><input type="radio" name="overlay" value="uraufnahme1829"> <span class="layer-name">Preußische Uraufnahme<small>1829 · 1:25.000</small></span></label>
                     <label><input type="radio" name="overlay" value="topo25" checked> <span class="layer-name">Meßtischblätter<small>1937–1940 · 1:25.000</small></span></label>
-                    <label><input type="radio" name="overlay" value="haase1920" disabled> <span class="layer-name">Kreiskarte von Lehrer Haase<small>1920 · 1:37.500</small></span><span class="wip-tag">bald verfügbar</span></label>
                     <label><input type="radio" name="overlay" value="reich1904" disabled> <span class="layer-name">Karte des Deutschen Reiches<small>1904 · 1:100.000</small></span><span class="wip-tag">bald verfügbar</span></label>
-                    <label><input type="radio" name="overlay" value="flemming1910" disabled> <span class="layer-name">Kreiskarte – Verlag Flemming<small>1910 · 1:150.000</small></span><span class="wip-tag">bald verfügbar</span></label>
                     <label><input type="radio" name="overlay" value="reymann200"> <span class="layer-name">Reymanns Special-Karte<small>ca. 1860 · 1:200.000</small></span></label>
+                </div>
+                <div class="sub-group">
+                    <div class="sub-title">Regionale Karten</div>
+                    <label><input type="radio" name="overlay" value="haase1920" disabled> <span class="layer-name">Kreiskarte von Lehrer Haase<small>1920 · 1:37.500</small></span><span class="wip-tag">bald verfügbar</span></label>
+                    <label><input type="radio" name="overlay" value="flemming1910" disabled> <span class="layer-name">Kreiskarte – Verlag Flemming<small>1910 · 1:150.000</small></span><span class="wip-tag">bald verfügbar</span></label>
                     <label><input type="radio" name="overlay" value="franzkowski300" disabled> <span class="layer-name">Kreiskarte von J. Franzkowski<small>1912 · 1:300.000</small></span><span class="wip-tag">bald verfügbar</span></label>
+                    <label><input type="radio" name="overlay" value="standesherrschaft" disabled> <span class="layer-name">Freie Standesherrschaft Goschütz<small>ca. ? · ?</small></span><span class="wip-tag">bald verfügbar</span></label>
                 </div>
                 <div class="sub-group">
                     <div class="sub-title">Thematische Karten</div>
@@ -875,7 +865,7 @@
                     <label><input type="radio" name="overlay" value="census1910"> <span class="layer-name">Nationalitätenkarte<small>Volkszählung 1910 · 1:500.000</small></span></label>
                 </div>
             </div>
-            <div class="modal-foot">Mit <span class="hint-star">★</span> markierte Karten erscheinen im Schnellmenü.</div>
+            <div class="modal-foot">Mit <span class="hint-star">★</span> markierte Karten erscheinen in der Schnellwahl.</div>
         </div>
     </div>
     <div id="welcome-modal" class="modal" aria-hidden="true">
