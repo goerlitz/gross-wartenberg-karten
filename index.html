@@ -204,7 +204,7 @@
             bottom: 10px;
             left: 10px;
             z-index: 1000;
-            display: flex;
+            display: none;
             flex-direction: column;
             gap: 5px;
             background: var(--float-bg);
@@ -217,6 +217,7 @@
             color: var(--text);
             letter-spacing: 0.03em;
         }
+        #legend.open { display: flex; }
         #legend .legend-row { display: flex; align-items: center; gap: 8px; }
         #legend .legend-line { flex: none; display: block; }
         /* Opacity control: floating over the map, bottom-center, only when a base map is active. */
@@ -827,6 +828,10 @@
                 <div class="source-label">Topografisch</div>
                 <div class="source-text">Reymanns Special-Karte, ca. 1860, 1:200&thinsp;000 &mdash; Herder-Institut / Bibliothek</div>
             </div>
+            <div class="source-item" id="src-haase1920">
+                <div class="source-label">Topografisch</div>
+                <div class="source-text">Kreiskarte von Lehrer Haase, 1920, 1:37&thinsp;500 &mdash; Landkreis Groß Wartenberg / historische Kartensammlung</div>
+            </div>
             <div class="source-item" id="src-census1910">
                 <div class="source-label">Demografisch</div>
                 <div class="source-text">Nationalitätenkarte, Volkszählung 1910, 1:500&thinsp;000 &mdash; Wikipedia / Universitätsbibliothek in Wrocław</div>
@@ -854,7 +859,7 @@
                 </div>
                 <div class="sub-group">
                     <div class="sub-title">Regionale Karten</div>
-                    <label><input type="radio" name="overlay" value="haase1920" disabled> <span class="layer-name">Kreiskarte von Lehrer Haase<small>1920 · 1:37.500</small></span><span class="wip-tag">bald verfügbar</span></label>
+                    <label><input type="radio" name="overlay" value="haase1920"> <span class="layer-name">Kreiskarte von Lehrer Haase<small>1920 · 1:37.500</small></span></label>
                     <label><input type="radio" name="overlay" value="flemming1910" disabled> <span class="layer-name">Kreiskarte – Verlag Flemming<small>1910 · 1:150.000</small></span><span class="wip-tag">bald verfügbar</span></label>
                     <label><input type="radio" name="overlay" value="franzkowski300" disabled> <span class="layer-name">Kreiskarte von J. Franzkowski<small>1912 · 1:300.000</small></span><span class="wip-tag">bald verfügbar</span></label>
                     <label><input type="radio" name="overlay" value="standesherrschaft" disabled> <span class="layer-name">Freie Standesherrschaft Goschütz<small>ca. ? · ?</small></span><span class="wip-tag">bald verfügbar</span></label>
@@ -930,6 +935,18 @@
                 tileSize: [256, 256]
             })
         });
+        var haase1920Layer = new ol.layer.Tile({
+            title: 'Kreiskarte von Lehrer Haase, 1920, 1:37.500',
+            visible: false,
+            opacity: 1.0,
+            source: new ol.source.XYZ({
+                attributions: '',
+                minZoom: 8,
+                maxZoom: 16,
+                url: './tiles_haase/{z}/{x}/{y}.webp',
+                tileSize: [256, 256]
+            })
+        });
         var census1910Layer = new ol.layer.Tile({
             title: 'Nationalitätenkarte — Volkszählung 1910, 1:500.000',
             visible: false,
@@ -968,7 +985,7 @@
         var map = new ol.Map({
             controls: ol.control.defaults.defaults({ zoom: false }),
             target: 'map',
-            layers: [osmLayer, cartodbLayer, esriLayer, census1910Layer, reymann200Layer, uraufnahme1829Layer, topo25Layer],
+            layers: [osmLayer, cartodbLayer, esriLayer, census1910Layer, reymann200Layer, uraufnahme1829Layer, haase1920Layer, topo25Layer],
             view: new ol.View({
                 center: [1939316.7540431642, 6682934.4834087156],
                 zoom: 12,
@@ -980,6 +997,7 @@
             if (census1910Layer.getVisible()) return census1910Layer;
             if (reymann200Layer.getVisible()) return reymann200Layer;
             if (uraufnahme1829Layer.getVisible()) return uraufnahme1829Layer;
+            if (haase1920Layer.getVisible()) return haase1920Layer;
             return topo25Layer;
         }
 
@@ -988,6 +1006,7 @@
             census1910Layer.setOpacity(opacity);
             reymann200Layer.setOpacity(opacity);
             uraufnahme1829Layer.setOpacity(opacity);
+            haase1920Layer.setOpacity(opacity);
         }
 
         // Umami custom event helpers (no-op if the tracker is absent / blocked).
@@ -1017,7 +1036,7 @@
             var base = params.get('base');
             if (base === 'osm' || base === 'cartodb' || base === 'esri' || base === 'off') out.base = base;
             var overlay = params.get('overlay');
-            if (overlay === 'topo25' || overlay === 'census1910' || overlay === 'reymann200' || overlay === 'uraufnahme1829') out.overlay = overlay;
+            if (overlay === 'topo25' || overlay === 'census1910' || overlay === 'reymann200' || overlay === 'uraufnahme1829' || overlay === 'haase1920') out.overlay = overlay;
             return out;
         }
 
@@ -1217,6 +1236,7 @@
             reymann200Layer.setVisible(value === 'reymann200');
             census1910Layer.setVisible(value === 'census1910');
             uraufnahme1829Layer.setVisible(value === 'uraufnahme1829');
+            haase1920Layer.setVisible(value === 'haase1920');
             updateShadow();
             updateActiveSource();
             refreshOverlayUI();
